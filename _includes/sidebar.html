@@ -3,20 +3,24 @@
     <ul>
         {% assign modules = site.data.sidebar_structure %}
         {% if modules %}
-        {% for module_name, submodules in modules %}
+        {% assign module_names = modules | keys %}
+        {% for module_name in module_names %}
         <li>
             <a href="#">{{ module_name }}</a>
-            {% if submodules.size > 0 %}
             <ul>
+                {% assign submodules = modules[module_name] %}
+                {% if submodules %}
                 {% for submodule in submodules %}
                 <li>{{ submodule }}</li>
                 {% endfor %}
+                {% else %}
+                <li>No submodules found.</li>
+                {% endif %}
             </ul>
-            {% endif %}
         </li>
         {% endfor %}
         {% else %}
-        <li>모듈이 없거나 데이터가 로드되지 않았습니다.</li>
+        <li>No modules found or data not loaded.</li>
         {% endif %}
     </ul>
 </aside>
