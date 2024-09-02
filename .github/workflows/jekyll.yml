@@ -15,23 +15,16 @@ jobs:
       with:
         submodules: true  # 서브모듈을 사용하는 경우 설정
 
-    - name: Set up Ruby
-      uses: actions/setup-ruby@v1
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
       with:
         ruby-version: '3.x'
+        bundler-cache: true # Bundler 캐시를 자동으로 설정
 
     - name: Install dependencies
       run: |
         gem install bundler
         bundle install
-
-    - name: Cache RubyGems
-      uses: actions/cache@v3
-      with:
-        path: vendor/bundle
-        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-gems-
 
     - name: Generate sidebar structure
       run: ruby scripts/generate_sidebar.rb
