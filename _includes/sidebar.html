@@ -3,6 +3,7 @@
     <ul>
         {% assign modules = site.data.sidebar_structure %}
         {% if modules %}
+        <pre>{{ modules | jsonify }}</pre>
         {% assign module_names = modules | keys %}
         {% for module_name, submodules in module_names %}
         <li>
