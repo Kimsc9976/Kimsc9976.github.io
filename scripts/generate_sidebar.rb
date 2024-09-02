@@ -1,22 +1,40 @@
+# scripts/generate_sidebar.rb
+
 require 'yaml'
 
-# modules 폴더의 첫 번째 레벨 디렉토리 구조 읽기
-def read_directory_structure(dir)
-  structure = {}
+# Ensure the _data directory exists
+def ensure_data_directory_exists
+  Dir.mkdir('_data') unless Dir.exist?('_data')
+end
 
-  Dir.foreach(dir) do |item|
-    next if item == '.' or item == '..'
-    path = File.join(dir, item)
-    if File.directory?(path)
-      structure[item] = path
+# Generate sidebar structure based on modules directory
+def generate_sidebar_structure
+  sidebar_structure = {}
+
+  # Define the base directory for modules
+  modules_dir = 'modules'
+
+  # Ensure modules directory exists
+  if Dir.exist?(modules_dir)
+    # Iterate through directories within the modules directory
+    Dir.entries(modules_dir).each do |entry|
+      next if entry == '.' || entry == '..'
+      
+      # For each directory, add an entry to the sidebar_structure
+      sidebar_structure[entry] = Dir.entries(File.join(modules_dir, entry)).select do |file|
+        File.directory?(File.join(modules_dir, entry, file)) && !(file == '.' || file == '..')
+      end
     end
   end
 
-  structure
+  # Write the structure to the YAML file
+  File.open('_data/sidebar_structure.yml', 'w') do |file|
+    file.write(sidebar_structure.to_yaml)
+  end
 end
 
-# modules 폴더 구조 읽기
-dir_structure = read_directory_structure('modules')
+# Ensure the _data directory exists
+ensure_data_directory_exists
 
-# YAML 파일로 저장
-File.open('_data/sidebar_structure.yml', 'w') { |f| f.write(dir_structure.to_yaml) }
+# Generate the sidebar structure
+generate_sidebar_structure
