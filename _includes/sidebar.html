@@ -4,7 +4,7 @@
         {% assign modules = site.data.sidebar_structure %}
         {% if modules %}
         {% assign module_names = modules | keys %}
-        {% for module_name in module_names %}
+        {% for module_name, submodules in module_names %}
         <li>
             <a href="#">{{ module_name }}</a>
 
