@@ -2,19 +2,11 @@
 <aside class="sidebar">
     <h2>Modules</h2>
     <ul>
-        <li>
-            <a href="#">Algorithm</a>
-            <ul>
-                <!-- Algorithm 폴더 내의 파일/폴더를 여기에 추가 -->
-                 테스트1
-            </ul>
-        </li>
-        <li>
-            <a href="#">example</a>
-            <ul>
-                <!-- example 폴더 내의 파일/폴더를 여기에 추가 -->
-                 테스트2
-            </ul>
-        </li>
+        {% assign modules = site.data.sidebar_structure %}
+        {% for module_name in modules %}
+            <li>
+                <a href="#">{{ module_name }}</a> <!-- 폴더 이름을 카테고리로 사용 -->
+            </li>
+        {% endfor %}
     </ul>
 </aside>
