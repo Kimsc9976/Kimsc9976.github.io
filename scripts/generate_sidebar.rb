@@ -33,10 +33,11 @@ def generate_sidebar_structure
   end
 
   # Write the structure to the YAML file
-  File.open('_data/sidebar.yml', 'w') do |file|
+  puts "Writing to _data/sidebar_structure.yml..."
+  File.open('_data/sidebar_structure.yml', 'w') do |file|
     file.write(sidebar_structure.to_yaml)
   end
-  puts "sidebar.yml file written."
+  puts "sidebar_structure.yml file written."
 end
 
 # Ensure the _data directory exists
