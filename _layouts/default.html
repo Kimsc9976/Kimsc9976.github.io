@@ -14,14 +14,7 @@
         <p>{{ site.description }}</p>
     </header>
     <div class="container">
-        <aside class="sidebar">
-            <h2>Algorithm Problems</h2>
-            <ul>
-                {% for post in site.posts %}
-                <li><a href="{{ post.url }}">{{ post.title }}</a></li>
-                {% endfor %}
-            </ul>
-        </aside>
+        {% include sidebar.html %}
         <main class="content">
             {{ content }}
         </main>
@@ -30,5 +23,6 @@
         <p>© 2024 Kimsc9976</p>
     </footer>
 </body>
+
 
 </html>
