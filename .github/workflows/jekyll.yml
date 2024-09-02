@@ -21,7 +21,7 @@ concurrency:
 
 jobs:
   # 빌드 작업
-  build:
+  setup:
     runs-on: ubuntu-latest
     steps:
       # 코드 체크아웃
@@ -36,6 +36,13 @@ jobs:
           bundler-cache: true # Bundler 캐시 자동 설정
           cache-version: 0 # 캐시 버전 번호 (필요시 변경)
 
+  build:
+    runs-on: ubuntu-latest
+    needs: setup
+      # 정적페이지 동적으로 할당
+      - name: Generate sidebar structure
+        run: ruby scripts/generate_sidebar.rb
+      
       # GitHub Pages 설정
       - name: Setup Pages
         id: pages
@@ -63,3 +70,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        target_branch: gh-pages
