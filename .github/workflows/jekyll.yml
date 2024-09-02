@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: true # 서브모듈도 함께 체크아웃
       
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
