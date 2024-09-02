@@ -23,6 +23,8 @@ jobs:
   # Ruby 환경 설정 및 종속성 설치 작업
   setup:
     runs-on: ubuntu-latest
+    outputs:
+      base_path: ${{ steps.pages.outputs.base_path }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,6 +35,13 @@ jobs:
           ruby-version: '3.1'
           bundler-cache: true
           cache-version: 0
+
+      - name: Generate sidebar structure
+        run: ruby scripts/generate_sidebar.rb
+
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
 
   # Jekyll 사이트 빌드 작업
   build:
