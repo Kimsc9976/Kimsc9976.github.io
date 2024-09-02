@@ -12,11 +12,21 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+      with:
+        submodules: true  # 서브모듈을 사용하는 경우 설정
 
     - name: Set up Ruby
       uses: actions/setup-ruby@v1
       with:
         ruby-version: '3.x'
+
+    - name: Cache RubyGems
+      uses: actions/cache@v3
+      with:
+        path: vendor/bundle
+        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-gems-
 
     - name: Install dependencies
       run: |
