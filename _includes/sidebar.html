@@ -2,13 +2,19 @@
     <h2>목차</h2>
     <ul>
         {% assign modules = site.data.sidebar_structure %}
-        {% if modules %}
         <pre>{{ modules | jsonify }}</pre>
-        {% assign module_names = modules | keys %}
-        {% for module_name in module_names %}
+        {% if modules %}
+        {% for module_name in modules %}
         <li>
+            <pre>{{module_name}}</pre>
+            <pre>{{modules}}</pre>
             <a href="#">{{ module_name }}</a>
-
+            <ul>
+                {% assign submodules = modules[module_name] %}
+                {% for submodule in submodules %}
+                <li>{{ submodule }}</li>
+                {% endfor %}
+            </ul>
         </li>
         {% endfor %}
         {% else %}
