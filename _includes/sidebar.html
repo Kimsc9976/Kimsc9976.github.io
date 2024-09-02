@@ -5,10 +5,10 @@
         {% if modules %}
         {% for module_name in modules %}
         <li>
-            <a href="#">{{ module_name }}</a>
+            <a href="#{{ module_name | slugify }}">{{ module_name }}</a>
             <ul>
                 {% for submodule in modules[module_name] %}
-                <li>{{ submodule }}</li>
+                <li><a href="#{{ submodule | slugify }}">{{ submodule }}</a></li>
                 {% endfor %}
             </ul>
         </li>
