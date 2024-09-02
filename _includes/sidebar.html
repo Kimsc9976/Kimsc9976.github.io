@@ -7,16 +7,7 @@
         {% for module_name in module_names %}
         <li>
             <a href="#">{{ module_name }}</a>
-            <ul>
-                {% assign submodules = modules[module_name] %}
-                {% if submodules %}
-                {% for submodule in submodules %}
-                <li>{{ submodule }}</li>
-                {% endfor %}
-                {% else %}
-                <li>No submodules found.</li>
-                {% endif %}
-            </ul>
+
         </li>
         {% endfor %}
         {% else %}
