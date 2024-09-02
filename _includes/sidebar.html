@@ -3,10 +3,11 @@
     <ul>
         {% assign modules = site.data.sidebar_structure %}
         {% if modules %}
-        {% for module_name, submodules in modules %}
+        {% for module_name in modules %}
         <li>
             <a href="#">{{ module_name }}</a>
             <ul>
+                {% assign submodules = modules[module_name] %}
                 {% for submodule in submodules %}
                 <li>{{ submodule }}</li>
                 {% endfor %}
