@@ -1,12 +1,20 @@
-<!-- _includes/sidebar.html -->
 <aside class="sidebar">
     <h2>Modules</h2>
     <ul>
         {% assign modules = site.data.sidebar_structure %}
+        {% if modules %}
         {% for module_name in modules %}
-            <li>
-                <a href="#">{{ module_name }}</a> <!-- 폴더 이름을 카테고리로 사용 -->
-            </li>
+        <li>
+            <a href="#">{{ module_name }}</a>
+            <ul>
+                {% for submodule in modules[module_name] %}
+                <li>{{ submodule }}</li>
+                {% endfor %}
+            </ul>
+        </li>
         {% endfor %}
+        {% else %}
+        <li>No modules found or data not loaded.</li>
+        {% endif %}
     </ul>
 </aside>
