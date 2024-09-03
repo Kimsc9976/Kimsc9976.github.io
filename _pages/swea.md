@@ -1,0 +1,10 @@
+---
+layout: page
+title: "SWEA 문제 해결"
+categories: algorithm
+permalink: /algorithm/swea/
+---
+
+# SWEA 문제 해결
+
+이 페이지는 SWEA 문제를 해결하기 위한 자료를 다룹니다.
