@@ -11,10 +11,15 @@
                 {{ module_name }} [Toggle]
             </span>
             <ul id="submodules-{{ forloop.index }}" style="display: none;">
+                {% assign last_index = sub_modules.size | minus: 1 %}
                 {% for submodule in sub_modules %}
-                <li>
-                    <a href="#">{{ submodule }}</a>
-                </li>
+                    <li>
+                        {% if forloop.index0 == last_index %}
+                            <span style="margin-right: 10px;">└──</span> <a href="#">{{ submodule }}</a>
+                        {% else %}
+                            <span style="margin-right: 10px;">├──</span> <a href="#">{{ submodule }}</a>
+                        {% endif %}
+                    </li>
                 {% endfor %}
             </ul>
         </li>
@@ -28,10 +33,14 @@
 <script>
     function toggleSubmodules(id) {
         var element = document.getElementById(id);
+        var icon = document.getElementById('toggle-icon-' + id.split('-')[1]);
+
         if (element.style.display === 'none') {
             element.style.display = 'block';
+            icon.innerHTML = '&#9660;'; // 아래쪽 화살표
         } else {
             element.style.display = 'none';
+            icon.innerHTML = '&#9658;'; // 오른쪽 화살표
         }
     }
-</script>
+</script>       
