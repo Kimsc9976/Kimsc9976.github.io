@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: default
 title: "프로그래머스 문제 해결"
 categories: algorithm
 algosite : programmers
