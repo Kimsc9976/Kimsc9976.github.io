@@ -14,9 +14,8 @@
             <ul id="submodules-{{ forloop.index }}" style="display: none;">
                 {% assign last_index = sub_modules.size | minus: 1 %}
                 {% for submodule in sub_modules %}
-                {% assign submodule_page = site.pages | where: "title", submodule | first %}
-                {% if submodule_page %}
-                {% assign submodule_url = submodule_page.url %}
+                {% if site.data.urls.algorithm[submodule] %}
+                {% assign submodule_url = site.data.urls.algorithm[submodule] %}
                 {% else %}
                 {% assign submodule_url = "#" %}
                 {% endif %}
