@@ -3,7 +3,6 @@ layout: page
 title: "백준 문제 해결"
 categories: algorithm
 permalink: /algorithm/baekjoon/
-url: /algorithm/baekjoon/
 ---
 
 # 백준 문제 해결
