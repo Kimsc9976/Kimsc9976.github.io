@@ -3,6 +3,7 @@ layout: page
 title: "SWEA 문제 해결"
 categories: algorithm
 permalink: /algorithm/swea/
+url: /algorithm/swea/
 ---
 
 # SWEA 문제 해결

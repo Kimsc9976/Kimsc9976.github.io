@@ -15,7 +15,11 @@
                 {% assign last_index = sub_modules.size | minus: 1 %}
                 {% for submodule in sub_modules %}
                 {% assign submodule_page = site.pages | where: "title", submodule | first %}
-                {% assign submodule_url = submodule_page.permalink %}
+                {% if submodule_page %}
+                {% assign submodule_url = submodule_page.url %}
+                {% else %}
+                {% assign submodule_url = "#" %}
+                {% endif %}
                 <li>
                     {% if forloop.index0 == last_index %}
                     <span style="margin-right: 10px;">└──</span> <a href="{{ submodule_url }}">{{ submodule }}</a>
