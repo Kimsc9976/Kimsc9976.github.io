@@ -7,8 +7,10 @@
         <li>
             {% assign module_name =  modules[0] %}
             {% assign sub_modules =  modules[1] %}
-            <a href="#">{{ module_name }}</a>
-            <ul>
+            <span onclick="toggleSubmodules('submodules-{{ forloop.index }}')" style="cursor: pointer;">
+                {{ module_name }} [Toggle]
+            </span>
+            <ul id="submodules-{{ forloop.index }}" style="display: none;">
                 {% for submodule in sub_modules %}
                 <li>
                     <a href="#">{{ submodule }}</a>
@@ -22,3 +24,14 @@
         {% endif %}
     </ul>
 </aside>
+
+<script>
+    function toggleSubmodules(id) {
+        var element = document.getElementById(id);
+        if (element.style.display === 'none') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
