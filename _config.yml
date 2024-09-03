@@ -1,5 +1,5 @@
 title: My GitHub Pages
 description: This is my personal GitHub Pages website.
-permalink: /:categories/:title/
+permalink: /:categories/:algosite/
 baseurl: "" 
 url: "https://Kimsc9976.github.io"
