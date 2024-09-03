@@ -4,10 +4,10 @@
         {% assign modules = site.data.sidebar_structure %}
         <pre>{{ modules | jsonify }}</pre>
         {% if modules %}
-        {% for module_name in modules %}
+        {% for modules in modules %}
         <li>
-            <pre>{{module_name}}</pre>
-            <pre>{{modules}}</pre>
+            <pre>{{modules[0]}}</pre>
+            <pre>{{modules[1]}}</pre>
             <a href="#">{{ module_name }}</a>
             <ul>
                 {% assign submodules = modules[module_name] %}
