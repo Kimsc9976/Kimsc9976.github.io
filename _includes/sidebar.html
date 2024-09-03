@@ -7,7 +7,7 @@
         <li>
             {% assign module_name =  modules[0] %}
             {% assign sub_modules =  modules[1] %}
-            <span onclick="toggleSubmodules('submodules-{{ forloop.index }}')" style="cursor: pointer;">
+            <span onclick="toggleSubmodules('submodules-{{ forloop.index }}')" style="cursor: pointer; font-weight: bold;" class="toggle-text">
                 {{ module_name }} [Toggle]
             </span>
             <ul id="submodules-{{ forloop.index }}" style="display: none;">
@@ -44,3 +44,10 @@
         }
     }
 </script>       
+<style>
+    .toggle-text:hover {
+        text-decoration: underline; /* 밑줄 추가 */
+        font-size: 1.1em; /* 텍스트 크기 약간 증가 */
+        text-shadow: 2px 2px 4px #aaa; /* 텍스트 그림자 효과 */
+    }
+</style>
