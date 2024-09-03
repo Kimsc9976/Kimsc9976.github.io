@@ -1,0 +1,10 @@
+---
+layout: page
+title: "백준 문제 해결"
+categories: algorithm
+permalink: /algorithm/baekjoon/
+---
+
+# 백준 문제 해결
+
+이 페이지는 백준 문제를 해결하기 위한 자료를 다룹니다.

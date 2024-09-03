@@ -5,21 +5,24 @@
         {% if modules %}
         {% for modules in modules %}
         <li>
-            {% assign module_name =  modules[0] %}
-            {% assign sub_modules =  modules[1] %}
-            <span onclick="toggleSubmodules('submodules-{{ forloop.index }}')" style="cursor: pointer; font-weight: bold;" class="toggle-text">
+            {% assign module_name = modules[0] %}
+            {% assign sub_modules = modules[1] %}
+            <span onclick="toggleSubmodules('submodules-{{ forloop.index }}')"
+                style="cursor: pointer; font-weight: bold;" class="toggle-text">
                 {{ module_name }} [Toggle]
             </span>
             <ul id="submodules-{{ forloop.index }}" style="display: none;">
                 {% assign last_index = sub_modules.size | minus: 1 %}
                 {% for submodule in sub_modules %}
-                    <li>
-                        {% if forloop.index0 == last_index %}
-                            <span style="margin-right: 10px;">└──</span> <a href="#">{{ submodule }}</a>
-                        {% else %}
-                            <span style="margin-right: 10px;">├──</span> <a href="#">{{ submodule }}</a>
-                        {% endif %}
-                    </li>
+                {% assign submodule_page = site.pages | where: "title", submodule | first %}
+                {% assign submodule_url = submodule_page.permalink %}
+                <li>
+                    {% if forloop.index0 == last_index %}
+                    <span style="margin-right: 10px;">└──</span> <a href="{{ submodule_url }}">{{ submodule }}</a>
+                    {% else %}
+                    <span style="margin-right: 10px;">├──</span> <a href="{{ submodule_url }}">{{ submodule }}</a>
+                    {% endif %}
+                </li>
                 {% endfor %}
             </ul>
         </li>
@@ -43,11 +46,14 @@
             icon.innerHTML = '&#9658;'; // 오른쪽 화살표
         }
     }
-</script>       
+</script>
 <style>
     .toggle-text:hover {
-        text-decoration: underline; /* 밑줄 추가 */
-        font-size: 1.1em; /* 텍스트 크기 약간 증가 */
-        text-shadow: 2px 2px 4px #aaa; /* 텍스트 그림자 효과 */
+        text-decoration: underline;
+        /* 밑줄 추가 */
+        font-size: 1.1em;
+        /* 텍스트 크기 약간 증가 */
+        text-shadow: 2px 2px 4px #aaa;
+        /* 텍스트 그림자 효과 */
     }
 </style>
