@@ -3,21 +3,21 @@ description: "This is my personal GitHub Pages website."
 baseurl: ""
 url: "https://Kimsc9976.github.io"
 
-# 카테고리 설정
-collections:
-  algorithm:
-    output: true
-  example:
-    output: true
+# # 카테고리 설정
+# collections:
+#   algorithm:
+#     output: true
+#   example:
+#     output: true
 
-# 카테고리 기본 설정
-defaults:
-  - scope:
-      path: ""
-      type: "posts"
-    values:
-      layout: "post"
-      categories: helloworld
+# # 카테고리 기본 설정
+# defaults:
+#   - scope:
+#       path: ""
+#       type: "posts"
+#     values:
+#       layout: "post"
+#       categories: helloworld
 
-# paginate: 5
-# paginate_path: "/page:num/"
+# # paginate: 5
+# # paginate_path: "/page:num/"
