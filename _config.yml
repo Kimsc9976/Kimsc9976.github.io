@@ -1,12 +1,23 @@
-title: My GitHub Pages
-description: This is my personal GitHub Pages website.
-baseurl: "" 
+title: "My GitHub Pages"
+description: "This is my personal GitHub Pages website."
+baseurl: ""
 url: "https://Kimsc9976.github.io"
 
+# 카테고리 설정
+collections:
+  algorithm:
+    output: true
+  example:
+    output: true
 
-# collections:
-#   algorithm:
-#     output: true
-#     permalink: /algorithm/:algosite/ # algorithm 컬렉션에 대해서는 이 구조 사용
-#   example:
-#     paermalink: /example/:name
+# 카테고리 기본 설정
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      categories: helloworld
+
+# paginate: 5
+# paginate_path: "/page:num/"
