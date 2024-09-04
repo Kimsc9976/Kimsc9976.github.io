@@ -4,7 +4,9 @@ baseurl: ""
 url: "https://Kimsc9976.github.io"
 
 
-collections:
-  algorithm:
-    output: true
-    permalink: /algorithm/:algosite/ # algorithm 컬렉션에 대해서는 이 구조 사용
+# collections:
+#   algorithm:
+#     output: true
+#     permalink: /algorithm/:algosite/ # algorithm 컬렉션에 대해서는 이 구조 사용
+#   example:
+#     paermalink: /example/:name
