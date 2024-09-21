@@ -33,10 +33,10 @@ jobs:
         run: ruby scripts/generate_sidebar.rb
 
       - name: Generate Problems structure
-        run: ruby scripts/generate_sidebar.rb
+        run: ruby scripts/generate_problem.rb
 
       - name: Generate Tiers Category
-        run: ruby scripts/generate_sidebar.rb
+        run: ruby scripts/generate_tier.rb
 
       - name: Setup Pages
         id: pages
