@@ -51,9 +51,6 @@ def generate_problem_posts
                   file.write("permalink: /#{category.downcase}/#{tier.downcase}/#{post_title}/\n")
                   file.write("---\n\n")
 
-                  # Write the content of README.md to the post
-                  file.write(File.read(readme_path))
-
                   puts "Created-0-post for #{problem_folder} in #{tier} - #{category} at #{post_file_path}"
                 end
               end
