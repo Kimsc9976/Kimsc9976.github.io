@@ -32,6 +32,12 @@ jobs:
       - name: Generate sidebar structure
         run: ruby scripts/generate_sidebar.rb
 
+      - name: Generate Problems structure
+        run: ruby scripts/generate_sidebar.rb
+
+      - name: Generate Tiers Category
+        run: ruby scripts/generate_sidebar.rb
+
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
