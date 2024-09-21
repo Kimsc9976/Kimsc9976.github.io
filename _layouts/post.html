@@ -13,10 +13,13 @@
     <header>
         <h1>{{ post.title }}</h1>
     </header>
-    {% include sidebar.html %}
-    <main>
-        {{ content }}
-    </main>
+
+    <div class="container">
+        {% include sidebar.html %}
+        <main class="content">
+            {{ content }}
+        </main>
+    </div>
 
     <footer>
         <p>© 2024 Kimsc9976</p>

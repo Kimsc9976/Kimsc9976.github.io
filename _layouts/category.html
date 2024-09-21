@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title }}</title>
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+</head>
+
+<body>
+    <header>
+        <h1>{{ page.title }}</h1>
+    </header>
+
+    <div class="container">
+        {% include sidebar.html %}
+
+        <main class="content">
+            <div class="cards-container">
+                <!-- Loop through posts in the same category -->
+                {% for post in site.categories[page.category] %}
+                <div class="card">
+                    <h2>{{ post.title }}</h2>
+                    <p>{{ post.excerpt | truncate: 150 }}</p>
+                    <a href="{{ post.url }}" class="btn">Read more</a>
+                </div>
+                {% endfor %}
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <p>© 2024 Kimsc9976</p>
+    </footer>
+</body>
+
+</html>

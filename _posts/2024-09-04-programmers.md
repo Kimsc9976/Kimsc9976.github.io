@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: category
 title: "프로그래머스 문제 해결"
 date: 2024-09-04 10:00:00 +0900
 categories: algorithm
