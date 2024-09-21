@@ -56,7 +56,7 @@ def generate_problem_posts
                     # Write the content of README.md to the post
                     file.write(File.read(readme_path))
                   end
-                  puts "Created post for #{problem_folder} in #{tier} - #{category} at #{post_file_path}"
+                  puts "Created-0-post for #{problem_folder} in #{tier} - #{category} at #{post_file_path}"
                 end
               end
             end
