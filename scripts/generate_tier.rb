@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'time'
 
 # Ensure the _posts directory exists
 def ensure_posts_directory_exists
@@ -7,15 +8,15 @@ def ensure_posts_directory_exists
   puts "_posts directory checked/created."
 end
 
-# Generate pages for each problem based on problem folders
-def generate_problem_pages
+# Generate posts for each problem based on problem folders
+def generate_problem_posts
   modules_dir = 'modules'
 
   puts "Checking if modules directory exists..."
   if Dir.exist?(modules_dir)
     puts "Modules directory found. Iterating through directories..."
 
-    # Iterate through each category (e.g., SWEA, 백준)
+    # Iterate through each category (e.g., Algorithm, 프로그래머스, 백준)
     Dir.entries(modules_dir).each do |category|
       next if category == '.' || category == '..'
 
@@ -36,19 +37,26 @@ def generate_problem_pages
                 # Find the README.md file within the problem folder
                 readme_path = File.join(problem_path, 'README.md')
                 if File.exist?(readme_path)
-                  # Create an index.md file for the problem
-                  index_file_path = File.join(problem_path, 'index.md')
-                  File.open(index_file_path, 'w') do |file|
+                  # Create a new .md file in the _posts folder
+                  # Filename should follow the format: YYYY-MM-DD-title.md
+                  post_title = problem_folder.gsub(/\s+/, '-').downcase
+                  post_date = Time.now.strftime('%Y-%m-%d')
+                  post_filename = "#{post_date}-#{post_title}.md"
+                  post_file_path = File.join('_posts', post_filename)
+
+                  File.open(post_file_path, 'w') do |file|
                     file.write("---\n")
-                    file.write("layout: default\n")
+                    file.write("layout: post\n")
                     file.write("title: \"#{problem_folder}\"\n")
-                    file.write("permalink: /#{category.downcase}/#{tier.downcase}/#{problem_folder.downcase}/\n")
-                    file.write("---\n")
-                    
-                    # Write the content of README.md to the index.md
+                    file.write("date: #{post_date} 10:00:00 +0900\n")
+                    file.write("categories: #{category} #{tier}\n")
+                    file.write("permalink: /#{category.downcase}/#{tier.downcase}/#{post_title}/\n")
+                    file.write("---\n\n")
+
+                    # Write the content of README.md to the post
                     file.write(File.read(readme_path))
                   end
-                  puts "Created page for #{problem_folder} in #{tier} - #{category} at #{index_file_path}"
+                  puts "Created post for #{problem_folder} in #{tier} - #{category} at #{post_file_path}"
                 end
               end
             end
@@ -64,5 +72,5 @@ end
 # Ensure the _posts directory exists
 ensure_posts_directory_exists
 
-# Generate pages from problem folders
-generate_problem_pages
+# Generate posts from problem folders
+generate_problem_posts
