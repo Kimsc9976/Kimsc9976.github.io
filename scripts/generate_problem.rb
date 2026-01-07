@@ -33,35 +33,50 @@ def generate_problem_pages
 
               problem_path = File.join(tier_path, problem_folder)
               if Dir.exist?(problem_path)
+                # Skip if directory is empty or only contains .git files (submodule not checked out)
+                entries = Dir.entries(problem_path).reject { |e| e == '.' || e == '..' || e == '.git' }
+                if entries.empty?
+                  puts "Skipping empty directory: #{problem_path}"
+                  next
+                end
+
                 # Find the README.md file within the problem folder
                 readme_path = File.join(problem_path, 'README.md')
                 code_files = Dir.entries(problem_path).select do |file|
-                  %w(.py .java .cpp).include?(File.extname(file))
+                  file != '.' && file != '..' && file != '.git' && 
+                  %w(.py .java .cpp .js .ts .c .cs).include?(File.extname(file))
                 end
                 
                 # Create an index.md file for the problem
                 index_file_path = File.join(problem_path, 'index.md')
-                File.open(index_file_path, 'w') do |file|
-                  file.write("---\n")
-                  file.write("layout: default\n")
-                  file.write("title: \"#{problem_folder}\"\n")
-                  file.write("permalink: /#{category.downcase}/#{tier.downcase}/#{problem_folder.downcase}/\n")
-                  file.write("---\n")
+                begin
+                  File.open(index_file_path, 'w') do |file|
+                    file.write("---\n")
+                    file.write("layout: default\n")
+                    file.write("title: \"#{problem_folder}\"\n")
+                    file.write("permalink: /#{category.downcase}/#{tier.downcase}/#{problem_folder.downcase}/\n")
+                    file.write("---\n")
 
-                  # Write the content of README.md to the index.md
-                  if File.exist?(readme_path)
-                    file.write(File.read(readme_path))
-                  end
+                    # Write the content of README.md to the index.md
+                    if File.exist?(readme_path)
+                      file.write(File.read(readme_path))
+                    end
 
-                  # Include code files as code blocks
-                  code_files.each do |code_file|
-                    file.write("\n## #{File.basename(code_file)}\n")
-                    file.write("```#{File.extname(code_file).delete('.')}\n")
-                    file.write(File.read(File.join(problem_path, code_file)))
-                    file.write("\n```\n")
+                    # Include code files as code blocks
+                    code_files.each do |code_file|
+                      code_file_path = File.join(problem_path, code_file)
+                      if File.exist?(code_file_path)
+                        file.write("\n## #{File.basename(code_file)}\n")
+                        file.write("```#{File.extname(code_file).delete('.')}\n")
+                        file.write(File.read(code_file_path))
+                        file.write("\n```\n")
+                      end
+                    end
                   end
+                  puts "Created page for #{problem_folder} in #{tier} - #{category} at #{index_file_path}"
+                rescue => e
+                  puts "Error creating page for #{problem_folder}: #{e.message}"
                 end
-                puts "Created page for #{problem_folder} in #{tier} - #{category} at #{index_file_path}"
               end
             end
           end

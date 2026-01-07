@@ -3,6 +3,10 @@ description: "This is my personal GitHub Pages website."
 baseurl: ""
 url: "https://Kimsc9976.github.io"
 
+# Jekyll이 modules 폴더를 포함하도록 설정
+include:
+  - modules
+
 # # 카테고리 설정
 # collections:
 #   algorithm:

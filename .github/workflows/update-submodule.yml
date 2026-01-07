@@ -1,0 +1,67 @@
+name: Check and Update Submodule
+
+on:
+  schedule:
+    # 매일 UTC 00:00 (한국시간 09:00)에 서브모듈 체크
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+  repository_dispatch:
+    types: [submodule-updated]
+
+permissions:
+  contents: write
+
+jobs:
+  update-submodule:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Get current submodule commit
+        id: current
+        run: |
+          cd modules/Algorithm
+          CURRENT_COMMIT=$(git rev-parse HEAD)
+          echo "current=$CURRENT_COMMIT" >> $GITHUB_OUTPUT
+          echo "Current submodule commit: $CURRENT_COMMIT"
+      
+      - name: Fetch latest from submodule
+        run: |
+          cd modules/Algorithm
+          git fetch origin
+          LATEST_COMMIT=$(git rev-parse origin/main || git rev-parse origin/master)
+          echo "Latest submodule commit: $LATEST_COMMIT"
+          echo "LATEST_COMMIT=$LATEST_COMMIT" >> $GITHUB_ENV
+      
+      - name: Check if update needed
+        id: check
+        run: |
+          cd modules/Algorithm
+          LATEST=$(git rev-parse origin/main || git rev-parse origin/master)
+          CURRENT=$(git rev-parse HEAD)
+          if [ "$LATEST" != "$CURRENT" ]; then
+            echo "needs_update=true" >> $GITHUB_OUTPUT
+            echo "Submodule update needed: $CURRENT -> $LATEST"
+          else
+            echo "needs_update=false" >> $GITHUB_OUTPUT
+            echo "Submodule is up to date"
+          fi
+      
+      - name: Update submodule
+        if: steps.check.outputs.needs_update == 'true'
+        run: |
+          git submodule update --remote modules/Algorithm
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+      
+      - name: Commit and push if updated
+        if: steps.check.outputs.needs_update == 'true'
+        run: |
+          git add modules/Algorithm
+          git commit -m "chore: update Algorithm submodule to latest version" || exit 0
+          git push origin main
+

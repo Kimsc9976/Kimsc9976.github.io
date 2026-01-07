@@ -22,9 +22,19 @@ def generate_sidebar_structure
     Dir.entries(modules_dir).each do |entry|
       next if entry == '.' || entry == '..'
       
-      # For each directory, add an entry to the sidebar_structure
-      sidebar_structure[entry] = Dir.entries(File.join(modules_dir, entry)).select do |file|
-        File.directory?(File.join(modules_dir, entry, file)) && !(file == '.' || file == '..')
+      entry_path = File.join(modules_dir, entry)
+      # Skip if it's not a directory or if it's an empty submodule (only .git file)
+      next unless File.directory?(entry_path)
+      
+      # Get subdirectories, excluding .git and hidden files
+      subdirs = Dir.entries(entry_path).select do |file|
+        file_path = File.join(entry_path, file)
+        File.directory?(file_path) && !(file == '.' || file == '..' || file == '.git')
+      end
+      
+      # Only add to sidebar if there are actual subdirectories
+      unless subdirs.empty?
+        sidebar_structure[entry] = subdirs
       end
     end
     puts "Sidebar structure generated: #{sidebar_structure}"

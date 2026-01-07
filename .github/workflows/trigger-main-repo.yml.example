@@ -1,0 +1,31 @@
+# 이 파일은 서브모듈 레포지토리(study_algorithm)에 배치해야 합니다
+# 파일명: .github/workflows/trigger-main-repo.yml
+# 
+# 서브모듈 레포지토리에 푸시할 때 메인 레포지토리의 워크플로우를 트리거합니다
+
+name: Trigger Main Repository Update
+
+on:
+  push:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger main repository workflow
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.MAIN_REPO_TOKEN }}
+          repository: Kimsc9976/Kimsc9976.github.io
+          event-type: submodule-updated
+          client-payload: |
+            {
+              "submodule": "Algorithm",
+              "commit": "${{ github.sha }}",
+              "ref": "${{ github.ref }}"
+            }
+

@@ -42,16 +42,25 @@ def generate_problem_posts
                 post_filename = "#{post_date}-#{post_title}.md"
                 post_file_path = File.join('_posts', post_filename)
 
-                File.open(post_file_path, 'w') do |file|
-                  file.write("---\n")
-                  file.write("layout: post\n")
-                  file.write("title: \"#{problem_folder}\"\n")
-                  file.write("date: #{post_date} 10:00:00 +0900\n")
-                  file.write("categories: #{category} #{tier}\n")
-                  file.write("permalink: /#{category.downcase}/#{tier.downcase}/#{post_title}/\n")
-                  file.write("---\n\n")
+                # Skip if post already exists
+                if File.exist?(post_file_path)
+                  puts "Post already exists: #{post_file_path}, skipping..."
+                  next
+                end
 
-                  puts "Created-0-post for #{problem_folder} in #{tier} - #{category} at #{post_file_path}"
+                begin
+                  File.open(post_file_path, 'w') do |file|
+                    file.write("---\n")
+                    file.write("layout: post\n")
+                    file.write("title: \"#{problem_folder}\"\n")
+                    file.write("date: #{post_date} 10:00:00 +0900\n")
+                    file.write("categories: #{category} #{tier}\n")
+                    file.write("permalink: /#{category.downcase}/#{tier.downcase}/#{post_title}/\n")
+                    file.write("---\n\n")
+                  end
+                  puts "Created post for #{problem_folder} in #{tier} - #{category} at #{post_file_path}"
+                rescue => e
+                  puts "Error creating post for #{problem_folder}: #{e.message}"
                 end
               end
             end
