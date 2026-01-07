@@ -7,6 +7,16 @@ url: "https://Kimsc9976.github.io"
 include:
   - modules
 
+# Jekyll이 modules 폴더를 제외하지 않도록 설정
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+
 # # 카테고리 설정
 # collections:
 #   algorithm:

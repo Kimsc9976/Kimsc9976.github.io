@@ -33,35 +33,50 @@ def generate_problem_posts
               next if problem_folder == '.' || problem_folder == '..'
 
               problem_path = File.join(tier_path, problem_folder)
-              if Dir.exist?(problem_path)
+              # Skip if it's not a directory or if it's an empty submodule (only .git file)
+              next unless Dir.exist?(problem_path)
+              
+              # Check if directory is empty (submodule not checked out)
+              entries = Dir.entries(problem_path).reject { |e| e == '.' || e == '..' || e == '.git' }
+              if entries.empty?
+                puts "Skipping empty directory: #{problem_path}"
+                next
+              end
 
-                # Create a new .md file in the _posts folder
-                # Filename should follow the format: YYYY-MM-DD-title.md
-                post_title = problem_folder.gsub(/\s+/, '-').downcase
-                post_date = Time.now.strftime('%Y-%m-%d')
-                post_filename = "#{post_date}-#{post_title}.md"
-                post_file_path = File.join('_posts', post_filename)
+              # Create a new .md file in the _posts folder
+              # Filename should follow the format: YYYY-MM-DD-title.md
+              post_title = problem_folder.gsub(/\s+/, '-').downcase
+              post_date = Time.now.strftime('%Y-%m-%d')
+              post_filename = "#{post_date}-#{post_title}.md"
+              post_file_path = File.join('_posts', post_filename)
 
-                # Skip if post already exists
-                if File.exist?(post_file_path)
-                  puts "Post already exists: #{post_file_path}, skipping..."
-                  next
+              # Skip if post already exists
+              if File.exist?(post_file_path)
+                puts "Post already exists: #{post_file_path}, skipping..."
+                next
+              end
+
+              begin
+                # Read README.md if exists
+                readme_path = File.join(problem_path, 'README.md')
+                readme_content = ""
+                if File.exist?(readme_path)
+                  readme_content = File.read(readme_path)
                 end
 
-                begin
-                  File.open(post_file_path, 'w') do |file|
-                    file.write("---\n")
-                    file.write("layout: post\n")
-                    file.write("title: \"#{problem_folder}\"\n")
-                    file.write("date: #{post_date} 10:00:00 +0900\n")
-                    file.write("categories: #{category} #{tier}\n")
-                    file.write("permalink: /#{category.downcase}/#{tier.downcase}/#{post_title}/\n")
-                    file.write("---\n\n")
-                  end
-                  puts "Created post for #{problem_folder} in #{tier} - #{category} at #{post_file_path}"
-                rescue => e
-                  puts "Error creating post for #{problem_folder}: #{e.message}"
+                File.open(post_file_path, 'w') do |file|
+                  file.write("---\n")
+                  file.write("layout: post\n")
+                  file.write("title: \"#{problem_folder}\"\n")
+                  file.write("date: #{post_date} 10:00:00 +0900\n")
+                  file.write("categories: #{category.downcase} #{tier.downcase}\n")
+                  file.write("permalink: /#{category.downcase}/#{tier.downcase}/#{post_title}/\n")
+                  file.write("---\n\n")
+                  file.write(readme_content) unless readme_content.empty?
                 end
+                puts "Created post for #{problem_folder} in #{tier} - #{category} at #{post_file_path}"
+              rescue => e
+                puts "Error creating post for #{problem_folder}: #{e.message}"
               end
             end
           end
