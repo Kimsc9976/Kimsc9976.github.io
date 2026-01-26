@@ -39,11 +39,11 @@ jobs:
 
       - name: Generate Problems structure
         run: ruby scripts/generate_problem.rb
-      - name: Setup Pages
 
       - name: Generate sidebar structure
         run: ruby scripts/generate_sidebar.rb
 
+      - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
 
