@@ -7,6 +7,11 @@ url: "https://Kimsc9976.github.io"
 include:
   - modules
 
+collections:
+  algorithm:
+    output: true
+    permalink: /algorithm/:path/
+
 # Jekyll이 modules 폴더를 제외하지 않도록 설정
 exclude:
   - Gemfile
@@ -16,6 +21,7 @@ exclude:
   - vendor/cache/
   - vendor/gems/
   - vendor/ruby/
+  - modules
 
 # # 카테고리 설정
 # collections:

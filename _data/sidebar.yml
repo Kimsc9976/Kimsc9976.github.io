@@ -1,6 +1,5 @@
 ---
-Algorithm:
-  README.md: []
+algorithm:
   SWEA:
   - D3
   백준:
@@ -17,8 +16,3 @@ Algorithm:
   - lv2
   - lv3
   - unrated
-Example:
-  test1:
-  - ex1
-  test2:
-  - ex2
