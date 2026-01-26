@@ -1,95 +1,39 @@
-require 'fileutils'
-require 'time'
+require "fileutils"
 
-# Ensure the _posts directory exists
-def ensure_posts_directory_exists
-  puts "Checking if _posts directory exists..."
-  Dir.mkdir('_posts') unless Dir.exist?('_posts')
-  puts "_posts directory checked/created."
+BASE = "modules/Algorithm"
+OUT_BASE = "algorithm"
+
+puts "BASE exists? #{Dir.exist?(BASE)}"
+
+Dir.glob("#{BASE}/*/*").each do |tier_path|
+  next unless File.directory?(tier_path)
+
+  # BASE 이후 상대경로 추출 → 백준/Bronze
+  relative = tier_path.sub("#{BASE}/", "")
+
+  puts "Tier found: #{relative}"
+
+  out_dir = File.join(OUT_BASE, relative)
+  FileUtils.mkdir_p(out_dir)
+
+  problem_dirs = Dir.glob("#{tier_path}/*").select { |p| File.directory?(p) }
+  next if problem_dirs.empty?
+
+  links = problem_dirs.map do |p|
+    name = File.basename(p)
+    "- [#{name}](./#{name}/)"
+  end.join("\n")
+
+  md = <<~MD
+  ---
+  layout: tier
+  title: #{File.basename(relative)}
+  permalink: /algorithm/#{relative}/
+  ---
+
+  #{links}
+  MD
+
+  File.write("#{out_dir}/index.md", md)
+  puts "  → index.md created in #{out_dir}"
 end
-
-# Generate posts for each problem based on problem folders
-def generate_problem_posts
-  modules_dir = 'modules'
-
-  puts "Checking if modules directory exists..."
-  if Dir.exist?(modules_dir)
-    puts "Modules directory found. Iterating through directories..."
-
-    # Iterate through each category (e.g., Algorithm, 프로그래머스, 백준)
-    Dir.entries(modules_dir).each do |category|
-      next if category == '.' || category == '..'
-      
-      category_path = File.join(modules_dir, category)
-      if Dir.exist?(category_path)
-        # Iterate through each tier (e.g., Bronze, Gold, Silver)
-        Dir.entries(category_path).each do |tier|
-          next if tier == '.' || tier == '..'
-
-          tier_path = File.join(category_path, tier)
-          if Dir.exist?(tier_path)
-            # Iterate through each problem folder within the tier
-            Dir.entries(tier_path).each do |problem_folder|
-              next if problem_folder == '.' || problem_folder == '..'
-
-              problem_path = File.join(tier_path, problem_folder)
-              # Skip if it's not a directory or if it's an empty submodule (only .git file)
-              next unless Dir.exist?(problem_path)
-              
-              # Check if directory is empty (submodule not checked out)
-              entries = Dir.entries(problem_path).reject { |e| e == '.' || e == '..' || e == '.git' }
-              if entries.empty?
-                puts "Skipping empty directory: #{problem_path}"
-                next
-              end
-
-              # Create a new .md file in the _posts folder
-              # Filename should follow the format: YYYY-MM-DD-title.md
-              post_title = problem_folder.gsub(/\s+/, '-').downcase
-              post_date = Time.now.strftime('%Y-%m-%d')
-              post_filename = "#{post_date}-#{post_title}.md"
-              post_file_path = File.join('_posts', post_filename)
-
-              # Skip if post already exists
-              if File.exist?(post_file_path)
-                puts "Post already exists: #{post_file_path}, skipping..."
-                next
-              end
-
-              begin
-                # Read README.md if exists
-                readme_path = File.join(problem_path, 'README.md')
-                readme_content = ""
-                if File.exist?(readme_path)
-                  readme_content = File.read(readme_path)
-                end
-
-                File.open(post_file_path, 'w') do |file|
-                  file.write("---\n")
-                  file.write("layout: post\n")
-                  file.write("title: \"#{problem_folder}\"\n")
-                  file.write("date: #{post_date} 10:00:00 +0900\n")
-                  file.write("categories: #{category.downcase} #{tier.downcase}\n")
-                  file.write("permalink: /#{category.downcase}/#{tier.downcase}/#{post_title}/\n")
-                  file.write("---\n\n")
-                  file.write(readme_content) unless readme_content.empty?
-                end
-                puts "Created post for #{problem_folder} in #{tier} - #{category} at #{post_file_path}"
-              rescue => e
-                puts "Error creating post for #{problem_folder}: #{e.message}"
-              end
-            end
-          end
-        end
-      end
-    end
-  else
-    puts "Modules directory not found!"
-  end
-end
-
-# Ensure the _posts directory exists
-ensure_posts_directory_exists
-
-# Generate posts from problem folders
-generate_problem_posts
