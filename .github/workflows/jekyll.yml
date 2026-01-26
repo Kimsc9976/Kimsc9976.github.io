@@ -34,16 +34,16 @@ jobs:
           ruby-version: '3.1'
           bundler-cache: true
 
-      - name: Generate sidebar structure
-        run: ruby scripts/generate_sidebar.rb
-
-      - name: Generate Problems structure
-        run: ruby scripts/generate_problem.rb
-
       - name: Generate Tiers Category
         run: ruby scripts/generate_tier.rb
 
+      - name: Generate Problems structure
+        run: ruby scripts/generate_problem.rb
       - name: Setup Pages
+
+      - name: Generate sidebar structure
+        run: ruby scripts/generate_sidebar.rb
+
         id: pages
         uses: actions/configure-pages@v5
 
