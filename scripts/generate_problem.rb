@@ -29,7 +29,7 @@ Dir.glob("#{SRC}/*").each do |platform_dir|
 
       target = "#{out}/index.md"
 
-      readme_path = "#{problem}/Readme.md"
+      readme_path = "#{problem}/README.md"
       readme_content = File.exist?(readme_path) ? File.read(readme_path) : "_No description provided._"
 
       code_blocks = []
