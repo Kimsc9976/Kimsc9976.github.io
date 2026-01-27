@@ -39,6 +39,7 @@ Dir.glob("#{BASE}/*/*").each do |tier_path|
   ---
   layout: tier
   title: #{File.basename(relative)}
+  platform: #{relative.split(File::SEPARATOR).first}
   permalink: /algorithm/#{relative}/
   ---
 

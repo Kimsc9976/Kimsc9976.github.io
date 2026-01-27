@@ -2,7 +2,14 @@
 layout: default
 ---
 
-<h1>{{ page.title }}</h1>
+<div class="tier-header">
+  <div class="tier-badge">{{ page.platform }}</div>
+  <div class="tier-main">
+    <span class="tier-title">{{ page.title }}</span>
+    <span class="tier-sub">Problem Archive</span>
+  </div>
+</div>
+
 
 <div class="tier-content">
   {{ content }}
@@ -17,69 +24,3 @@ document.querySelectorAll('.tier-content h2').forEach(header => {
   })
 })
 </script>
-
-<style>
-.tier-content h2 {
-  margin-top: 32px;
-  font-size: 1.1rem;
-  color: #444;
-  cursor: pointer;
-  user-select: none;
-  position: relative;
-  padding-left: 20px;
-  transition: color .2s;
-}
-
-/* ▶ 아이콘 */
-.tier-content h2::before {
-  content: "▸";
-  position: absolute;
-  left: 0;
-  transition: transform .2s;
-}
-
-/* 열렸을 때 */
-.tier-content h2.open::before {
-  transform: rotate(90deg);
-}
-
-.tier-content h2:hover {
-  color: #000;
-}
-
-/* 접힘 상태 */
-.problem-grid.collapsed {
-  display: none;
-}
-
-/* GRID 유지 */
-.problem-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px 24px;
-  list-style: none;
-  padding: 0;
-  margin-top: 8px;
-}
-
-/* 🔥 Hover UX */
-.problem-grid li a {
-  text-decoration: none;
-  font-weight: 500;
-  padding: 4px 6px;
-  border-radius: 6px;
-  transition: all .15s ease;
-}
-
-.problem-grid li a:hover {
-  background: rgba(0,0,0,.06);
-  transform: translateX(4px);
-}
-
-/* 모바일 */
-@media (max-width: 640px) {
-  .problem-grid {
-    grid-template-columns: 1fr;
-  }
-}
-</style>
