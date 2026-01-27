@@ -1,15 +1,19 @@
 <!-- 기존 고정 메뉴 -->
 <aside>
   <div class="sidebar">
-    <h2>목차</h2>
+    <h1 class="sidebar-title">📚 목차</h2>
 
-    {% for item in site.data.sidebar.main %}
-      <a href="{{ item.url }}">{{ item.title }}</a>
-    {% endfor %}
+    <nav class="main-links">
+      {% for item in site.data.sidebar.main %}
+        <a href="{{ item.url }}" class="nav-item">
+          {{ item.title }}
+        </a>
+      {% endfor %}
+    </nav>
 
-    <hr>
+    <hr class="sidebar-divider">
     <h3> 🛠️ 준비중</h3>
-    <hr>
+    <hr class="sidebar-divider">
     <h3> 👩🏻‍💻 알고리즘 리스트</h3>
     <!-- 자동 알고리즘 -->
     {% for platform in site.data.sidebar.algorithm %}
@@ -26,17 +30,6 @@
       </ul>
     </details>
     {% endfor %}
-    <hr>
+    <hr class="sidebar-divider">
   </div>
 </aside>
-
-<style>
-    .toggle-text:hover {
-        text-decoration: underline;
-        /* 밑줄 추가 */
-        font-size: 1.1em;
-        /* 텍스트 크기 약간 증가 */
-        text-shadow: 2px 2px 4px #aaa;
-        /* 텍스트 그림자 효과 */
-    }
-</style>
