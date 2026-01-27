@@ -1,7 +1,7 @@
 require "fileutils"
 
 SRC = "modules/Algorithm"
-OUT_BASE = "algorithm"
+OUT_BASE = "_algorithm"
 
 LANG_MAP = {
   ".py"   => "python",
@@ -31,7 +31,7 @@ Dir.glob("#{SRC}/*").each do |platform_dir|
 
       readme_path = "#{problem}/README.md"
       readme_content = File.exist?(readme_path) ? File.read(readme_path) : "_No description provided._"
-
+      date = File.mtime(readme_path).iso8601 # 2026-01-28T14:33:22+09:00
       code_blocks = []
 
       LANG_MAP.each do |ext, lang|
@@ -55,6 +55,7 @@ Dir.glob("#{SRC}/*").each do |platform_dir|
       platform: #{platform}
       tier: #{tier}
       permalink: /algorithm/#{platform}/#{tier}/#{name}/
+      date: #{date}
       ---
 
       #{readme_content}

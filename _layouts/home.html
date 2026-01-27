@@ -1,0 +1,100 @@
+---
+layout: default
+---
+
+<section class="home-hero">
+  <h1 class="hero-title">
+    Automating Quality. Monitoring Systems. Improving Reliability.
+  </h1>
+  <p class="home-sub">
+    QA 엔지니어의 시선으로 자동화와 알고리즘을 구조화합니다
+  </p>
+</section>
+
+<section class="home-main">
+
+    <div class="home-left">
+  
+      <!-- SNAPSHOT (혼자 한 줄 먹음) -->
+      <div class="home-card home-highlight">
+
+        <h2 class="card-title">⚙️ Automation Snapshot</h2>
+      
+        <div class="stats-grid">
+          <div class="stat-box">
+            <span class="stat-number">{{ site.algorithm | size }}</span>
+            <span class="stat-label">Problems Solved</span>
+          </div>
+      
+          <div class="stat-box">
+            <span class="stat-number">{{ site.posts | size }}</span>
+            <span class="stat-label">Blog Posts</span>
+          </div>
+      
+          <div class="stat-box">
+            <span class="stat-number">Auto</span>
+            <span class="stat-label">System Updated</span>
+          </div>
+        </div>
+      
+        <p class="snapshot-desc">
+          알고리즘 풀이 · 자동화 파이프라인 · 테스트 품질을  
+          지속적으로 개선하고 있습니다.
+        </p>
+      
+    </div>
+  
+      <!-- 아래 2열 카드 -->
+      <div class="home-grid">
+  
+        <!-- Algorithms -->
+        <div class="home-card">
+            <h2 class="card-title">📚 Recent Algorithms</h2>
+        
+            {% assign problems = site.algorithm | where:"layout","problem" | sort:"date" | reverse %}
+            <div class="preview-grid">
+              {% for post in problems limit:3 %}
+              <a href="{{ post.url }}" class="preview-card algo-card">
+                <h4>{{ post.title | strip_html | truncate: 40 }}</h4>
+                <p>{{ post.platform }} · {{ post.tier }}</p>
+              </a>
+              {% endfor %}
+            </div>
+        
+            <a class="more-link" href="/algorithm/">View all →</a>
+          </div>
+        
+          <!-- Blog -->
+          <div class="home-card">
+            <h2 class="card-title">📝 Latest Blog Posts</h2>
+        
+            <div class="preview-grid">
+              {% for post in site.posts limit:3 %}
+              <a href="{{ post.url }}" class="preview-card blog-card">
+                <h4>{{ post.title }}</h4>
+                <p>{{ post.excerpt | strip_html | truncate: 80 }}</p>
+              </a>
+              {% endfor %}
+            </div>
+        
+            <a class="more-link" href="/blog/">Read more →</a>
+          </div>
+  
+      </div>
+  
+    </div>
+  
+    <aside class="home-profile">
+        <h3 class="profile-name">Kimsc9976</h3>
+        <p class="role">QA Engineer · Automation Developer</p>
+    
+        <p class="intro">
+          테스트를 자동화하고<br>
+          시스템을 관찰하며<br>
+          신뢰성을 구조로 만든다
+        </p>
+    
+        <a href="/about/" class="profile-btn">About Me →</a>
+      </aside>
+  
+  </section>

@@ -1,7 +1,7 @@
 require "yaml"
 
 BASE = "modules/Algorithm"
-OUT_BASE = "algorithm"
+OUT_BASE = "_algorithm"
 
 puts "=== Sidebar Generator Debug Mode ==="
 puts "BASE DIR: #{BASE}"

@@ -1,7 +1,7 @@
 require "fileutils"
 
 BASE = "modules/Algorithm"
-OUT_BASE = "algorithm"
+OUT_BASE = "_algorithm"
 
 puts "BASE exists? #{Dir.exist?(BASE)}"
 
