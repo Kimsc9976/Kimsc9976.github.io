@@ -19,9 +19,20 @@ Dir.glob("#{BASE}/*/*").each do |tier_path|
   problem_dirs = Dir.glob("#{tier_path}/*").select { |p| File.directory?(p) }
   next if problem_dirs.empty?
 
-  links = problem_dirs.map do |p|
-    name = File.basename(p)
-    "- [#{name}](./#{name}/)"
+  groups = problem_dirs.each_slice(20).to_a
+
+  sections = groups.map.with_index do |slice, idx|
+    links = slice.map do |p|
+      name = File.basename(p)
+      "<li><a href=\"./#{name}/\">#{name}</a></li>"
+    end.join("\n")
+
+    <<~HTML
+    <h2>#{idx * 20 + 1} ~ #{idx * 20 + slice.size}</h2>
+    <ul class="problem-grid collapsed">
+    #{links}
+    </ul>
+    HTML
   end.join("\n")
 
   md = <<~MD
@@ -31,7 +42,7 @@ Dir.glob("#{BASE}/*/*").each do |tier_path|
   permalink: /algorithm/#{relative}/
   ---
 
-  #{links}
+  #{sections}
   MD
 
   File.write("#{out_dir}/index.md", md)
