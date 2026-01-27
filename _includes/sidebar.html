@@ -7,11 +7,13 @@
 {% endfor %}
 
 <hr>
-
+<h3> 🛠️ 준비중</h3>
+<hr>
+<h3> 👩🏻‍💻 알고리즘 리스트</h3>
 <!-- 자동 알고리즘 -->
 {% for platform in site.data.sidebar.algorithm %}
 <details class="sidebar-group">
-  <summary>{{ platform[0] }}</summary>
+  <summary class="toggle-text">{{ platform[0] }}</summary>
   <ul>
     {% for tier in platform[1] %}
     <li>
@@ -23,22 +25,9 @@
   </ul>
 </details>
 {% endfor %}
+<hr>
 </aside>
 
-<script>
-    function toggleSubmodules(id) {
-        var element = document.getElementById(id);
-        var icon = document.getElementById('toggle-icon-' + id.split('-')[1]);
-
-        if (element.style.display === 'none') {
-            element.style.display = 'block';
-            icon.innerHTML = '&#9660;'; // 아래쪽 화살표
-        } else {
-            element.style.display = 'none';
-            icon.innerHTML = '&#9658;'; // 오른쪽 화살표
-        }
-    }
-</script>
 <style>
     .toggle-text:hover {
         text-decoration: underline;
