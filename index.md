@@ -1,6 +1,6 @@
 ---
-layout: default
-title: Welcome to Kimsc9976 Page
+layout: home
+title: Home
 ---
 
 # Welcome to My GitHub Pages
