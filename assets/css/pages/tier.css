@@ -1,0 +1,66 @@
+.tier-content h2 {
+  margin-top: 32px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: #f6f7f9;
+}
+
+.tier-content h2:hover {
+  background: #eceef2;
+}
+
+/* ▶ 아이콘 */
+.tier-content h2::before {
+  content: "▸";
+  font-size: 0.85rem;
+  transition: transform .2s ease;
+}
+
+.tier-content h2.open::before {
+  transform: rotate(90deg);
+}
+
+.tier-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 26px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #eee;
+}
+
+.tier-badge {
+  background: #222;
+  color: #fff;
+  font-size: 1.2rem;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  letter-spacing: .5px;
+}
+
+.tier-main {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.tier-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #111;
+}
+
+.tier-sub {
+  font-size: 1.1rem;
+  color: #666;
+  font-weight: 500;
+}

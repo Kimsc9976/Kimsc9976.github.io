@@ -1,0 +1,125 @@
+.sidebar {
+    width: 250px;
+    padding: 15px;
+    margin-right: 20px;
+    background: #f4f4f4;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,.1);
+    box-sizing: border-box;
+
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+}
+
+.sidebar-title {
+  font-size: 1.6rem;
+  margin-bottom: 12px;
+  margin-top: 10px;
+  font-weight: 700;
+  color: #222;
+}
+
+/* 버튼형 네비 */
+.main-links {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.nav-item {
+  padding: 6px 10px;           /* 줄 높이 줄임 */
+  border-radius: 6px;
+  background: #fff;
+  font-size: 0.95rem;         /* 살짝 축소 */
+  font-weight: 500;
+  color: #333;
+  text-decoration: none;
+  white-space: nowrap;       /* ✅ 줄바꿈 방지 */
+  overflow: hidden;
+  text-overflow: ellipsis;   /* 너무 길면 ... 처리 */
+  box-shadow: 0 1px 2px rgba(0,0,0,.06);
+  transition: all .15s ease;
+}
+
+/* Hover UX */
+.nav-item:hover {
+  background: #eef2ff;
+  transform: translateX(4px);
+}
+
+/* 클릭 느낌 */
+.nav-item:active {
+  transform: translateX(2px) scale(.98);
+}
+
+/* 구분선 */
+.sidebar-divider {
+  margin: 16px 0;
+  border: none;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(0,0,0,.2),
+    transparent
+  );
+}
+
+.sidebar-group {
+  margin-bottom: 8px;
+}
+
+.toggle-text:hover {
+    text-decoration: underline;
+    /* 밑줄 추가 */
+    font-size: 1.1em;
+    /* 텍스트 크기 약간 증가 */
+    text-shadow: 2px 2px 4px #aaa;
+    /* 텍스트 그림자 효과 */
+    background: rgba(0,0,0,.05);
+}
+
+.sidebar-group summary {
+  list-style: none;
+}
+
+.sidebar-group summary::-webkit-details-marker {
+  display: none;
+}
+
+/* 티어 리스트 */
+.sidebar-group ul {
+  list-style: none;
+  padding: 4px 0 4px 12px;
+  margin: 4px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* 링크 */
+.sidebar-group ul li a {
+  display: block;
+  padding: 4px 8px;
+  font-size: 0.9rem;
+  color: #333;
+  text-decoration: none;
+  border-radius: 6px;
+  white-space: nowrap;
+  transition: all .15s ease;
+}
+
+.sidebar-group ul li a:hover {
+  background: rgba(0,0,0,.06);
+  transform: translateX(3px);
+}
+
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+}
