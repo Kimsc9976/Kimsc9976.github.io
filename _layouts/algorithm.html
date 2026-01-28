@@ -38,9 +38,16 @@ layout: default
           {% else %}
             {% assign tier_class = "tier-unknown" %}
           {% endif %}
-          <a href="/algorithm/{{ site_name }}/{{ tier_name }}/" class="tier-card {{ tier_class }}">
-            {{ tier_name }}
-          </a>
+          {% assign tier_page = site.algorithm | where:"platform", site_name | where:"tier", tier_name | first %}
+          {% if tier_page.platform_url and tier_page.tier_url %}
+            <a href="/algorithm/{{ tier_page.platform_url }}/{{ tier_page.tier_url }}/" class="tier-card {{ tier_class }}">
+              {{ tier_name }}
+            </a>
+          {% else %}
+            <a href="/algorithm/{{ site_name }}/{{ tier_name }}/" class="tier-card {{ tier_class }}">
+              {{ tier_name }}
+            </a>
+          {% endif %}
         {% endfor %}
       </div>
 
