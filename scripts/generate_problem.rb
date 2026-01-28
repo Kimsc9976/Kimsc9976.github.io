@@ -13,16 +13,14 @@ LANG_MAP = {
   ".js"   => "javascript"
 }
 
-def preserved_date(md_path, source_path)
-  if File.exist?(md_path)
-    content = File.read(md_path)
-    if content =~ /^date:\s*(.+)$/
-      return $1.strip
-    end
-  end
 
-  # 최초 생성일만 mtime 사용
-  File.mtime(source_path).strftime("%Y-%m-%d %H:%M:%S")
+def git_last_modified(file_path)
+  dir = File.dirname(file_path)
+
+  ts = `cd "#{dir}" && git log -1 --format="%ct" -- "#{File.basename(file_path)}"`.strip
+
+  return Time.at(ts.to_i) if ts != ""
+  File.mtime(file_path)
 end
 
 # 파일 시스템 경로용: 한글을 유지하되 특수문자만 제거
@@ -79,7 +77,7 @@ Dir.glob("#{SRC}/*").each do |platform_dir|
       readme_path = "#{problem}/README.md"
       readme_content = File.exist?(readme_path) ? File.read(readme_path) : "_No description provided._"
       # puts "#{readme_path}"
-      date = preserved_date(target, readme_path) # Readme.md 기준
+      date = git_last_modified(readme_path) # Readme.md 기준
       code_blocks = []
 
       LANG_MAP.each do |ext, lang|
