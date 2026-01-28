@@ -42,9 +42,10 @@ Dir.glob("#{SRC}/*").each do |platform_dir|
       target = "#{out}/index.md"
 
       readme_path = "#{problem}/README.md"
+      md_path = "#{out_dir}/index.md"
       readme_content = File.exist?(readme_path) ? File.read(readme_path) : "_No description provided._"
       # puts "#{readme_path}"
-      date = preserved_date(readme_path) # Readme.md 기준
+      date = preserved_date(md_path, readme_path) # Readme.md 기준
       code_blocks = []
 
       LANG_MAP.each do |ext, lang|
