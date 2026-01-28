@@ -34,6 +34,12 @@ jobs:
           ruby-version: '3.1'
           bundler-cache: true
 
+      - name: Generate Algorithm list
+        run: ruby scripts/generate_algorithm.rb
+
+      - name: Generate Algorithm level
+        run: ruby scripts/generate_algo_level.rb
+
       - name: Generate Tiers Category
         run: ruby scripts/generate_tier.rb
 
