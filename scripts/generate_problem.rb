@@ -12,8 +12,12 @@ LANG_MAP = {
 }
 
 def git_last_modified(file_path)
-  ts = `git log -1 --format="%ct" "#{file_path}"`.strip
-  Time.at(ts.to_i) rescue File.mtime(file_path)
+  dir = File.dirname(file_path)
+
+  ts = `cd "#{dir}" && git log -1 --format="%ct" -- "#{File.basename(file_path)}"`.strip
+
+  return Time.at(ts.to_i) if ts != ""
+  File.mtime(file_path)
 end
 
 Dir.glob("#{SRC}/*").each do |platform_dir|
@@ -36,6 +40,7 @@ Dir.glob("#{SRC}/*").each do |platform_dir|
 
       readme_path = "#{problem}/README.md"
       readme_content = File.exist?(readme_path) ? File.read(readme_path) : "_No description provided._"
+      # puts "#{readme_path}"
       date = git_last_modified(readme_path) # Readme.md 기준
       code_blocks = []
 
