@@ -10,7 +10,8 @@ include:
 collections:
   algorithm:
     output: true
-    permalink: /algorithm/:path/
+    # permalink는 각 파일의 front matter에서 명시적으로 지정
+    # permalink: /algorithm/:path/  # :path 변수가 한글 경로를 제대로 처리하지 못함
 
 # Jekyll이 modules 폴더를 제외하지 않도록 설정
 exclude:
