@@ -14,6 +14,7 @@ def safe_path(str)
     .gsub(/[^\w\-\p{Hangul}]/, "")  # 영문, 숫자, 하이픈, 한글만 유지
     .gsub(/-+/, "-")
     .gsub(/^-|-$/, "")              # 앞뒤 하이픈 제거
+    .downcase
 end
 
 # URL 경로용: 한글을 URL 인코딩
