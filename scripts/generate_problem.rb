@@ -108,7 +108,7 @@ Dir.glob("#{SRC}/*").each do |platform_dir|
       tier: #{yaml_safe(tier_raw)}
       tier_url: #{yaml_safe(tier_url)}
       permalink: #{yaml_safe("/algorithm/#{platform_url}/#{tier_url}/#{name_url}/")}
-      date: #{yaml_safe(date)}
+      date: #{date}
       ---
 
       #{readme_content}
