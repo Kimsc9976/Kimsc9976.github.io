@@ -2,11 +2,15 @@
 layout: default
 ---
 
-<h1>{{ page.title }}</h1>
+<div class="problem-header">
+  <h1 class="problem-title">{{ page.title }}</h1>
 
-<p>
-  <strong>{{ page.platform }}</strong> / {{ page.tier }}
-</p>
+  <nav class="problem-nav">
+    <a href="/algorithm/{{ page.platform }}/">{{ page.platform }}</a>
+    <span class="nav-sep">›</span>
+    <a href="/algorithm/{{ page.platform }}/{{ page.tier }}/">{{ page.tier }}</a>
+  </nav>
+</div>
 
 <hr>
 

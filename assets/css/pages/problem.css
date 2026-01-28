@@ -34,6 +34,50 @@
   box-shadow: 0 4px 10px rgba(0,0,0,.06);
 }
 
+.problem-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.problem-nav a {
+  text-decoration: none;
+  padding: 4px 10px;
+  border-radius: 6px;
+  transition: all .15s ease;
+}
+
+.nav-platform {
+  background: rgba(0,0,0,.06);
+  color: #333;
+}
+
+.nav-tier {
+  background: rgba(0,123,255,.12);
+  color: #007bff;
+}
+
+.problem-nav a:hover {
+  transform: translateY(-1px);
+  background: rgba(0,0,0,.12);
+}
+
+.nav-sep {
+  opacity: .5;
+}
+
+.problem-header {
+  margin-bottom: 18px;
+}
+
+.problem-title {
+  font-size: 1.6rem;
+  margin-bottom: 6px;
+}
+
+
 @media (max-width: 640px) {
   .problem-grid {
     grid-template-columns: 1fr;
