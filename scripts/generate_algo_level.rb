@@ -76,7 +76,7 @@ Dir.glob("#{BASE}/*").each do |tier_path|
   
   md = <<~MD
   ---
-  layout: tier
+  layout: platform
   title: #{yaml_safe(File.basename(relative_raw))}
   platform: #{yaml_safe(platform_raw)}
   platform_url: #{yaml_safe(platform_url)}

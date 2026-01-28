@@ -1,0 +1,40 @@
+---
+layout: default
+---
+
+<h1 class="platform-title">{{ page.platform }}</h1>
+<p class="platform-sub">Algorithm Tiers Overview</p>
+
+<div class="tier-dashboard">
+
+  {% assign all_problems = site.algorithm | where:"layout","problem" | where:"platform", page.platform %}
+  {% assign tiers = all_problems | map:"tier" | uniq %}
+
+  {% for tier in tiers %}
+
+  <div class="tier-column">
+
+    <a class="tier-header" href="/algorithm/{{ page.platform }}/{{ tier }}/">
+      {{ tier }}
+    </a>
+
+    {% assign recent = all_problems
+      | where:"tier", tier
+      | sort:"date"
+      | reverse %}
+
+    <ul class="tier-recent">
+      {% for p in recent limit:3 %}
+      <li>
+        <a href="{{ p.url }}">
+          {{ p.title | strip_html | truncate: 28 }}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+
+  </div>
+
+  {% endfor %}
+
+</div>
