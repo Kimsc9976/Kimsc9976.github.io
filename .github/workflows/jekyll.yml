@@ -1,11 +1,13 @@
 name: Deploy Jekyll site to Pages
 
 on:
+  workflow_run:
+    workflows: ["Update Submodule"]
+    types:
+      - completed
+  workflow_dispatch:
   push:
     branches: ["main"]
-  workflow_dispatch:
-  repository_dispatch:
-    types: [submodule-updated]
   schedule:
     # 매일 UTC 00:00 (한국시간 09:00)에 서브모듈 체크
     - cron: '0 0 * * *'
