@@ -107,13 +107,47 @@
   text-decoration: underline;
 }
 
+
+.timeline-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.timeline-item .year {
+  padding-top: 1.5%;
+  font-weight: 700;
+  color: #666;
+  min-width: 48px;
+}
+
+.timeline-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.timeline-content .company {
+  font-weight: 600;
+  color: #222;
+}
+
+.timeline-content .desc {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+
+
 /* ===== PROFILE ===== */
 
 .home-profile {
   width: 90%;
   position: sticky;
   top: 90px;
-  background: #fff;
+  background: #e0e0e0;
   border-radius: 16px;
   padding: 12px;
   box-shadow: 0 6px 18px rgba(0,0,0,.08);
@@ -125,8 +159,20 @@
   font-weight: 700;
 }
 
+.profile-image {
+  width: 60%;
+  max-width: 140px;
+  aspect-ratio: 1 / 1;
+
+  border-radius: 50%;
+  object-fit: cover;
+
+  margin-bottom: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
 .role {
-  color: #777;
+  color: #000000;
   font-size: .95rem;
   margin: 6px 0 16px;
 }
@@ -139,7 +185,7 @@
 
 .profile-btn {
   display: inline-block;
-  background: #007bff;
+  background: #444;
   color: #fff;
   padding: 8px 18px;
   border-radius: 8px;
@@ -149,7 +195,7 @@
 }
 
 .profile-btn:hover {
-  background: #0056b3;
+  background: #0c2541;
 }
 
 /* ===== HOME DOUBLE GRID ===== */

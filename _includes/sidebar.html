@@ -5,7 +5,7 @@
 
     <nav class="main-links">
       {% for item in site.data.sidebar.main %}
-        <a href="{{ item.url }}" class="nav-item">
+        <a href="{{ item.url }}" class="nav-item {% if page.url == item.url %}active{% endif %}">
           {{ item.title }}
         </a>
       {% endfor %}
