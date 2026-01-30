@@ -1,0 +1,92 @@
+.about-grid {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 0px;
+  
+    /* 🔥 핵심 */
+    justify-items: center;    /* 가로 중앙 */
+  }
+  
+  .about-left {
+    text-align: center;
+  }
+  
+  .about-right {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;            /* 문단 간격 */
+    max-width: auto;     /* 🔥 너무 퍼지지 않게 */
+  }
+
+  .about-profile-image {
+    width: 100%;
+    max-width: 300px;
+    aspect-ratio: 1 / 1;
+  
+    border-radius: 15%;
+    object-fit: cover;
+    object-position: center 10%;
+  
+    margin-bottom: 1rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .about-title {
+    margin-top: 16px;
+  }
+  
+  .about-links {
+    margin-bottom: 20px;
+    color: #9ca3af;
+  }
+  
+  .about-links a {
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  .about-callout {
+    border: 1.5px solid rgba(0, 0, 0, 0.15);
+    border-radius: 14px;
+    padding: 20px 24px;
+  
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(0,0,0,.06);
+  
+    line-height: 1.6;
+  }
+  
+  .about-callout .icon {
+    font-size: 1.4rem;
+  }
+  
+ /* 전체 중앙 정렬 */
+.about-section {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+  
+  /* 문단 간격 */
+  .about-right p {
+    margin: 0;
+    line-height: 1.55;
+  }
+  
+  .about-right p + p {
+    margin-top: 6px;
+  }
+
+.about-timeline-section {
+    display: flex;
+    flex-direction: row;
+    gap: 48px; /* Experience ↔ Certificate 간격 */
+}
+  
+.about-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
+    gap: 64px;
+  }

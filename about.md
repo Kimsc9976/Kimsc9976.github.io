@@ -1,10 +1,10 @@
 ---
-layout: default
-title: About
+layout: about
+title: How I Work
 permalink: /about/
 ---
 
-# Welcome to My GitHub Pages
+# 김수찬 | Software Engineer
 
-아이엠 그라운드 자기소개하기
+완성도 있는 제품을 위해 끊임없이 질문하는 엔지니어
 
