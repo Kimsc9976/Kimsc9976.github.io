@@ -1,6 +1,6 @@
 ---
 layout: home
-title: Home
+title: Engineering Notes on QA & Automation
 ---
 
 # Welcome to My GitHub Pages
