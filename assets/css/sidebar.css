@@ -80,6 +80,11 @@
   margin-bottom: 8px;
 }
 
+.sidebar-link {
+  text-decoration: none;
+  color: inherit;
+}
+
 .toggle-text:hover {
     text-decoration: underline;
     /* 밑줄 추가 */
@@ -92,6 +97,7 @@
 
 .sidebar-group summary {
   list-style: none;
+  cursor: pointer;
 }
 
 .sidebar-group summary::-webkit-details-marker {
@@ -109,7 +115,7 @@
 }
 
 /* 링크 */
-.sidebar-group ul li a {
+.sidebar-group a {
   display: block;
   padding: 4px 8px;
   font-size: 0.9rem;
@@ -120,7 +126,7 @@
   transition: all .15s ease;
 }
 
-.sidebar-group ul li a:hover {
+.sidebar-group a:hover {
   background: rgba(0,0,0,.06);
   transform: translateX(3px);
 }

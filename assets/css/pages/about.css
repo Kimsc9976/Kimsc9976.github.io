@@ -1,8 +1,17 @@
 .about-layout {
+  width: 95%;
   display: grid;
   grid-template-columns: 180px 1fr;
-  gap: 48px;
+  column-gap: 64px;
   align-items: start;
+}
+
+.about-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 64px;
+  border-left: 2px solid rgba(0, 0, 0, 0.08);
 }
 
 .about-nav {
@@ -120,6 +129,7 @@
   
   .about-title {
     margin-top: 16px;
+    text-align: right;
   }
   
   .about-links {
@@ -156,6 +166,10 @@
     caret-color: transparent;
 }
   
+.about-section h2 {
+  margin-bottom: 24px;
+}
+
   /* 문단 간격 */
   .about-right p {
     margin: 0;
@@ -173,11 +187,64 @@
     outline: none;
     caret-color: transparent;
 }
-  
-.about-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  
-    gap: 64px;
-  }
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.summary-card {
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 14px;
+  padding: 20px 22px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.summary-card header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  background-color: #6b7280;
+}
+
+.summary-card h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.period {
+  font-size: 0.85rem;
+  color: #679aff;
+}
+
+.summary {
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+.points {
+  padding-left: 1.1em;
+  margin: 0;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.points li {
+  margin-bottom: 4px;
+}
+
+.detail-link {
+  margin-top: auto;
+  align-self: flex-start;
+  font-size: 0.9rem;
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.detail-link:hover {
+  text-decoration: underline;
+}
