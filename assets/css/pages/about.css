@@ -76,11 +76,6 @@
   color: #000;
 }
 
-.about-nav a.active {
-  font-weight: 600;
-  color: #000;
-}
-
 .about-nav li:has(a.active)::before {
   background: #000;
   transform: translateY(-50%) scale(1.4);
@@ -92,6 +87,12 @@
 
 .about-nav a:focus-visible {
   outline: none;
+}
+
+.about-nav a.active {
+  color: #111;
+  font-weight: 600;
+  padding-left: 8px;
 }
 
 .about-grid {
@@ -159,12 +160,12 @@
   
  /* 전체 중앙 정렬 */
 .about-section {
-    max-width: 960px;
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 0 16px;
+    padding: 0 24px;
     outline: none;
     caret-color: transparent;
-}
+} 
   
 .about-section h2 {
   margin-bottom: 24px;
@@ -188,10 +189,28 @@
     caret-color: transparent;
 }
 
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+.project-carousel {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.carousel-viewport {
+  width: 960px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.35s ease;
   gap: 24px;
+}
+
+.card--project {
+  flex: 0 0 calc(100% / 3);   /* 3개 고정 */
+  padding: 28px 30px;        /* 기존보다 큼 */
+  gap: 16px;
 }
 
 .summary-card {
@@ -201,14 +220,49 @@
   background: #fff;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
-.summary-card header {
+.card header {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   background-color: #6b7280;
+}
+
+/* 카드 기본 상태 (비활성) */
+.card--project {
+  flex-shrink: 0;
+
+  transform: scale(0.77);
+  opacity: 0.45;
+  filter: grayscale(1) blur(1.5px);
+  transition: 
+    transform 0.4s ease,
+    opacity 0.4s ease,
+    filter 0.4s ease;
+}
+
+/* 🔥 현재 활성 카드 */
+.card--project.active {
+  transform: scale(0.98);
+  opacity: 1;
+  filter: none;
+  z-index: 2;
+}
+
+.carousel-btn {
+  border: 1.5px solid rgba(0,0,0,0.25);
+  background: #fff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.carousel-btn:hover {
+  background: #f3f4f6;
 }
 
 .summary-card h3 {

@@ -14,7 +14,7 @@ layout: default
           <li><a href="#brief">Brief Me</a></li>
           <li><a href="#career">Career & Certificate</a></li>
           <li><a href="#projects">Projects</a></li>
-          <li><a href="#practice">QA Engineering Practice</a></li>
+          <li><a href="#practice">QA Practices</a></li>
           <li><a href="#skills">Skills</a></li>
         </ul>
       </nav>
@@ -135,25 +135,87 @@ layout: default
       <section class="about-section" id="projects">
         <h2>Projects</h2>
 
-        <div class="card-grid">
+        <div class="project-carousel">
+          <button class="carousel-btn prev">‹</button>
           <!-- Project Card -->
-          <article class="summary-card">
-            <header>
-              <h3>요기요</h3>
-              <span class="period">2024.09</span>
-            </header>
 
-            <p class="summary">
-              송도 로봇 배달 PoC 검증 수행
-            </p>
+          <div class="carousel-viewport">
+            <div class="carousel-track">
+              <!-- Project Card -->
+              <!-- 가장 마지막 연도로 -->
+              <article class="summary-card card--project">
+                <header>
+                  <h3>신세계 레저산업</h3>
+                  <span class="period">2024.04</span>
+                </header>
+    
+                <p class="summary">
+                  자유CC 식음료 배달 PoC 검증 및 현장 QA 수행
+                </p>
+    
+                <ul class="points">
+                  <li>PoC 셋업 완료를 위한 현장 대응 및 검증 진행</li>
+                  <li>현장 테스트 중 발생한 주요 운영/시스템 이슈 분석 및 보고</li>
+                  <li>서비스 안정성을 위한 개선 포인트 도출</li>
+                </ul>
+    
+              </article>
+              <!-- 가장 자신있는 프로젝트 -->
 
-            <ul class="points">
-              <li>현장 PoC 셋업 및 검증 대응</li>
-              <li>주요 이슈 분석 및 유관부서 공유</li>
-              <li>주행 경로 특이사항 정리</li>
-            </ul>
+                <article class="summary-card card--project">
+                  <header>
+                    <h3>미리디 - 비즈하우스</h3>
+                    <span class="period">2025.04 ~ 2025.06</span>
+                  </header>
+                
+                  <p class="summary">
+                    실제 사용자를 기반으로 UI/UX 에 대한 A/B 테스트 & Usability Test 수행
+                  </p>
+                
+                  <ul class="points">
+                    <li>UI/UX 개선안에 대한 A/B 테스트 설계 및 검증 수행</li>
+                    <li>사용자 행동 데이터를 기반으로 기능/흐름 검증 및 리스크 판단</li>
+                  </ul>
+                </article>
 
-          </article>
+              <article class="summary-card card--project">
+                <header>
+                  <h3>요기요</h3>
+                  <span class="period">2024.09</span>
+                </header>
+    
+                <p class="summary">
+                  로봇 배달 서비스 PoC 검증 및 현장 테스트 수행
+                </p>
+    
+                <ul class="points">
+                  <li>현장 PoC 셋업 및 검증 대응</li>
+                  <li>주요 기술/운영 이슈를 분석하고 관련 부서와 공유</li>
+                  <li>주행 경로 및 로봇 운행 특이사항 정리, 리스크 최소화</li>
+                </ul>
+    
+              </article>
+
+              <article class="summary-card card--project">
+                <header>
+                  <h3>롯데 이노베이트</h3>
+                  <span class="period">2024.11</span>
+                </header>
+
+                <p class="summary">
+                  안전 로봇 품질 검증 및 자율주행 안정성 평가
+                </p>
+
+                <ul class="points">
+                  <li>Third Party 통합 후 자율주행 시스템 안정성 테스트</li>
+                  <li>보도/횡단보도 주행 관련 운행안전인증 심사 대응</li>
+                </ul>
+
+              </article>
+            </div>
+          </div>  
+
+          <button class="carousel-btn next">›</button>
         </div>
       </section>
 
@@ -207,3 +269,97 @@ layout: default
     </main>
   </div>
 </div>
+
+<script>
+  const links = document.querySelectorAll('.about-nav a');
+
+  window.addEventListener('hashchange', () => {
+    links.forEach(link => {
+      link.classList.toggle(
+        'active',
+        link.getAttribute('href') === location.hash
+      );
+    });
+  });
+
+  const track = document.querySelector('.carousel-track');
+  const prevBtn = document.querySelector('.carousel-btn.prev');
+  const nextBtn = document.querySelector('.carousel-btn.next');
+  
+  const gap = 24;
+  const visibleCount = 3; 
+  const initialChildren = Array.from(track.children);
+  const totalRealItems = initialChildren.length;
+  const cardWidth = initialChildren[0].offsetWidth;
+  const moveSize = cardWidth + gap;
+  
+  // 1. 앞뒤로 통째로 복사해서 3세트 만들기 [Set 0] [Set 1(Real)] [Set 2]
+  const clonesStart = initialChildren.map(c => c.cloneNode(true));
+  const clonesEnd = initialChildren.map(c => c.cloneNode(true));
+  
+  clonesStart.forEach(c => { c.classList.add('clone'); track.insertBefore(c, track.firstChild); });
+  clonesEnd.forEach(c => { c.classList.add('clone'); track.appendChild(c); });
+  
+  let allItems = Array.from(track.children);
+  let currentIndex = totalRealItems; 
+  let isTransitioning = false;
+  
+  function updateCarousel(animate = true) {
+    track.style.transition = animate ? 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)' : 'none';
+    track.style.transform = `translateX(${-currentIndex * moveSize}px)`;
+    updateActiveStatus();
+  }
+  
+  function updateActiveStatus() {
+    const centerOffset = Math.floor(visibleCount / 2);
+    // 현재 내 눈앞에 있는 놈의 '상대적 인덱스' (0 ~ totalRealItems-1)
+    const relativeActiveIndex = (currentIndex + centerOffset) % totalRealItems;
+  
+    allItems.forEach((c, i) => {
+      // 💡 핵심: 현재 인덱스를 총 개수로 나눈 나머지가 같다면 
+      // 그놈이 원본이든 클론이든 다 같이 불을 켭니다.
+      const isTarget = (i % totalRealItems) === relativeActiveIndex;
+      
+      c.classList.toggle('active', isTarget);
+      c.classList.toggle('inactive', !isTarget);
+    });
+  }
+  
+  nextBtn.addEventListener('click', () => {
+    if (isTransitioning) return;
+    isTransitioning = true;
+    currentIndex++;
+    updateCarousel(true);
+  });
+  
+  prevBtn.addEventListener('click', () => {
+    if (isTransitioning) return;
+    isTransitioning = true;
+    currentIndex--;
+    updateCarousel(true);
+  });
+  
+  track.addEventListener('transitionend', (e) => {
+    if (e.target !== track) return;
+    isTransitioning = false;
+  
+    // 2. 루프 보정 (사용자 몰래 원본 세트로 위치 이동)
+    if (currentIndex >= totalRealItems * 2) {
+      jumpTo(totalRealItems);
+    }
+    if (currentIndex < totalRealItems) {
+      jumpTo(totalRealItems * 2 - 1);
+    }
+  });
+  
+  function jumpTo(targetIndex) {
+    track.style.transition = 'none';
+    currentIndex = targetIndex;
+    void track.offsetWidth; 
+    track.style.transform = `translateX(${-currentIndex * moveSize}px)`;
+    // 여기서 updateActiveStatus를 호출해도 위에서 i % totalRealItems로 
+    // 묶어놨기 때문에 시각적 변화가 전혀 없습니다.
+  }
+  
+  updateCarousel(false);
+</script>
