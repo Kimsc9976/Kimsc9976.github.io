@@ -6,6 +6,13 @@ main:
   url: "/about/"
 - title: Blog
   url: "/blog/"
+blog:
+- title: For QA
+  url: "/"
+- title: For Dev
+  url: "/"
+- title: Note
+  url: "/"
 algorithm:
   백준:
   - bronze
