@@ -150,7 +150,7 @@ layout: default
                 </header>
     
                 <p class="summary">
-                  자유CC 식음료 배달 PoC 검증 및 현장 QA 수행
+                  자유CC 식음료 배달 PoC 및 현장 QA 수행
                 </p>
     
                 <ul class="points">
@@ -162,21 +162,22 @@ layout: default
               </article>
               <!-- 가장 자신있는 프로젝트 -->
 
-                <article class="summary-card card--project">
-                  <header>
-                    <h3>미리디 - 비즈하우스</h3>
-                    <span class="period">2025.04 ~ 2025.06</span>
-                  </header>
-                
-                  <p class="summary">
-                    실제 사용자를 기반으로 UI/UX 에 대한 A/B 테스트 & Usability Test 수행
-                  </p>
-                
-                  <ul class="points">
-                    <li>UI/UX 개선안에 대한 A/B 테스트 설계 및 검증 수행</li>
-                    <li>사용자 행동 데이터를 기반으로 기능/흐름 검증 및 리스크 판단</li>
-                  </ul>
-                </article>
+              <article class="summary-card card--project">
+                <header>
+                  <h3>미리디 - 비즈하우스</h3>
+                  <span class="period">2025.04 ~ 2025.06</span>
+                </header>
+              
+                <p class="summary">
+                  실제 사용자의 경험 기반으로 UI/UX 에 대한 A/B 테스트 & Usability Test 수행
+                </p>
+              
+                <ul class="points">
+                  <li>UI/UX 개선안에 대한 A/B 테스트 설계 및 검증 수행</li>
+                  <li>사용자 행동 데이터를 기반으로 기능/흐름 검증 및 리스크 판단</li>
+                  <li>제품군 단위 유저 시나리오를 바탕으로 Automation Test 수행</li>
+                </ul>
+              </article>
 
               <article class="summary-card card--project">
                 <header>
@@ -185,7 +186,7 @@ layout: default
                 </header>
     
                 <p class="summary">
-                  로봇 배달 서비스 PoC 검증 및 현장 테스트 수행
+                  로봇 배달 서비스 PoC 및 현장 테스트 수행
                 </p>
     
                 <ul class="points">
@@ -225,7 +226,70 @@ layout: default
         <div class="card-grid">
           <article class="summary-card">
             <header>
-              <h3>User Scenario-based Testing</h3>
+              <h3>QA 자동화 인프라 구축</h3>
+              <span class="period">2025.06 – 진행중</span>
+            </header>
+
+            <p class="summary">
+              배포 전 신뢰성 확보를 위한 자동화 QA 인프라 구축
+            </p>
+
+            <ul class="points">
+              <li>HILS 기반 반복 검증 자동화 인프라 설계 및 구축</li>
+              <li>시뮬레이션 연동을 통한 주행 시나리오 커버리지 확보</li>
+              <li>내부 API 연동 자동 스트레스 테스트 환경 구성</li>
+              <li>수천 회 반복 시나리오 기반 안정성·강건성 검증 체계 마련</li>
+              <li>자동화된 결과 축적으로 테스트 재현성 및 추적성 확보</li>
+            </ul>
+
+            <a href="/practice/qa-automation-infrastructure" class="detail-link">
+              View Practice →
+            </a>
+          </article>
+
+          <article class="summary-card">
+            <header>
+              <h3>유저 시나리오 기반 웹페이지 QA 자동화</h3>
+              <span class="period">2025.02 ~ 2025.06</span>
+            </header>
+
+            <p class="summary">
+              사용자 행동 기반 시나리오를 자동화 및 프로덕션 모니터링으로 확장
+            </p>
+
+            <ul class="points">
+              <li>사용자 행동 데이터를 기반으로 핵심 유저 시나리오 테스트 케이스 정의</li>
+              <li>Playwright를 활용한 유저 시나리오 자동화 테스트 구축</li>
+              <li>Checkly 기반 프로덕션 플로우 모니터링으로 배포 후 이상 징후 실시간 감지</li>
+            </ul>
+          </article>
+
+          <article class="summary-card">
+            <header>
+              <h3>데이터 시각화 도구 구축</h3>
+              <span class="period">2024.01 – 2024.12</span>
+            </header>
+
+            <p class="summary">
+              테스트·운영·CS 간 분석 기준을 통합한 QA 시각화 도구 구축
+            </p>
+
+            <ul class="points">
+              <li>테스트 결과 및 로그를 공통 기준으로 해석 가능한 시각화 도구 설계</li>
+              <li>바이트 단위 Raw 데이터를 명세 기반 시각 정보로 변환</li>
+              <li>이슈 재현 및 원인 분석 시간 단축을 위한 UI 제공</li>
+              <li>QA·개발·운영 조직에서 공통 디버깅 도구로 활용</li>
+              <li>분석 기준 표준화를 통해 커뮤니케이션 비용 감소</li>
+            </ul>
+
+            <a href="/practice/qa-visualization-tools" class="detail-link">
+              View Practice →
+            </a>
+          </article>
+
+          <article class="summary-card">
+            <header>
+              <h3>유저 시나리오 기반 테스팅</h3>
               <span class="period">2024.04 – 2024.10</span>
             </header>
 
@@ -240,6 +304,50 @@ layout: default
             </ul>
 
             <a href="/practice/user-scenario-testing" class="detail-link">
+              View Practice →
+            </a>
+          </article>
+
+          <article class="summary-card">
+            <header>
+              <h3>운행안전인증 QA 대응</h3>
+              <span class="period">2024.04 – 2024.05 / 2024.11 – 2024.12</span>
+            </header>
+
+            <p class="summary">
+              운행안전인증 심사 기준 기반 QA 및 인증 대응
+            </p>
+
+            <ul class="points">
+              <li>운행안전인증 심사 기준 분석 및 테스트 케이스 작성·수행</li>
+              <li>안전성 및 성능 중심 테스트 범위 정의</li>
+              <li>SW/HW 업데이트에 따른 TC 확장 및 우선순위 기반 검증</li>
+              <li>촉박한 심사 일정 속 유관부서 협업을 통한 인증 통과 기여</li>
+            </ul>
+
+            <a href="/practice/safety-certification-qa" class="detail-link">
+              View Practice →
+            </a>
+          </article>
+
+          <article class="summary-card">
+            <header>
+              <h3>로봇 배달 PoC 대응</h3>
+              <span class="period">2024.04 / 2024.09</span>
+            </header>
+
+            <p class="summary">
+              실제 서비스 환경 기반 로봇 배달 PoC 현장 QA 수행
+            </p>
+
+            <ul class="points">
+              <li>전체 구간에 대한 자율주행 테스트 수행</li>
+              <li>특정 구간에서 반복 발생하는 성능 저하 이슈 발견 및 보고</li>
+              <li>재현 가능한 조건의 기능 오류 식별 및 공유</li>
+              <li>주 고객층 관점의 현장 피드백을 수집하여 유관부서 전달</li>
+            </ul>
+
+            <a href="/practice/robot-poc-qa" class="detail-link">
               View Practice →
             </a>
           </article>

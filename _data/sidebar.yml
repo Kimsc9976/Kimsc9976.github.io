@@ -30,3 +30,13 @@ algorithm:
   - unrated
   swea:
   - d3
+sideprojects:
+  - title: 블로그 제작 기록
+    slug: blog
+    url: /sideprojects/blog
+  - title: 안뇨 제작 기록
+    slug: anyo
+    url: /sideprojects/anyo
+  - title: Automated Trading
+    slug: trade
+    url: /sideprojects/trade
