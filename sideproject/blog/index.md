@@ -1,8 +1,8 @@
 ---
 layout: sideproject-list
 title: 블로그 제작 기록
-project: blog
-permalink: /sideprojects/blog/
+project: myblog
+permalink: /sideprojects/myblog/
 ---
 
 <ul>
