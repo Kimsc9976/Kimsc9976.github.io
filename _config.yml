@@ -7,11 +7,15 @@ url: "https://Kimsc9976.github.io"
 include:
   - modules
 
+# # 카테고리 설정
 collections:
   algorithm:
     output: true
-    # permalink는 각 파일의 front matter에서 명시적으로 지정
     # permalink: /algorithm/:path/  # :path 변수가 한글 경로를 제대로 처리하지 못함
+  sideprojects:
+    output: true
+    permalink: /sideprojects/:project/:title/
+    # permalink는 각 파일의 front matter에서 명시적으로 지정
 
 # Jekyll이 modules 폴더를 제외하지 않도록 설정
 exclude:
@@ -23,13 +27,6 @@ exclude:
   - vendor/gems/
   - vendor/ruby/
   - modules
-
-# # 카테고리 설정
-# collections:
-#   algorithm:
-#     output: true
-#   example:
-#     output: true
 
 # # 카테고리 기본 설정
 # defaults:

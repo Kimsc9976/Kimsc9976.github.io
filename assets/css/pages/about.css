@@ -207,41 +207,6 @@
   gap: 24px;
 }
 
-.card--project {
-  flex: 0 0 calc(100% / 3);   /* 3개 고정 */
-  padding: 28px 30px;        /* 기존보다 큼 */
-  gap: 16px;
-}
-
-.summary-card {
-  border: 1px solid var(--border-color, #e5e7eb);
-  border-radius: 14px;
-  padding: 20px 22px;
-  background: #fff;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.card header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  background-color: #6b7280;
-}
-
-/* 카드 기본 상태 (비활성) */
-.card--project {
-  flex-shrink: 0;
-
-  transform: scale(0.77);
-  opacity: 0.45;
-  filter: grayscale(1) blur(1.5px);
-  transition: 
-    transform 0.4s ease,
-    opacity 0.4s ease,
-    filter 0.4s ease;
-}
 
 /* 🔥 현재 활성 카드 */
 .card--project.active {
@@ -265,31 +230,114 @@
   background: #f3f4f6;
 }
 
+/* 카드 기본 상태 (비활성) */
+.card--project {
+  flex-shrink: 0;
+  flex: 0 0 calc(100% / 3);   /* 3개 고정 */
+  padding: 28px 30px;        /* 기존보다 큼 */
+  gap: 16px;
+
+  transform: scale(0.77);
+  opacity: 0.45;
+  filter: grayscale(1) blur(1.5px);
+  transition: 
+    transform 0.4s ease,
+    opacity 0.4s ease,
+    filter 0.4s ease;
+}
+
+.summary-card {
+  position: relative;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 22px 24px;
+  background: #fff;
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0,0,0,.08);
+}
+
+/* 왼쪽 accent 라인 */
+.summary-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 18px;
+  bottom: 18px;
+  width: 4px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #132449, #60a5fa);
+}
+
+/* header */
+.summary-card header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 4px;
+}
+
 .summary-card h3 {
-  margin: 0;
-  font-size: 1.05rem;
+  margin: 0 0 0 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #dde1e9;
 }
 
 .period {
-  font-size: 0.85rem;
-  color: #679aff;
+  font-size: 0.8rem;
+  color: #dae3e4;
+  margin: 0 5px 0 5px;
 }
 
+/* summary 강조 */
 .summary {
   font-size: 0.95rem;
+  color: #1f2937;
+  font-weight: 500;
+
+  padding: 10px 14px;
+  background: #f8fafc;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+}
+
+/* points */
+.points {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  font-size: 0.9rem;
   color: #374151;
 }
 
-.points {
-  padding-left: 1.1em;
-  margin: 0;
-  font-size: 0.9rem;
-  color: #4b5563;
+.points li {
+  position: relative;
+  padding-left: 16px;
 }
 
-.points li {
-  margin-bottom: 4px;
+.points li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #2563eb;
+  font-weight: 700;
 }
+
 
 .detail-link {
   margin-top: auto;
@@ -301,4 +349,33 @@
 
 .detail-link:hover {
   text-decoration: underline;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+
+  max-height: calc(2 * 220px + 20px); /* 카드 높이 * 2행 + gap */
+  overflow-y: auto;
+  padding-right: 6px; /* 스크롤바 여백 */
+
+  scroll-behavior: smooth;
+}
+
+.card-grid::-webkit-scrollbar {
+  width: 6px;
+}
+
+.card-grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.card-grid::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+}
+
+.card-grid::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.25);
 }
