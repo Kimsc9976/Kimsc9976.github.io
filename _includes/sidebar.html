@@ -5,7 +5,20 @@
 
     <nav class="main-links">
       {% for item in site.data.sidebar.main %}
-        <a href="{{ item.url }}" class="nav-item {% if page.url == item.url %}active{% endif %}">
+        {% assign base_url = item.url %}
+        {% assign is_active = false %}
+    
+        {% if base_url == "/" %}
+          {% if page.url == "/" %}
+            {% assign is_active = true %}
+          {% endif %}
+        {% else %}
+          {% if page.url == base_url or page.url == base_url | append: "/" or page.url contains base_url | append: "/" %}
+            {% assign is_active = true %}
+          {% endif %}
+        {% endif %}
+    
+        <a href="{{ base_url }}" class="nav-item {% if is_active %}active{% endif %}">
           {{ item.title }}
         </a>
       {% endfor %}
