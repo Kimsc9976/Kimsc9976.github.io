@@ -8,11 +8,11 @@ main:
   url: "/blog/"
 blog:
 - title: For QA
-  url: "/"
+  url: "/blog/qa/"
 - title: For Dev
-  url: "/"
+  url: "/blog/dev/"
 - title: Note
-  url: "/"
+  url: "/blog/note/"
 algorithm:
   백준:
   - bronze
