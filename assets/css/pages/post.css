@@ -1,0 +1,108 @@
+.post-header-inner {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.home-link {
+  color: #555;
+  text-decoration: none;
+}
+
+.post-container {
+  display: flex;
+  gap: 48px;
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 24px;
+}
+
+.post-content {
+  flex: 3;
+}
+
+.markdown-body h2 {
+  margin-top: 48px;
+  border-bottom: 1px solid #eee;
+}
+
+.post-sidebar {
+  flex: 1;
+  border-left: 1px solid #eee;
+  padding-left: 24px;
+}
+
+.post-sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.post-sidebar li {
+  margin-bottom: 8px;
+}
+
+.post-footer {
+  text-align: center;
+  padding: 32px;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+
+/* =========================
+   Post Header (Left-aligned)
+========================= */
+
+.post-header {
+  margin-bottom: 3rem;
+  padding-left: 1.25rem;
+  border-left: 3px solid #374151;
+  background-color: #eee;
+  color: #555;
+}
+
+.post-title {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin-bottom: 0.6rem;
+  text-align: left;      /* 중앙 → 왼쪽 */
+  padding-left: 0.5rem;  /* 추가 여백 */
+}
+
+/* meta row */
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+/* category pill */
+.category-link {
+  text-decoration: none;
+  font-weight: 600;
+  color: #60a5fa;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  background: rgba(96, 165, 250, 0.12);
+}
+
+.category-link:hover {
+  background: rgba(96, 165, 250, 0.22);
+}
+
+/* date */
+.post-date {
+  position: relative;
+  padding-left: 0.6rem;
+}
+
+.post-date::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #6b7280;
+}

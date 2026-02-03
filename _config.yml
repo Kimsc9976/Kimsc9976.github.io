@@ -15,6 +15,9 @@ collections:
   sideprojects:
     output: true
     permalink: /sideprojects/:project/:title/
+  blog:
+    output: true
+    permalink: /blog/:category/:year/:month/:day/:title/
     # permalink는 각 파일의 front matter에서 명시적으로 지정
 
 # Jekyll이 modules 폴더를 제외하지 않도록 설정

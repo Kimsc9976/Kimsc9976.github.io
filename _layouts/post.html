@@ -1,32 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
+---
+layout: default
+---
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ post.title }}</title>
-    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
-</head>
+<article class="post">
 
-<body>
-    <header>
-        <div class="header-content">
-            <h1>{{ post.title }}</h1>
-            <a href="{{ '/' | relative_url }}" class="home-button">🏠 홈으로</a>
-        </div>
-    </header>
+  <!-- 제목 -->
+  <header class="post-header">
+    <h1 class="post-title">{{ page.title }}</h1>
 
-    <div class="container">
-        {% include sidebar.html %}
-        <main class="content">
-            {{ content }}
-        </main>
+    <div class="post-meta">
+      {% if page.category %}
+        <a href="/blog/{{ page.category }}/" class="category-link">
+          {{ page.category | upcase }}
+        </a>
+      {% endif %}
+      <span class="post-date">
+        {{ page.date | date: "%Y.%m.%d" }}
+      </span>
     </div>
+  </header>
 
-    <footer>
-        <p>© 2024 Kimsc9976</p>
-    </footer>
-</body>
+  <!-- 본문 -->
+  <section class="post-content">
+    {{ content }}
+  </section>
 
-</html>
+  <!-- 하단 구분선 -->
+  <hr class="post-divider">
+
+  <!-- 같은 카테고리 글 -->
+  {% if page.category %}
+  <section class="related-posts">
+    <h3>📂 {{ page.category | upcase }}</h3>
+    <ul>
+      {% assign related_posts = site.posts | where: "category", page.category %}
+      {% for post in related_posts %}
+        {% if post.url != page.url %}
+        <li>
+          <a href="{{ post.url }}">{{ post.title }}</a>
+          <span>{{ post.date | date: "%Y.%m.%d" }}</span>
+        </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+</article>
