@@ -210,15 +210,31 @@
     margin-top: 10px;
   }
   
-  .preview-card {
-    background: #f8f9fb;
-    padding: 14px;
-    border-radius: 14px;
-    text-decoration: none;
-    color: #333;
-    box-shadow: 0 2px 6px rgba(0,0,0,.06);
-    transition: transform .15s ease, box-shadow .15s ease;
-  }
+.preview-card.algo-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 세로 중앙 정렬 */
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease;
+}
+
+.preview-card.blog-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 세로 중앙 정렬 */
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease;
+}
   
   .preview-card h4 {
     font-size: .95rem;
@@ -230,6 +246,7 @@
     font-size: .82rem;
     color: #666;
     line-height: 1.4;
+    margin: 0;
     white-space: nowrap;       /* 한 줄로 유지 */
     overflow: hidden;          /* 넘치는 텍스트 숨김 */
     text-overflow: ellipsis;   /* 말줄임(...) 표시 */
@@ -241,6 +258,13 @@
     box-shadow: 0 6px 16px rgba(0,0,0,.12);
   }
   
+.preview-card .post-date {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  margin-top: 0.5rem;
+  text-align: right;
+}
+
   /* 알고리즘 카드 살짝 강조 */
   .algo-card p {
     font-weight: 600;

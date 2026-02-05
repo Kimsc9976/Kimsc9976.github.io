@@ -101,7 +101,7 @@
 }
 
 .post-date::before {
-  content: "•";
+  content: "";
   position: absolute;
   left: 0;
   color: #6b7280;
