@@ -55,13 +55,6 @@
   margin-bottom: 14px;
 }
 
-.github-graph {
-  display: inline-block;
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,.08);
-}
-
 .graph-link {
   display: inline-block;
 }
@@ -271,26 +264,7 @@
     color: #444;
   }
 
-/* ===== MOBILE ===== */
-
-@media (max-width: 768px) {
-  .home-main {
-    flex-direction: column;
-  }
-
-  .home-profile {
-    width: 95%;
-    position: static;
-  }
-  
-  .preview-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .home-grid {
-    grid-template-columns: 1fr;
-  }
-}
+/* 반응형 레이아웃( home-main, home-grid, preview-grid, home-profile )은 layout.css에서 통합 */
 
   .home-highlight {
   background: linear-gradient(135deg,#f6f8ff,#ffffff);
@@ -326,14 +300,6 @@
   margin-top: 10px;
   color: #444;
   line-height: 1.4;
-}
-
-.home-middle {
-  display: grid;
-  grid-template-rows: auto auto;
-  gap: 20px;
-  align-items: stretch;
-  height: min-content;
 }
 
 /* Timeline Card */
@@ -400,11 +366,4 @@
 .github-graph img {
   width: 100%;
   height: auto;
-}
-
-@media (max-width: 900px) {
-  .home-middle {
-    grid-template-columns: 1fr;
-    height: min-content;
-  }
 }

@@ -3,6 +3,11 @@ description: "A Blog about Quality · Automation · Engineering"
 baseurl: ""
 url: "https://Kimsc9976.github.io"
 
+markdown: kramdown
+
+kramdown:
+  toc_levels: 1..2
+
 # Jekyll이 modules 폴더를 포함하도록 설정
 include:
   - modules
