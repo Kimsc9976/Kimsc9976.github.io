@@ -31,12 +31,12 @@ algorithm:
   swea:
   - d3
 sideprojects:
-  - title: 블로그 제작 기록
-    slug: myblog
-    url: /sideprojects/myblog
-  - title: 안뇨 제작 기록
-    slug: anyo
-    url: /sideprojects/anyo
-  - title: Automated Trading
-    slug: trade
-    url: /sideprojects/trade
+- title: 블로그 제작 기록
+  slug: myblog
+  url: "/sideprojects/myblog"
+- title: 안뇨 제작 기록
+  slug: anyo
+  url: "/sideprojects/anyo"
+- title: Automated Trading
+  slug: trade
+  url: "/sideprojects/trade"
