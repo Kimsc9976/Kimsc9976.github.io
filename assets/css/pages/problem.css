@@ -1,6 +1,6 @@
+/* grid-template-columns 반응형은 layout.css에서 통합 */
 .problem-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
   gap: 10px 18px;
   list-style: none;
   padding: 10px 6px;
@@ -78,8 +78,4 @@
 }
 
 
-@media (max-width: 640px) {
-  .problem-grid {
-    grid-template-columns: 1fr;
-  }
-}
+/* .problem-grid 반응형은 layout.css (768px/1024px)에서 통합 */
