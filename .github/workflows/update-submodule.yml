@@ -19,7 +19,7 @@ jobs:
         with:
           submodules: true
           # GITHUB_TOKEN 대신 생성한 PAT(GH_PAT)를 사용해야 다음 워크플로우가 트리거됩니다.
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GA_PAT }}
       
       - name: Check if update needed
         id: check
