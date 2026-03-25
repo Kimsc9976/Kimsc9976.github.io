@@ -1,0 +1,45 @@
+.graph-container {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin: 16px 0;
+  }
+  /* 탭 메뉴 스타일 */
+  .stats-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .tab-btn {
+    padding: 5px 15px 10px 15px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+  .tab-btn.active {
+    background-color: #e0e0e0;
+    color: rgb(0, 0, 0.08);
+    border-color: #e0e0e0;
+  }
+  /* 차트 컨테이너 제어 */
+  .chart-panel {
+    display: none; /* 기본적으로 숨김 */
+    animation: fadeIn 0.5s;
+  }
+  .chart-panel.active {
+    display: block; /* 활성화된 탭만 표시 */
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }

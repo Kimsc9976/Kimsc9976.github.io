@@ -1,0 +1,26 @@
+---
+layout: default
+---
+
+<div class="problem-header">
+  <h1 class="problem-title">{{ page.title }}</h1>
+
+  <nav class="problem-nav">
+    {% if page.platform_url %}
+      <a href="/algorithm/{{ page.platform_url }}/">{{ page.platform }}</a>
+      <span class="nav-sep">›</span>
+      <a href="/algorithm/{{ page.platform_url }}/{{ page.tier_url }}/">{{ page.tier }}</a>
+    {% else %}
+      <a href="/algorithm/{{ page.platform }}/">{{ page.platform }}</a>
+      <span class="nav-sep">›</span>
+      <a href="/algorithm/{{ page.platform }}/{{ page.tier }}/">{{ page.tier }}</a>
+    {% endif %}
+  </nav>
+  <a>업데이트 시간 : {{ page.date }}</a>
+</div>
+
+<hr>
+
+<div class="problem-content">
+  {{ content }}
+</div>

@@ -1,0 +1,186 @@
+---
+layout: default
+---
+
+<section class="home-hero">
+  <h1 class="hero-title">
+    Automating Quality. Improving Reliability.
+  </h1>
+  <p class="home-sub">
+    QA 엔지니어의 시선으로 자동화와 알고리즘을 구조화합니다
+  </p>
+</section>
+
+<section class="home-main">
+
+    <div class="home-left">
+      <section class="home-middle">
+
+        <!-- LEFT : Timeline (clickable) -->
+        <a href="./about" class="timeline-card">
+
+          <h2>🧭 Engineering Timeline</h2>
+
+          <div class="timeline-block">
+            <h3>💼 QA Engineering Experience</h3>
+
+            <div class="timeline-item">
+              <span class="year">2025</span>
+
+              <div class="timeline-content">
+                <strong class="company">뉴빌리티</strong>
+                <p class="desc">검증 자동화 인프라 설계</p>
+                <p class="desc">Agile에 따른 기능 테스트 수행</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <span class="year">2025</span>
+
+              <div class="timeline-content">
+                <strong class="company">미리디</strong>
+                <p class="desc">비즈하우스 UI/UX 부문 UT 수행</p>
+                <p class="desc">비즈하우스 플랫폼 QA 자동화 구축</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <span class="year">2024</span>
+
+              <div class="timeline-content">
+                <strong class="company">뉴빌리티</strong>
+                <p class="desc">유저 시나리오 기반 테스트 전략 도입</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-block">
+            <h3>🚀 Side Projects</h3>
+
+            <div class="timeline-item">
+              <span class="year">2025</span>
+
+              <div class="timeline-content">
+                <strong class="company">자동화</strong>
+                <p class="desc">백준Hub - GitHub.io 연동</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <span class="year">2023</span>
+
+              <div class="timeline-content">
+                <strong class="company">블로그 개설</strong>
+                <p class="desc">GitHub.io 개시</p>
+              </div>
+            </div>
+          </div>
+
+          <span class="timeline-cta">Explore more →</span>
+        </a>
+
+        <!-- RIGHT : GitHub Graph -->
+         <div class="github-graph graph-link">
+            <a href="https://github.com/{{ page.user }}" class="timeline-card">
+              <img
+                src="https://github-readme-activity-graph.vercel.app/graph?username={{ page.user }}&theme=github-compact&hide_border=true"
+                alt="GitHub activity graph" 
+              />
+            </a>
+          </div>
+
+      </section>
+
+      <!-- SNAPSHOT (혼자 한 줄 먹음) -->
+      <div class="home-card home-highlight">
+
+        <h2 class="card-title">⚙️ Automation Snapshot</h2>
+      
+        <div class="stats-grid">
+          <div class="stat-box">
+            <span class="stat-number">{{ site.algorithm | size }}</span>
+            <span class="stat-label">Problems Solved</span>
+          </div>
+      
+          <div class="stat-box">
+            <span class="stat-number">{{ site.posts | size }}</span>
+            <span class="stat-label">Blog Posts</span>
+          </div>
+      
+          <div class="stat-box">
+            <span class="stat-number">Auto</span>
+            <span class="stat-label">System Updated</span>
+          </div>
+        </div>
+      
+        <p class="snapshot-desc">
+          알고리즘 풀이 · 자동화 파이프라인 · 테스트 품질을  
+          지속적으로 개선하고 있습니다.
+        </p>
+      
+    </div>
+  
+      <!-- 아래 2열 카드 -->
+      <div class="home-grid">
+  
+        <!-- Algorithms -->
+        <div class="home-card">
+            <h2 class="card-title">📚 Recent Algorithms</h2>
+        
+            {% assign problems = site.algorithm | where:"layout","problem" | sort:"date" | reverse %}
+            <div class="preview-grid">
+              {% for post in problems limit:3 %}
+              <a href="{{ post.url }}" class="preview-card algo-card">
+                <h4>{{ post.title | strip_html | truncate: 40 }}</h4>
+                <p>{{ post.platform }} · {{ post.tier }}</p>
+                <span class="post-date">{{ post.date | date: "%Y.%m.%d" }}</span>
+              </a>
+              {% endfor %}
+            </div>
+        
+            <a class="more-link" href="/algorithm/">View all →</a>
+          </div>
+        
+          <!-- Blog -->
+          <div class="home-card">
+            <h2 class="card-title">📝 Latest Blog Posts</h2>
+        
+            <div class="preview-grid">
+              {% for post in site.posts limit:3 %}
+              <a href="{{ post.url }}" class="preview-card blog-card">
+                <h4>{{ post.title }}</h4>
+                <p>{{ post.excerpt | strip_html | truncate: 80 }}</p>
+                <span class="post-date">{{ post.date | date: "%Y.%m.%d" }}</span>
+              </a>
+              {% endfor %}
+            </div>
+        
+            <a class="more-link" href="/blog/">Read more →</a>
+          </div>
+  
+      </div>
+  
+    </div>
+  
+    <aside class="home-profile">
+      <div class="sckim-profile">
+        <img src="./assets/images/profile1.jpg" alt="김수찬 프로필" class="profile-image"/>
+        <h3 class="profile-name">김수찬</h3>
+        <p class="role">QA Engineer <br> Automation Developer</p>
+        
+        <p class="intro">
+          사용자를 위한<br>
+          테스트를 설계하고<br>
+          엔지니어를 위한<br>
+          시스템을 제작하여<br>
+          제품의 품질을 높인다
+        </p>
+        
+        <a href="/about/" class="profile-btn">About Me →</a>
+      </div>
+
+      {% include visitor-charts.html %}
+
+    </aside>
+  
+  </section>

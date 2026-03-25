@@ -1,0 +1,42 @@
+---
+main:
+- title: Home
+  url: "/"
+- title: About
+  url: "/about/"
+- title: Blog
+  url: "/blog/"
+blog:
+- title: For QA
+  url: "/blog/qa/"
+- title: For Dev
+  url: "/blog/dev/"
+- title: Note
+  url: "/blog/note/"
+algorithm:
+  백준:
+  - bronze
+  - diamond
+  - gold
+  - platinum
+  - silver
+  프로그래머스:
+  - '1'
+  - '2'
+  - '3'
+  - lv1
+  - lv2
+  - lv3
+  - unrated
+  swea:
+  - d3
+sideprojects:
+- title: 블로그 제작 기록
+  slug: myblog
+  url: "/sideprojects/myblog"
+- title: 안뇨 제작 기록
+  slug: anyo
+  url: "/sideprojects/anyo"
+- title: Automated Trading
+  slug: trade
+  url: "/sideprojects/trade"

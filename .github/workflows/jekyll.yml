@@ -4,10 +4,7 @@ on:
   push:
     branches: ["main"]
   workflow_dispatch:
-  repository_dispatch:
-    types: [submodule-updated]
   schedule:
-    # 매일 UTC 00:00 (한국시간 09:00)에 서브모듈 체크
     - cron: '0 0 * * *'
 
 permissions:
@@ -20,32 +17,74 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  get-ga-data:
+    # 커밋 메시지에 [skip ga]가 포함되어 있으면 이 작업을 건너뜁니다.
+    if: "!contains(github.event.head_commit.message, '[skip ga]')"
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Install dependencies
+        run: pip install google-analytics-data
+      - name: Fetch GA4 Statistics
+        env:
+          ANALYTICS_JSON: ${{ secrets.ANALYTICS_JSON }}
+          ANALYTICS_PROPERTY: ${{ secrets.ANALYTICS_PROPERTY }}
+        run: |
+          mkdir -p _data
+          echo "$ANALYTICS_JSON" > credentials.json
+          python scripts/update_stats.py
+          rm credentials.json
+      - name: Upload stats artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: stats-data
+          path: _data/stats.json
+
+  build-platform:
+    runs-on: ubuntu-latest
+    needs: get-ga-data
+    # get-ga-data가 성공했거나(성공) 건너뛰었을 때(skipped) 실행됩니다.
+    if: always() && (needs.get-ga-data.result == 'success' || needs.get-ga-data.result == 'skipped')
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          submodules: true # 서브모듈도 함께 체크아웃
+          submodules: true
+          fetch-depth: 0
       
+      # GA 데이터 작업이 실행되었을 때만 아티팩트를 다운로드합니다.
+      - name: Download stats artifact
+        if: needs.get-ga-data.result == 'success'
+        uses: actions/download-artifact@v4
+        with:
+          name: stats-data
+          path: _data/
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.1'
           bundler-cache: true
 
-      - name: Generate sidebar structure
-        run: ruby scripts/generate_sidebar.rb
-
-      - name: Generate Problems structure
-        run: ruby scripts/generate_problem.rb
-
-      - name: Generate Tiers Category
-        run: ruby scripts/generate_tier.rb
+      - name: Generate Content
+        run: |
+          ruby scripts/generate_algorithm.rb
+          ruby scripts/generate_algo_level.rb
+          ruby scripts/generate_tier.rb
+          ruby scripts/generate_problem.rb
+          ruby scripts/generate_sidebar.rb
 
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          enablement: true
 
       - name: Build with Jekyll
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
@@ -60,10 +99,8 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
+    needs: build-platform
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        with:
-          target_branch: gh-pages
