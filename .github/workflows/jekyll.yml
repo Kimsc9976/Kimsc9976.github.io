@@ -22,8 +22,40 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  get-ga-data:
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install google-analytics-data
+
+      - name: Fetch GA4 Statistics
+        env:
+          ANALYTICS_JSON: ${{ secrets.ANALYTICS_JSON }}
+          ANALYTICS_PROPERTY: ${{ secrets.ANALYTICS_PROPERTY }}
+        run: |
+          mkdir -p _data  # 폴더가 없을 경우를 대비
+          echo "$ANALYTICS_JSON" > credentials.json
+          python scripts/update_stats.py
+          rm credentials.json
+
+      # 생성된 데이터를 다음 Job으로 넘기기 위해 임시 저장
+      - name: Upload stats artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: stats-data
+          path: _data/stats.json
+
+  build-platform:
+    runs-on: ubuntu-latest
+    needs: get-ga-data
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -67,12 +99,14 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
 
+  
+
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
+    needs: build-platform
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
