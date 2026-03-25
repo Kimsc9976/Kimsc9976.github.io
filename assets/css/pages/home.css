@@ -1,0 +1,381 @@
+/* ===== HOME HERO ===== */
+
+.home-hero {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.hero-title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.home-sub {
+  margin-top: 12px;
+  color: #666;
+  font-size: 1.05rem;
+}
+
+/* ===== MAIN GRID ===== */
+
+.home-main {
+  display: grid;
+  gap: 32px;
+  grid-template-columns: 1fr 280px;
+  align-items: start;
+}
+  
+/* left column */
+
+.home-left {
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 24px;
+}
+  
+.home-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+/* cards */
+
+.home-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 22px 24px;
+  box-shadow: 0 4px 14px rgba(0,0,0,.06);
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.graph-link {
+  display: inline-block;
+}
+
+.graph-link img {
+  display: block;
+  width: auto;        /* intrinsic width 사용 */
+  max-width: 100%;    /* 부모 기준으로만 제한 */
+  height: auto;
+}
+
+
+/* lists */
+
+.home-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.home-list a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: transform .15s, color .15s;
+}
+
+.home-list a:hover {
+  transform: translateX(6px);
+  color: #000;
+}
+
+/* more link */
+
+.more-link {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: .9rem;
+  font-weight: 600;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.more-link:hover {
+  text-decoration: underline;
+}
+
+
+.timeline-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.timeline-item .year {
+  padding-top: 1.5%;
+  font-weight: 700;
+  color: #666;
+  min-width: 48px;
+}
+
+.timeline-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.timeline-content .company {
+  font-weight: 600;
+  color: #222;
+}
+
+.timeline-content .desc {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+
+
+/* ===== PROFILE ===== */
+
+.home-profile {
+  width: 90%;
+  position: sticky;
+  top: 90px;
+  padding: 12px;
+  text-align: center;
+}
+
+.sckim-profile {
+  width: 90%;
+  top: 90px;
+  background: #e0e0e0;
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.08);
+  text-align: center;
+}
+
+.profile-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.profile-image {
+  width: 60%;
+  max-width: 140px;
+  aspect-ratio: 1 / 1;
+
+  border-radius: 50%;
+  object-fit: cover;
+
+  margin-top: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.role {
+  color: #000000;
+  font-size: .95rem;
+  margin: 6px 0 16px;
+}
+
+.intro {
+  font-size: .95rem;
+  line-height: 1.6;
+  margin-bottom: 18px;
+}
+
+.profile-btn {
+  display: inline-block;
+  background: #444;
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background .2s;
+}
+
+.profile-btn:hover {
+  background: #0c2541;
+}
+
+/* ===== HOME DOUBLE GRID ===== */
+  
+  /* 카드 3개 미리보기 */
+  .preview-grid {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 10px;
+  }
+  
+.preview-card.algo-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 세로 중앙 정렬 */
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease;
+}
+
+.preview-card.blog-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 세로 중앙 정렬 */
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease;
+}
+  
+  .preview-card h4 {
+    font-size: .95rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  
+  .preview-card p {
+    font-size: .82rem;
+    color: #666;
+    line-height: 1.4;
+    margin: 0;
+    white-space: nowrap;       /* 한 줄로 유지 */
+    overflow: hidden;          /* 넘치는 텍스트 숨김 */
+    text-overflow: ellipsis;   /* 말줄임(...) 표시 */
+  }
+  
+  /* hover 공통 UX */
+  .preview-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 6px 16px rgba(0,0,0,.12);
+  }
+  
+.preview-card .post-date {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  margin-top: 0.5rem;
+  text-align: right;
+}
+
+  /* 알고리즘 카드 살짝 강조 */
+  .algo-card p {
+    font-weight: 600;
+    color: #444;
+  }
+
+/* 반응형 레이아웃( home-main, home-grid, preview-grid, home-profile )은 layout.css에서 통합 */
+
+  .home-highlight {
+  background: linear-gradient(135deg,#f6f8ff,#ffffff);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns:  repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin: 16px 0;
+  align-items: start;
+}
+
+.stat-box {
+  display: flex;
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.stat-number {
+  font-size: 1.8rem;
+  font-weight: 800;
+  display: block;
+}
+
+.stat-label {
+  font-size: .8rem;
+  color: #666;
+}
+
+.snapshot-desc {
+  margin-top: 10px;
+  color: #444;
+  line-height: 1.4;
+}
+
+/* Timeline Card */
+.timeline-card {
+  background: #fff;
+  padding: 28px;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  text-decoration: none;
+  color: #222;
+  transition: transform .2s ease, box-shadow .2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.timeline-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0,0,0,.12);
+}
+
+.timeline-card h2 {
+  margin-bottom: 18px;
+  font-size: 1.5rem;
+}
+
+.timeline-block h3 {
+  font-size: 1.05rem;
+  margin: 10px 0 6px;
+  font-weight: 600;
+  color: #444;
+}
+
+.timeline-block ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 12px;
+}
+
+.timeline-block li {
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.timeline-cta {
+  margin-top: auto;
+  font-weight: 600;
+  color: #007bff;
+}
+
+/* GitHub graph */
+.github-graph {
+  background: #fff;
+  padding: 18px;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: min-content;
+}
+
+.github-graph img {
+  width: 100%;
+  height: auto;
+}

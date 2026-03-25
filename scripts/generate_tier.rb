@@ -1,95 +1,96 @@
-require 'fileutils'
-require 'time'
+require "fileutils"
+require "unicode_normalize/tables"
+require "uri"
 
-# Ensure the _posts directory exists
-def ensure_posts_directory_exists
-  puts "Checking if _posts directory exists..."
-  Dir.mkdir('_posts') unless Dir.exist?('_posts')
-  puts "_posts directory checked/created."
+BASE = "modules/Algorithm"
+OUT_BASE = "_algorithm"
+
+puts "BASE exists? #{Dir.exist?(BASE)}"
+
+# 파일 시스템 경로용: 한글을 유지하되 특수문자만 제거
+def safe_path(str)
+  str
+    .unicode_normalize(:nfkc)       # 유니코드 정규화
+    .gsub(/\p{Space}+/, "-")        # 이상한 공백들 → -
+    .gsub(/[^\w\-가-힣]/, "")       # 위험 문자 제거
+    .gsub(/-+/, "-")
+    .downcase
 end
 
-# Generate posts for each problem based on problem folders
-def generate_problem_posts
-  modules_dir = 'modules'
+# URL 경로용: 한글을 URL 인코딩
+def safe_url_path(str)
+  URI.encode_www_form_component(safe_path(str))
+end
 
-  puts "Checking if modules directory exists..."
-  if Dir.exist?(modules_dir)
-    puts "Modules directory found. Iterating through directories..."
-
-    # Iterate through each category (e.g., Algorithm, 프로그래머스, 백준)
-    Dir.entries(modules_dir).each do |category|
-      next if category == '.' || category == '..'
-      
-      category_path = File.join(modules_dir, category)
-      if Dir.exist?(category_path)
-        # Iterate through each tier (e.g., Bronze, Gold, Silver)
-        Dir.entries(category_path).each do |tier|
-          next if tier == '.' || tier == '..'
-
-          tier_path = File.join(category_path, tier)
-          if Dir.exist?(tier_path)
-            # Iterate through each problem folder within the tier
-            Dir.entries(tier_path).each do |problem_folder|
-              next if problem_folder == '.' || problem_folder == '..'
-
-              problem_path = File.join(tier_path, problem_folder)
-              # Skip if it's not a directory or if it's an empty submodule (only .git file)
-              next unless Dir.exist?(problem_path)
-              
-              # Check if directory is empty (submodule not checked out)
-              entries = Dir.entries(problem_path).reject { |e| e == '.' || e == '..' || e == '.git' }
-              if entries.empty?
-                puts "Skipping empty directory: #{problem_path}"
-                next
-              end
-
-              # Create a new .md file in the _posts folder
-              # Filename should follow the format: YYYY-MM-DD-title.md
-              post_title = problem_folder.gsub(/\s+/, '-').downcase
-              post_date = Time.now.strftime('%Y-%m-%d')
-              post_filename = "#{post_date}-#{post_title}.md"
-              post_file_path = File.join('_posts', post_filename)
-
-              # Skip if post already exists
-              if File.exist?(post_file_path)
-                puts "Post already exists: #{post_file_path}, skipping..."
-                next
-              end
-
-              begin
-                # Read README.md if exists
-                readme_path = File.join(problem_path, 'README.md')
-                readme_content = ""
-                if File.exist?(readme_path)
-                  readme_content = File.read(readme_path)
-                end
-
-                File.open(post_file_path, 'w') do |file|
-                  file.write("---\n")
-                  file.write("layout: post\n")
-                  file.write("title: \"#{problem_folder}\"\n")
-                  file.write("date: #{post_date} 10:00:00 +0900\n")
-                  file.write("categories: #{category.downcase} #{tier.downcase}\n")
-                  file.write("permalink: /#{category.downcase}/#{tier.downcase}/#{post_title}/\n")
-                  file.write("---\n\n")
-                  file.write(readme_content) unless readme_content.empty?
-                end
-                puts "Created post for #{problem_folder} in #{tier} - #{category} at #{post_file_path}"
-              rescue => e
-                puts "Error creating post for #{problem_folder}: #{e.message}"
-              end
-            end
-          end
-        end
-      end
-    end
+# YAML-safe 문자열: 특수 문자를 이스케이프
+def yaml_safe(str)
+  return '""' if str.nil? || str.empty?
+  str_str = str.to_s
+  # YAML에서 따옴표가 필요할 수 있는 문자들 체크
+  # % 문자는 URL 인코딩에 사용되므로 항상 따옴표 필요
+  if str_str =~ /[:%\[\]{}|&*!@#`>\\]|^\s|\s$|^\d+\.\s/
+    # 따옴표로 감싸고 내부 따옴표와 백슬래시는 이스케이프
+    "\"#{str_str.gsub('\\', '\\\\').gsub('"', '\\"')}\""
   else
-    puts "Modules directory not found!"
+    str_str
   end
 end
 
-# Ensure the _posts directory exists
-ensure_posts_directory_exists
+Dir.glob("#{BASE}/*/*").each do |tier_path|
+  next unless File.directory?(tier_path)
 
-# Generate posts from problem folders
-generate_problem_posts
+  # BASE 이후 상대경로 추출 → 백준/Bronze
+  relative_raw = tier_path.sub("#{BASE}/", "")
+  relative_parts = relative_raw.split(File::SEPARATOR)
+  relative = relative_parts.map { |p| safe_path(p) }.join(File::SEPARATOR)
+
+  puts "Tier found: #{relative_raw} -> #{relative}"
+
+  out_dir = File.join(OUT_BASE, relative)
+  FileUtils.mkdir_p(out_dir)
+
+  problem_dirs = Dir.glob("#{tier_path}/*").select { |p| File.directory?(p) }
+  next if problem_dirs.empty?
+
+  groups = problem_dirs.each_slice(20).to_a
+
+  sections = groups.map.with_index do |slice, idx|
+    links = slice.map do |p|
+      name = File.basename(p)
+      safe_url = safe_url_path(name)
+      "<li><a href=\"./#{safe_url}/\">#{name}</a></li>"
+    end.join("\n")
+
+    <<~HTML
+    <h2>#{idx * 20 + 1} ~ #{idx * 20 + slice.size}</h2>
+    <ul class="problem-grid collapsed">
+    #{links}
+    </ul>
+    HTML
+  end.join("\n")
+
+  # permalink는 URL 인코딩된 경로 사용
+  relative_url = relative_parts.map { |p| safe_url_path(p) }.join("/")
+  
+  platform_raw = relative_parts.first
+  platform_url = safe_url_path(platform_raw)
+  tier_raw = relative_parts[1] || File.basename(relative_raw)
+  tier_url = safe_url_path(tier_raw)
+  
+  md = <<~MD
+  ---
+  layout: tier
+  title: #{yaml_safe(File.basename(relative_raw))}
+  platform: #{yaml_safe(platform_raw)}
+  platform_url: #{yaml_safe(platform_url)}
+  tier: #{yaml_safe(tier_raw)}
+  tier_url: #{yaml_safe(tier_url)}
+  permalink: #{yaml_safe("/algorithm/#{relative_url}/")}
+  ---
+
+  #{sections}
+  MD
+
+  File.write("#{out_dir}/index.md", md)
+  puts "  → index.md created in #{out_dir}"
+end

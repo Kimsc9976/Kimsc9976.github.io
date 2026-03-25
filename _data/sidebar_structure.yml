@@ -1,0 +1,24 @@
+---
+Algorithm:
+  README.md: []
+  SWEA:
+  - D3
+  백준:
+  - Bronze
+  - Diamond
+  - Gold
+  - Platinum
+  - Silver
+  프로그래머스:
+  - '1'
+  - '2'
+  - '3'
+  - lv1
+  - lv2
+  - lv3
+  - unrated
+Example:
+  test1:
+  - ex1
+  test2:
+  - ex2

@@ -1,0 +1,69 @@
+---
+layout: default
+---
+<!-- 
+<h1>{{ page.title }}</h1>
+<hr>
+
+<div>
+  {{ content }}
+</div> -->
+
+<h1>{{ page.title }}</h1>
+<hr>
+
+<div class="algorithm-grid">
+  {% assign sites = site.algorithm | where:"layout","problem" | map:"platform" | uniq %}
+  {% for site_name in sites %}
+    {% if site_name != "" %}
+    <div class="algo-card platform-card">
+      <h2>{{ site_name }}</h2>
+
+      <div class="tier-grid">
+        {% assign tiers = site.algorithm | where:"platform", site_name | where_exp:"item", "item.tier and item.tier != ''" | map:"tier" | uniq %}
+        {% for tier_name in tiers %}
+          {% assign tier_class = "" %}
+          {% if tier_name == "Bronze" or tier_name == 1 or tier_name == "lv1" %}
+            {% assign tier_class = "tier-bronze" %}
+          {% elsif tier_name == "Silver" or tier_name == 2 or tier_name == "lv2" %}
+            {% assign tier_class = "tier-silver" %}
+          {% elsif tier_name == "Gold" or tier_name == 3 or tier_name == "lv3" %}
+            {% assign tier_class = "tier-gold" %}
+          {% elsif tier_name == "Platinum" %}
+            {% assign tier_class = "tier-platinum" %}
+          {% elsif tier_name == "Diamond" %}
+            {% assign tier_class = "tier-diamond" %}
+          {% elsif tier_name == "unrated" %}
+            {% assign tier_class = "tier-unrated" %}
+          {% else %}
+            {% assign tier_class = "tier-unknown" %}
+          {% endif %}
+          {% assign tier_page = site.algorithm | where:"platform", site_name | where:"tier", tier_name | first %}
+          {% if tier_page.platform_url and tier_page.tier_url %}
+            <a href="/algorithm/{{ tier_page.platform_url }}/{{ tier_page.tier_url }}/" class="tier-card {{ tier_class }}">
+              {{ tier_name }}
+            </a>
+          {% else %}
+            <a href="/algorithm/{{ site_name }}/{{ tier_name }}/" class="tier-card {{ tier_class }}">
+              {{ tier_name }}
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      {% assign recent_problems = site.algorithm | where:"platform", site_name | where:"layout","problem" | sort: "date" | reverse %}
+      {% if recent_problems.size > 0 %}
+        <h3>Recent Problems</h3>
+        <div class="recent-problems-grid">
+          {% for problem in recent_problems limit:3 %}
+          <a href="{{ problem.url }}" class="problem-card">
+            <h4>{{ problem.title | strip_html | truncate: 40 }}</h4>
+            <p>{{ problem.tier }}</p>
+          </a>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+    {% endif %}
+  {% endfor %}
+</div>

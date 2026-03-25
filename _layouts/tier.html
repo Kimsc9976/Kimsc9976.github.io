@@ -1,0 +1,26 @@
+---
+layout: default
+---
+
+<div class="tier-header">
+  <div class="tier-badge">{{ page.platform }}</div>
+  <div class="tier-main">
+    <span class="tier-title">{{ page.title }}</span>
+    <span class="tier-sub">Problem Archive</span>
+  </div>
+</div>
+
+
+<div class="tier-content">
+  {{ content }}
+</div>
+
+<script>
+document.querySelectorAll('.tier-content h2').forEach(header => {
+  header.addEventListener('click', () => {
+    header.classList.toggle('open')
+    const list = header.nextElementSibling
+    list.classList.toggle('collapsed')
+  })
+})
+</script>

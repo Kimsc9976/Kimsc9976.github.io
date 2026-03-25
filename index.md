@@ -1,6 +1,7 @@
 ---
-layout: default
-title: Welcome to Kimsc9976 Page
+layout: home
+title: Engineering Notes on QA & Automation
+user: Kimsc9976
 ---
 
 # Welcome to My GitHub Pages

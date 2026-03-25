@@ -1,95 +1,126 @@
-require 'fileutils'
+require "fileutils"
+require "unicode_normalize/tables"
+require "uri"
 
-# Ensure the _posts directory exists
-def ensure_posts_directory_exists
-  puts "Checking if _posts directory exists..."
-  Dir.mkdir('_posts') unless Dir.exist?('_posts')
-  puts "_posts directory checked/created."
+SRC = "modules/Algorithm"
+OUT_BASE = "_algorithm"
+
+LANG_MAP = {
+  ".py"   => "python",
+  ".cc"   => "cpp",
+  ".java" => "java",
+  ".sql"  => "sql",
+  ".js"   => "javascript"
+}
+
+
+def git_last_modified(file_path)
+  dir = File.dirname(file_path)
+
+  ts = `cd "#{dir}" && git log -1 --format="%ct" -- "#{File.basename(file_path)}"`.strip
+
+  return Time.at(ts.to_i) if ts != ""
+  File.mtime(file_path)
 end
 
-# Generate pages for each problem based on problem folders
-def generate_problem_pages
-  modules_dir = 'modules'
+# 파일 시스템 경로용: 한글을 유지하되 특수문자만 제거
+def safe_path(str)
+  str
+    .unicode_normalize(:nfkc)       # 유니코드 정규화
+    .gsub(/\p{Space}+/, "-")        # 이상한 공백들 → -
+    .gsub(/[^\w\-\p{Hangul}]/, "")  # 영문, 숫자, 하이픈, 한글만 유지
+    .gsub(/-+/, "-")
+    .gsub(/^-|-$/, "")              # 앞뒤 하이픈 제거
+    .downcase
+end
 
-  puts "Checking if modules directory exists..."
-  if Dir.exist?(modules_dir)
-    puts "Modules directory found. Iterating through directories..."
+# URL 경로용: 한글을 URL 인코딩
+def safe_url_path(str)
+  URI.encode_www_form_component(safe_path(str))
+end
 
-    # Iterate through each category (e.g., SWEA, 백준)
-    Dir.entries(modules_dir).each do |category|
-      next if category == '.' || category == '..'
-
-      category_path = File.join(modules_dir, category)
-      if Dir.exist?(category_path)
-        # Iterate through each tier (e.g., Bronze, Gold, Silver)
-        Dir.entries(category_path).each do |tier|
-          next if tier == '.' || tier == '..'
-
-          tier_path = File.join(category_path, tier)
-          if Dir.exist?(tier_path)
-            # Iterate through each problem folder within the tier
-            Dir.entries(tier_path).each do |problem_folder|
-              next if problem_folder == '.' || problem_folder == '..'
-
-              problem_path = File.join(tier_path, problem_folder)
-              if Dir.exist?(problem_path)
-                # Skip if directory is empty or only contains .git files (submodule not checked out)
-                entries = Dir.entries(problem_path).reject { |e| e == '.' || e == '..' || e == '.git' }
-                if entries.empty?
-                  puts "Skipping empty directory: #{problem_path}"
-                  next
-                end
-
-                # Find the README.md file within the problem folder
-                readme_path = File.join(problem_path, 'README.md')
-                code_files = Dir.entries(problem_path).select do |file|
-                  file != '.' && file != '..' && file != '.git' && 
-                  %w(.py .java .cpp .js .ts .c .cs).include?(File.extname(file))
-                end
-                
-                # Create an index.md file for the problem
-                index_file_path = File.join(problem_path, 'index.md')
-                begin
-                  File.open(index_file_path, 'w') do |file|
-                    file.write("---\n")
-                    file.write("layout: default\n")
-                    file.write("title: \"#{problem_folder}\"\n")
-                    file.write("permalink: /#{category.downcase}/#{tier.downcase}/#{problem_folder.downcase}/\n")
-                    file.write("---\n")
-
-                    # Write the content of README.md to the index.md
-                    if File.exist?(readme_path)
-                      file.write(File.read(readme_path))
-                    end
-
-                    # Include code files as code blocks
-                    code_files.each do |code_file|
-                      code_file_path = File.join(problem_path, code_file)
-                      if File.exist?(code_file_path)
-                        file.write("\n## #{File.basename(code_file)}\n")
-                        file.write("```#{File.extname(code_file).delete('.')}\n")
-                        file.write(File.read(code_file_path))
-                        file.write("\n```\n")
-                      end
-                    end
-                  end
-                  puts "Created page for #{problem_folder} in #{tier} - #{category} at #{index_file_path}"
-                rescue => e
-                  puts "Error creating page for #{problem_folder}: #{e.message}"
-                end
-              end
-            end
-          end
-        end
-      end
-    end
+# YAML-safe 문자열: 특수 문자를 이스케이프
+def yaml_safe(str)
+  return '""' if str.nil? || str.empty?
+  str_str = str.to_s
+  # YAML에서 따옴표가 필요할 수 있는 문자들 체크
+  # % 문자는 URL 인코딩에 사용되므로 항상 따옴표 필요
+  if str_str =~ /[:%\[\]{}|&*!@#`>\\]|^\s|\s$|^\d+\.\s/
+    # 따옴표로 감싸고 내부 따옴표와 백슬래시는 이스케이프
+    "\"#{str_str.gsub('\\', '\\\\').gsub('"', '\\"')}\""
   else
-    puts "Modules directory not found!"
+    str_str
   end
 end
 
-# Ensure the _posts directory exists
-ensure_posts_directory_exists
+Dir.glob("#{SRC}/*").each do |platform_dir|
+  next unless File.directory?(platform_dir)
+  platform_raw = File.basename(platform_dir)
+  platform = safe_path(platform_raw)
+  puts "#{platform_raw} -> #{platform}"
 
-# Generate pages from problem folders
-generate_problem_pages
+  Dir.glob("#{platform_dir}/*").each do |tier_dir|
+    next unless File.directory?(tier_dir)
+    tier_raw = File.basename(tier_dir)
+    tier = safe_path(tier_raw)
+
+    Dir.glob("#{tier_dir}/*").each do |problem|
+      next unless File.directory?(problem)
+      name_raw = File.basename(problem)
+      name = safe_path(name_raw)
+
+      out = File.join(OUT_BASE, platform, tier, name)
+      FileUtils.mkdir_p(out)
+
+      target = "#{out}/index.md"
+
+      readme_path = "#{problem}/README.md"
+      readme_content = File.exist?(readme_path) ? File.read(readme_path) : "_No description provided._"
+      # puts "#{readme_path}"
+      date = git_last_modified(readme_path) # Readme.md 기준
+      code_blocks = []
+
+      LANG_MAP.each do |ext, lang|
+        Dir.glob("#{problem}/*#{ext}").each do |file|
+          content = File.read(file)
+
+          code_blocks << <<~CODE
+          ### 📄 #{File.basename(file)}
+
+          ```#{lang}
+          #{content}
+          ```
+          CODE
+        end
+      end
+
+      # permalink는 URL 인코딩된 경로 사용
+      platform_url = safe_url_path(platform_raw)
+      tier_url = safe_url_path(tier_raw)
+      name_url = safe_url_path(name_raw)
+      
+      md = <<~MD
+      ---
+      layout: problem
+      title: #{yaml_safe(name_raw)}
+      platform: #{yaml_safe(platform_raw)}
+      platform_url: #{yaml_safe(platform_url)}
+      tier: #{yaml_safe(tier_raw)}
+      tier_url: #{yaml_safe(tier_url)}
+      permalink: #{yaml_safe("/algorithm/#{platform_url}/#{tier_url}/#{name_url}/")}
+      date: #{date}
+      ---
+
+      #{readme_content}
+
+      ## 💡 Solutions
+
+      #{code_blocks.join("\n")}
+      MD
+
+      File.write(target, md)
+    end
+  end
+end
+
+puts "✅ All markdown pages generated safely (no Liquid includes)"

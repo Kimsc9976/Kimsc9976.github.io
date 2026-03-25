@@ -1,0 +1,12 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+/* 모든 헤더 태그에 적용 */
+h1, h2, h3, h4, h5, h6 {
+    /* 고정된 TOC의 높이나 'top' 값보다 조금 더 크게 설정하세요 */
+    scroll-margin-top: 222px; 
+}
