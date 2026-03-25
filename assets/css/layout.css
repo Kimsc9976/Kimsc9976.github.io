@@ -214,17 +214,10 @@ footer {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
 }
 
-.home-profile {
+.right-aside {
   width: 100%;
-  position: static;
+  position: sticky;
   top: auto;
-}
-
-.stats-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-  margin: 16px 0;
 }
 
 /* .home-middle {
