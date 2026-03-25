@@ -2,7 +2,6 @@ name: Check and Update Submodule
 
 on:
   schedule:
-    # 매일 UTC 00:00 (한국시간 09:00)에 서브모듈 체크
     - cron: '0 0 * * *'
   workflow_dispatch:
   repository_dispatch:
@@ -19,36 +18,21 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: true
-          token: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Get current submodule commit
-        id: current
-        run: |
-          cd modules/Algorithm
-          CURRENT_COMMIT=$(git rev-parse HEAD)
-          echo "current=$CURRENT_COMMIT" >> $GITHUB_OUTPUT
-          echo "Current submodule commit: $CURRENT_COMMIT"
-      
-      - name: Fetch latest from submodule
-        run: |
-          cd modules/Algorithm
-          git fetch origin
-          LATEST_COMMIT=$(git rev-parse origin/main || git rev-parse origin/master)
-          echo "Latest submodule commit: $LATEST_COMMIT"
-          echo "LATEST_COMMIT=$LATEST_COMMIT" >> $GITHUB_ENV
+          # GITHUB_TOKEN 대신 생성한 PAT(GH_PAT)를 사용해야 다음 워크플로우가 트리거됩니다.
+          token: ${{ secrets.GH_PAT }}
       
       - name: Check if update needed
         id: check
         run: |
           cd modules/Algorithm
+          git fetch origin
           LATEST=$(git rev-parse origin/main || git rev-parse origin/master)
           CURRENT=$(git rev-parse HEAD)
           if [ "$LATEST" != "$CURRENT" ]; then
             echo "needs_update=true" >> $GITHUB_OUTPUT
-            echo "Submodule update needed: $CURRENT -> $LATEST"
+            echo "LATEST=$LATEST" >> $GITHUB_ENV
           else
             echo "needs_update=false" >> $GITHUB_OUTPUT
-            echo "Submodule is up to date"
           fi
       
       - name: Update submodule
@@ -62,6 +46,6 @@ jobs:
         if: steps.check.outputs.needs_update == 'true'
         run: |
           git add modules/Algorithm
-          git commit -m "chore: update Algorithm submodule to latest version" || exit 0
+          # 커밋 메시지에 [skip ga] 태그를 추가하여 jekyll.yml에서 감지하게 합니다.
+          git commit -m "chore: update Algorithm submodule to latest version [skip ga]" || exit 0
           git push origin main
-
