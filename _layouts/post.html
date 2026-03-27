@@ -10,7 +10,7 @@ layout: default
 
     <div class="post-meta">
       {% if page.category %}
-        <a href="/blog/{{ page.category }}/" class="category-link">
+        <a href="/log/{{ page.category }}/" class="category-link">
           {{ page.category | upcase }}
         </a>
       {% endif %}
@@ -47,3 +47,40 @@ layout: default
   {% endif %}
 
 </article>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 2. Mermaid 초기화
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'default',
+      securityLevel: 'loose',
+    });
+
+    // 3. 코드 블록 찾기 (Jekyll의 경우 pre > code.language-mermaid 구조가 일반적)
+    const elements = document.querySelectorAll('pre > code.language-mermaid, .language-mermaid');
+
+    elements.forEach((element, idx) => {
+      // 핵심: innerText를 사용하여 syntax highlighting용 span 태그들을 제거하고 순수 텍스트만 추출
+      const graphDefinition = element.innerText; 
+      
+      // 결과물을 담을 div 생성
+      const container = document.createElement('div');
+      container.className = 'mermaid';
+      container.id = `mermaid-svg-${idx}`;
+      container.textContent = graphDefinition;
+
+      // 기존의 pre/code 전체를 생성한 div로 교체
+      const parent = element.parentElement;
+      if (parent && parent.tagName === 'PRE') {
+        parent.replaceWith(container);
+      } else {
+        element.replaceWith(container);
+      }
+    });
+
+    // 4. 수동으로 렌더링 실행
+    mermaid.run({ querySelector: '.mermaid' });
+  });
+</script>
