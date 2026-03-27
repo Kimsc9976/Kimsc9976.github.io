@@ -103,7 +103,9 @@ layout: default
           </div>
       
           <div class="stat-box">
-            <span class="stat-number">{{ site.posts | size }}</span>
+            {% assign _log_posts = site.posts | size %}
+            {% assign _sideproject_docs = site.pages | where: "layout", "sideproject" | size %}
+            <span class="stat-number">{{ _log_posts | plus: _sideproject_docs }}</span>
             <span class="stat-label">Blog Posts</span>
           </div>
       
@@ -143,7 +145,7 @@ layout: default
         
           <!-- Blog -->
           <div class="home-card">
-            <h2 class="card-title">📝 Latest Blog Posts</h2>
+            <h2 class="card-title">📝 Latest Log Posts</h2>
         
             <div class="preview-grid">
               {% for post in site.posts limit:3 %}
