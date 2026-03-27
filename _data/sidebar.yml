@@ -6,7 +6,7 @@ main:
   url: "/about/"
 - title: Log
   url: "/log/"
-log:
+blog:
 - title: For QA
   url: "/log/qa/"
 - title: For Dev
