@@ -22,18 +22,5 @@ layout: default
 
   <hr />
 
-  <ul class="post-list">
-    {% assign posts = site.pages | where: "project", page.project | sort: "date" %}
-    <p> 가나다 - {{ page.project }}</p>
-    {% for post in posts %}
-      <li class="post-item">
-        <a href="{{ post.url }}">
-          <span class="post-title">{{ post.title }}</span>
-          {% if post.date %}
-            <span class="post-date">{{ post.date | date: "%Y.%m.%d" }}</span>
-          {% endif %}
-        </a>
-      </li>
-    {% endfor %}
-  </ul>
+  {{ content }}
 </section>

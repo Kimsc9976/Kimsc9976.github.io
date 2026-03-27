@@ -4,15 +4,15 @@ main:
   url: "/"
 - title: About
   url: "/about/"
-- title: Blog
-  url: "/blog/"
-blog:
+- title: Log
+  url: "/log/"
+log:
 - title: For QA
-  url: "/blog/qa/"
+  url: "/log/qa/"
 - title: For Dev
-  url: "/blog/dev/"
+  url: "/log/dev/"
 - title: Note
-  url: "/blog/note/"
+  url: "/log/note/"
 algorithm:
   백준:
   - bronze
@@ -32,11 +32,11 @@ algorithm:
   - d3
 sideprojects:
 - title: 블로그 제작 기록
-  slug: myblog
-  url: "/sideprojects/myblog"
+  slug: blog
+  url: "/sideproject/blog"
 - title: 안뇨 제작 기록
   slug: anyo
-  url: "/sideprojects/anyo"
+  url: "/sideproject/anyo"
 - title: Automated Trading
   slug: trade
-  url: "/sideprojects/trade"
+  url: "/sideproject/trade"
