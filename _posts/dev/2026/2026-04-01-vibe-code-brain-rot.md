@@ -159,8 +159,8 @@ Vibe Coding은 분명히 생산성을 크게 향상시키는 방식이다.
 
 ## 8. 참고자료
 
-- https://gtpmore.tistory.com/128
-- https://youtu.be/vfn_Ezu1qfk?si=2SrgUYIhUheBm04a
-- https://tech.cloud.nongshim.co.kr/blog/aws/ai/3854/
+- [개발자에서 'AI'빌더로 : 코딩 너머의 성패를 가르는 한 끝 차이](https://gtpmore.tistory.com/128)
+- [YC CEO Garry Tan 의 뇌를 빌려 딸깍! Claude Code skills](https://youtu.be/vfn_Ezu1qfk?si=2SrgUYIhUheBm04a)
+- [8년차 AI 엔지니어는 왜 바이브코딩을 포기했나?](https://tech.cloud.nongshim.co.kr/blog/aws/ai/3854/)
 
 ---
