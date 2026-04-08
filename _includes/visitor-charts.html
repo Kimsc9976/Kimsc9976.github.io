@@ -29,6 +29,23 @@ function openTab(evt, tabName) {
   }
   document.getElementById(tabName).classList.add("active");
   evt.currentTarget.classList.add("active");
+
+  // 필요 시(특히 숨김 상태에서 생성하면 깨짐) 탭 진입 시점에 차트 생성
+  if (tabName === "dailyPanel") window.__initDailyChart?.();
+  if (tabName === "monthlyPanel") window.__initMonthlyChart?.();
+
+  // display:none → block 전환 후 Chart.js가 크기를 다시 계산하도록 보정
+  // (숨겨진 canvas에서 생성/렌더되면 높이/폭이 찌그러지거나 '와따가따'하는 현상 방지)
+  requestAnimationFrame(() => {
+    if (tabName === "dailyPanel") {
+      window.__dailyChart?.resize();
+      window.__dailyChart?.update();
+    }
+    if (tabName === "monthlyPanel") {
+      window.__monthlyChart?.resize();
+      window.__monthlyChart?.update();
+    }
+  });
 }
 
 (function() {
@@ -50,20 +67,27 @@ function openTab(evt, tabName) {
     return maxVal === 0 ? 5 : maxVal * 1.2;
   };
   
-  // 공통 차트 옵션 (중요!)
-    const commonOptions = {
-      responsive: true,
-      maintainAspectRatio: false, // ★ 부모 컨테이너 크기에 맞추기 위해 필수
-      scales: {
-        x: { offset: true },
-        y: { beginAtZero: true, suggestedMax: getSmartMax(statsData.daily), ticks: { stepSize: 1 } } 
+  const makeOptions = (dataArray) => ({
+    responsive: true,
+    maintainAspectRatio: false, // ★ 부모 컨테이너 크기에 맞추기 위해 필수
+    scales: {
+      x: { offset: true },
+      // 탭마다 데이터가 다른데 suggestedMax를 daily 기준으로 고정하면 월간 축이 이상해짐
+      y: {
+        beginAtZero: true,
+        suggestedMax: getSmartMax(dataArray),
+        ticks: { stepSize: 1 },
       },
-    };
+    },
+  });
 
   // 1. 주간 차트 (Line)
-  const dailyCtx = document.getElementById('dailyChart');
-  if (dailyCtx && statsData.daily) {
-    new Chart(dailyCtx, {
+  window.__initDailyChart = () => {
+    if (window.__dailyChart) return;
+    const dailyCtx = document.getElementById('dailyChart');
+    if (!dailyCtx || !statsData.daily) return;
+
+    window.__dailyChart = new Chart(dailyCtx, {
       type: 'line',
       data: {
         labels: statsData.daily.map(d => d.date),
@@ -76,14 +100,17 @@ function openTab(evt, tabName) {
           tension: 0.3
         }]
       },
-      options: commonOptions
+      options: makeOptions(statsData.daily)
     });
-  }
+  };
 
   // 2. 월간 차트 (Bar)
-  const monthlyCtx = document.getElementById('monthlyChart');
-  if (monthlyCtx && statsData.monthly) {
-    new Chart(monthlyCtx, {
+  window.__initMonthlyChart = () => {
+    if (window.__monthlyChart) return;
+    const monthlyCtx = document.getElementById('monthlyChart');
+    if (!monthlyCtx || !statsData.monthly) return;
+
+    window.__monthlyChart = new Chart(monthlyCtx, {
       type: 'bar',
       data: {
         labels: statsData.monthly.map(d => d.month),
@@ -94,8 +121,11 @@ function openTab(evt, tabName) {
           barPercentage: 0.5
         }]
       },
-      options: commonOptions
+      options: makeOptions(statsData.monthly)
     });
-  }
+  };
+
+  // 초기 로드: 기본 탭(주간)만 먼저 생성해서 숨김 패널 계산 문제를 피함
+  window.__initDailyChart();
 })();
 </script>
