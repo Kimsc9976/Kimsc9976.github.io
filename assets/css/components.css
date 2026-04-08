@@ -37,7 +37,7 @@
   margin: 20px 0;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   .stats-container {
     grid-template-columns: 1fr;
   }
