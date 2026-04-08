@@ -7,6 +7,10 @@ on:
   repository_dispatch:
     types: [submodule-updated]
 
+concurrency:
+  group: update-submodule-main
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
@@ -17,6 +21,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
+          ref: main
+          fetch-depth: 0
           submodules: true
           # GITHUB_TOKEN 대신 생성한 PAT(GH_PAT)를 사용해야 다음 워크플로우가 트리거됩니다.
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -45,7 +51,24 @@ jobs:
       - name: Commit and push if updated
         if: steps.check.outputs.needs_update == 'true'
         run: |
+          # 원격 main에 새 커밋이 들어온 상태에서 push하면 (fetch first)로 실패할 수 있어
+          # 커밋/푸시 전에 항상 rebase로 정렬합니다.
+          git fetch origin main
+          git rebase origin/main
+
           git add modules/Algorithm
           # 커밋 메시지에 [skip ga] 태그를 추가하여 jekyll.yml에서 감지하게 합니다.
           git commit -m "chore: update Algorithm submodule to latest version [skip ga]" || exit 0
-          git push origin main
+          
+          # 동시 실행/경합으로 push가 거절되면 rebase 후 재시도
+          for i in 1 2 3 4 5; do
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            echo "Push rejected (attempt $i). Rebasing and retrying..."
+            git fetch origin main
+            git rebase origin/main
+          done
+          
+          echo "Push failed after retries."
+          exit 1
