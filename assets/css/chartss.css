@@ -23,23 +23,38 @@
   }
   .tab-btn.active {
     background-color: #e0e0e0;
-    color: rgb(0, 0, 0.08);
+    color: rgba(0, 0, 0, 0.8);
     border-color: #e0e0e0;
   }
   /* 차트 컨테이너 제어 */
+  .stats-container {
+    /* Chart.js가 기준으로 삼을 높이를 확보 */
+    min-height: 240px;
+  }
   .chart-panel {
     display: none; /* 기본적으로 숨김 */
     animation: fadeIn 0.5s;
+    /* Chart.js responsive + maintainAspectRatio:false 조합에서 필수 */
+    position: relative;
+    height: 240px;
   }
   .chart-panel.active {
     display: block; /* 활성화된 탭만 표시 */
+  }
+  @media (min-width: 1024px) {
+    .stats-container {
+      min-height: 220px;
+    }
+    .chart-panel {
+      height: 220px;
+    }
   }
   @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
   }
 
-  canvas {
+  .graph-container canvas {
     width: 100% !important;
     height: 100% !important;
   }
