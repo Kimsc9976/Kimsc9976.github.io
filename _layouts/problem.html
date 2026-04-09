@@ -23,4 +23,29 @@ layout: default
 
 <div class="problem-content">
   {{ content }}
+
+  {% capture issue_title %}[{{ page.platform }}][{{ page.tier }}] {{ page.title }} 질문{% endcapture %}
+  {% capture issue_body %}
+질문 내용:
+
+---
+문제 링크: {{ page.url | absolute_url }}
+작성 환경/언어:
+이슈 재현 코드/입력 예시:
+  {% endcapture %}
+
+  <div class="problem-qa" aria-label="Q&A via GitHub Issues">
+    <div class="problem-qa__title">질문/피드백</div>
+    <p class="problem-qa__desc">
+      이 문제 풀이가 궁금하면 GitHub Issues에 남겨주세요. 확인되는 대로 답변드릴게요.
+    </p>
+    <a
+      class="problem-qa__link"
+      href="https://github.com/Kimsc9976/study_algorithm/issues/new?title={{ issue_title | uri_escape }}&body={{ issue_body | uri_escape }}"
+      target="_blank"
+      rel="noopener"
+    >
+      이 문제로 질문하기 →
+    </a>
+  </div>
 </div>

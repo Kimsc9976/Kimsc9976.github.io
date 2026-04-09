@@ -1,0 +1,116 @@
+/* ==========================================================================
+   Rouge theme (dark, modern)
+   Applies to spans inside: <div class="highlight"><pre class="highlight"><code>...
+   ========================================================================== */
+
+.highlight { color: #e5e7eb; }
+
+/* Comments */
+.highlight .c,
+.highlight .cm,
+.highlight .cp,
+.highlight .c1,
+.highlight .cs {
+  color: rgba(229, 231, 235, 0.55);
+  font-style: italic;
+}
+
+/* Keywords */
+.highlight .k,
+.highlight .kc,
+.highlight .kd,
+.highlight .kn,
+.highlight .kp,
+.highlight .kr,
+.highlight .kt {
+  color: #93c5fd;
+}
+
+/* Operators / punctuation */
+.highlight .o,
+.highlight .ow,
+.highlight .p {
+  color: rgba(229, 231, 235, 0.85);
+}
+
+/* Numbers */
+.highlight .m,
+.highlight .mb,
+.highlight .mf,
+.highlight .mh,
+.highlight .mi,
+.highlight .il,
+.highlight .mo {
+  color: #fbbf24;
+}
+
+/* Strings */
+.highlight .s,
+.highlight .sa,
+.highlight .sb,
+.highlight .sc,
+.highlight .dl,
+.highlight .sd,
+.highlight .s2,
+.highlight .se,
+.highlight .sh,
+.highlight .si,
+.highlight .sx,
+.highlight .sr,
+.highlight .s1,
+.highlight .ss {
+  color: #86efac;
+}
+
+/* Names / identifiers */
+.highlight .n,
+.highlight .na,
+.highlight .nb,
+.highlight .nc,
+.highlight .no,
+.highlight .nd,
+.highlight .ni,
+.highlight .ne,
+.highlight .nf,
+.highlight .nl,
+.highlight .nn,
+.highlight .nx,
+.highlight .py,
+.highlight .nt,
+.highlight .nv,
+.highlight .vc,
+.highlight .vg,
+.highlight .vi,
+.highlight .vm {
+  color: #e5e7eb;
+}
+
+/* Functions / methods */
+.highlight .nf { color: #a5b4fc; }
+
+/* Types / classes */
+.highlight .nc { color: #fda4af; }
+.highlight .kt { color: #fda4af; }
+
+/* Builtins */
+.highlight .nb { color: #fde68a; }
+
+/* Constants */
+.highlight .no,
+.highlight .mf,
+.highlight .mi {
+  color: #fbbf24;
+}
+
+/* Attributes / tags (for HTML in markdown) */
+.highlight .nt { color: #93c5fd; }
+.highlight .na { color: #86efac; }
+
+/* Errors */
+.highlight .err {
+  color: #fecaca;
+  background: rgba(239, 68, 68, 0.18);
+  border-radius: 6px;
+  padding: 0 4px;
+}
+

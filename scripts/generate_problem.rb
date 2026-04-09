@@ -99,6 +99,9 @@ Dir.glob("#{SRC}/*").each do |platform_dir|
       tier_url = safe_url_path(tier_raw)
       name_url = safe_url_path(name_raw)
       
+      # Human-friendly date (avoid locale-specific formats)
+      date_str = date.respond_to?(:strftime) ? date.strftime("%Y-%m-%d") : date.to_s
+
       md = <<~MD
       ---
       layout: problem
@@ -111,7 +114,9 @@ Dir.glob("#{SRC}/*").each do |platform_dir|
       date: #{date}
       ---
 
+      <div class="problem-body" markdown="1">
       #{readme_content}
+      </div>
 
       ## 💡 Solutions
 
