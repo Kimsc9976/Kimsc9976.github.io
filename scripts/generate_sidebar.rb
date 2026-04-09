@@ -19,6 +19,7 @@ def safe_path(str)
     .gsub(/\p{Space}+/, "-")        # 이상한 공백들 → -
     .gsub(/[^\w\-가-힣]/, "")       # 위험 문자 제거
     .gsub(/-+/, "-")
+    .gsub(/^-|-$/, "")              # 앞뒤 하이픈 제거
     .downcase
 end
 
