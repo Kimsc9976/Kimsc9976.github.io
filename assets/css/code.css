@@ -1,0 +1,120 @@
+/* ==========================================================================
+   CODE BLOCKS (Markdown fence + Rouge)
+   - language-xxx highlighter-rouge wrappers
+   - inline code styling
+   ========================================================================== */
+
+:root {
+  --code-bg: #0b1220;
+  --code-fg: #e5e7eb;
+  --code-border: rgba(255, 255, 255, 0.10);
+  --code-muted: rgba(229, 231, 235, 0.70);
+  --code-inline-bg: rgba(2, 6, 23, 0.06);
+  --code-inline-border: rgba(2, 6, 23, 0.10);
+  --code-radius: 14px;
+}
+
+/* Ensure code uses monospace even if body is serif */
+pre,
+code,
+kbd,
+samp {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+/* Inline code (avoid affecting fenced blocks) */
+:not(pre) > code {
+  font-size: 0.95em;
+  background: var(--code-inline-bg);
+  border: 1px solid var(--code-inline-border);
+  padding: 0.14em 0.38em;
+  border-radius: 8px;
+  white-space: break-spaces;
+}
+
+/* Rouge / fenced block wrapper spacing */
+.highlighter-rouge,
+.highlight,
+figure.highlight {
+  margin: 16px 0 18px;
+}
+
+/* Main code block container */
+.highlighter-rouge > .highlight,
+.highlight,
+figure.highlight {
+  border-radius: var(--code-radius);
+}
+
+/* The actual <pre> element produced by Rouge */
+.highlighter-rouge pre,
+.highlight pre,
+figure.highlight pre {
+  background: var(--code-bg);
+  color: var(--code-fg);
+  border: 1px solid var(--code-border);
+  border-radius: var(--code-radius);
+
+  padding: 16px 18px;
+  margin: 0;
+
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+
+  line-height: 1.65;
+  font-size: 0.92rem;
+  tab-size: 2;
+  -moz-tab-size: 2;
+
+  /* nicer text in code blocks */
+  text-rendering: geometricPrecision;
+}
+
+/* Make sure nested code doesn't add its own styles */
+.highlighter-rouge pre code,
+.highlight pre code,
+figure.highlight pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  border-radius: 0;
+  font-size: 1em;
+  white-space: pre;
+}
+
+/* Subtle scrollbar (WebKit) */
+.highlighter-rouge pre::-webkit-scrollbar,
+.highlight pre::-webkit-scrollbar,
+figure.highlight pre::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+}
+
+.highlighter-rouge pre::-webkit-scrollbar-thumb,
+.highlight pre::-webkit-scrollbar-thumb,
+figure.highlight pre::-webkit-scrollbar-thumb {
+  background: rgba(229, 231, 235, 0.22);
+  border-radius: 999px;
+}
+
+.highlighter-rouge pre::-webkit-scrollbar-thumb:hover,
+.highlight pre::-webkit-scrollbar-thumb:hover,
+figure.highlight pre::-webkit-scrollbar-thumb:hover {
+  background: rgba(229, 231, 235, 0.32);
+}
+
+.highlighter-rouge pre::-webkit-scrollbar-track,
+.highlight pre::-webkit-scrollbar-track,
+figure.highlight pre::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+}
+
+/* Optional: better selection inside code blocks */
+.highlighter-rouge pre ::selection,
+.highlight pre ::selection,
+figure.highlight pre ::selection {
+  background: rgba(96, 165, 250, 0.35);
+}
+
