@@ -72,11 +72,16 @@ footer {
    Desktop: sidebar 고정 260px / content 유동
    -------------------------------------------------------------------------- */
 
+/* Bootstrap을 쓰는 페이지(about)에서도 동일 클래스명 .container가 메인 래퍼 역할만 하도록 */
 .container {
   display: flex;
   flex-direction: column;
   margin: 20px;
   gap: var(--content-gap);
+  max-width: none;
+  width: auto;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .content {
@@ -86,6 +91,16 @@ footer {
   background: white;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 480px) {
+  .container {
+    margin: 12px;
+  }
+
+  .content {
+    padding: 14px 12px;
+  }
 }
 
 /* Sidebar: 레이아웃만 제어 (시각 스타일은 sidebar.css) */
@@ -391,9 +406,12 @@ footer {
    -------------------------------------------------------------------------- */
 
 .about-layout {
-  width: 95%;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   column-gap: 64px;
   align-items: start;
 }
@@ -415,20 +433,20 @@ footer {
 
 .about-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0;
   justify-items: center;
 }
 
 .skill-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 24px;
 }
 
 .card-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 20px;
   max-height: none;
   overflow-y: visible;
@@ -458,15 +476,15 @@ footer {
   }
 
   .about-grid {
-    grid-template-columns: 400px 1fr;
+    grid-template-columns: 400px minmax(0, 1fr);
   }
 
   .skill-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .card-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     max-height: calc(2 * 220px + 20px);
     overflow-y: auto;
     padding-right: 6px;
@@ -480,7 +498,7 @@ footer {
 
 @media (min-width: 1024px) {
   .skill-grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 32px;
   }
 }
