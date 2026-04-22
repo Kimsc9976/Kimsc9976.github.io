@@ -1,0 +1,58 @@
+- title: QA 자동화 인프라 구축
+  period: 2025.06 ~ 2025.02
+  summary: 배포 전 신뢰성 확보를 위한 자동화 QA 인프라 구축
+  points:
+    - HILS 기반 반복 검증 자동화 인프라 설계 및 구축
+    - 시뮬레이션 연동을 통한 주행 시나리오 커버리지 확보
+    - 내부 API 연동 자동 스트레스 테스트 환경 구성
+    - 수천 회 반복 시나리오 기반 안정성·강건성 검증 체계 마련
+    - 자동화된 결과 축적으로 테스트 재현성 및 추적성 확보
+  detail_url: /practice/qa-automation-infrastructure
+
+- title: 유저 시나리오 기반 웹페이지 QA 자동화
+  period: 2025.02 ~ 2025.06
+  summary: 사용자 행동 기반 시나리오를 자동화 및 프로덕션 모니터링으로 확장
+  points:
+    - 사용자 행동 데이터를 기반으로 핵심 유저 시나리오 테스트 케이스 정의
+    - Playwright를 활용한 유저 시나리오 자동화 테스트 구축
+    - Checkly 기반 프로덕션 플로우 모니터링으로 배포 후 이상 징후 실시간 감지
+
+- title: 데이터 시각화 도구 구축
+  period: 2024.01 ~ 2024.12
+  summary: 테스트·운영·CS 간 분석 기준을 통합한 QA 시각화 도구 구축
+  points:
+    - 테스트 결과 및 로그를 공통 기준으로 해석 가능한 시각화 도구 설계
+    - 바이트 단위 Raw 데이터를 명세 기반 시각 정보로 변환
+    - 이슈 재현 및 원인 분석 시간 단축을 위한 UI 제공
+    - QA·개발·운영 조직에서 공통 디버깅 도구로 활용
+    - 분석 기준 표준화를 통해 커뮤니케이션 비용 감소
+  detail_url: /practice/qa-visualization-tools
+
+- title: 유저 시나리오 기반 테스팅
+  period: 2024.04 ~ 2024.10
+  summary: 기능 중심 QA에서 유저 시나리오 기반 QA로 전환
+  points:
+    - Sanity Test를 유저 시나리오 기준으로 재구성
+    - "릴리즈 후 CS 이슈 발생률 15% 이상 감소"
+    - 로봇–웹 연동 이슈 조기 발견
+  detail_url: /practice/user-scenario-testing
+
+- title: 운행안전인증 QA 대응
+  period: 2024.04 ~ 2024.05 / 2024.11 ~ 2024.12
+  summary: 운행안전인증 심사 기준 기반 QA 및 인증 대응
+  points:
+    - 운행안전인증 심사 기준 분석 및 테스트 케이스 작성·수행
+    - 안전성 및 성능 중심 테스트 범위 정의
+    - SW/HW 업데이트에 따른 TC 확장 및 우선순위 기반 검증
+    - 촉박한 심사 일정 속 유관부서 협업을 통한 인증 통과 기여
+  detail_url: /practice/safety-certification-qa
+
+- title: 로봇 배달 PoC 대응
+  period: 2024.04 / 2024.09
+  summary: 실제 서비스 환경 기반 로봇 배달 PoC 현장 QA 수행
+  points:
+    - 전체 구간에 대한 자율주행 테스트 수행
+    - 특정 구간에서 반복 발생하는 성능 저하 이슈 발견 및 보고
+    - 재현 가능한 조건의 기능 오류 식별 및 공유
+    - 주 고객층 관점의 현장 피드백을 수집하여 유관부서 전달
+  detail_url: /practice/robot-poc-qa
