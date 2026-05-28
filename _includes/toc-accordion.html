@@ -1,0 +1,76 @@
+<script>
+(function () {
+  var STORAGE_KEY = 'toc-accordion-open';
+  var DESKTOP_MQ = window.matchMedia('(min-width: 1024px)');
+
+  function initTocAccordion(toc) {
+    if (!toc || toc.closest('.toc-accordion')) return;
+
+    var wrap = document.createElement('div');
+    wrap.className = 'toc-accordion';
+
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'toc-accordion__toggle';
+    var panelId = 'toc-accordion-panel-' + Math.random().toString(36).slice(2, 9);
+    btn.setAttribute('aria-controls', panelId);
+    btn.innerHTML =
+      '<span class="toc-accordion__label">목차</span>' +
+      '<span class="toc-accordion__icon" aria-hidden="true">▼</span>';
+
+    var panel = document.createElement('div');
+    panel.className = 'toc-accordion__panel';
+    panel.id = panelId;
+
+    var panelInner = document.createElement('div');
+    panelInner.className = 'toc-accordion__panel-inner';
+
+    var parent = toc.parentNode;
+    parent.insertBefore(wrap, toc);
+    panelInner.appendChild(toc);
+    panel.appendChild(panelInner);
+    wrap.appendChild(btn);
+    wrap.appendChild(panel);
+
+    function setOpen(open) {
+      wrap.classList.toggle('is-open', open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      try {
+        sessionStorage.setItem(STORAGE_KEY, open ? '1' : '0');
+      } catch (e) { /* ignore */ }
+    }
+
+    function defaultOpen() {
+      try {
+        var saved = sessionStorage.getItem(STORAGE_KEY);
+        if (saved === '1') return true;
+        if (saved === '0') return false;
+      } catch (e) { /* ignore */ }
+      return DESKTOP_MQ.matches;
+    }
+
+    setOpen(defaultOpen());
+
+    btn.addEventListener('click', function () {
+      setOpen(!wrap.classList.contains('is-open'));
+    });
+
+    DESKTOP_MQ.addEventListener('change', function () {
+      try {
+        if (sessionStorage.getItem(STORAGE_KEY) !== null) return;
+      } catch (e) { /* ignore */ }
+      if (!DESKTOP_MQ.matches) setOpen(false);
+    });
+  }
+
+  function boot() {
+    document.querySelectorAll('#markdown-toc').forEach(initTocAccordion);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+})();
+</script>
