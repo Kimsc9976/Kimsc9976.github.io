@@ -4,8 +4,10 @@ title: My Life's Log
 permalink: /log/
 ---
 
+<div class="log-hub">
+
 <section class="blog-hero">
-  <h1>My Life’s Log</h1>
+  <h1>My Life's Log</h1>
   <p>QA · 개발 · 일하면서 남겨두는 엔지니어링 기록</p>
 </section>
 
@@ -27,13 +29,15 @@ permalink: /log/
 </section>
 
 <section class="blog-recent">
-  <h2>🕒 Recent Posts</h2>
-  <ul>
+  <h2 class="blog-recent__title">🕒 Recent Posts</h2>
+  <ul class="post-list blog-recent-list">
     {% for post in site.posts limit:5 %}
-    <li>
+    <li class="post-item">
       <a href="{{ post.url }}">{{ post.title }}</a>
-      <span>{{ post.date | date: "%Y.%m.%d" }}</span>
+      <span class="post-date">{{ post.date | date: "%Y.%m.%d" }}</span>
     </li>
     {% endfor %}
   </ul>
 </section>
+
+</div>
