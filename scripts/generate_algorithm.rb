@@ -1,6 +1,7 @@
 require "fileutils"
 require "unicode_normalize/tables"
 require "uri"
+require_relative "algorithm_utils"
 
 BASE = "modules/Algorithm"
 OUT_BASE = "_algorithm"
@@ -34,9 +35,9 @@ site_data = sites.map do |site_path|
   puts "#{tier_names}"
 
   # 최근 문제 3개
-  recent_problems = tiers.flat_map do |tier|
-    Dir.glob("#{tier}/*").select { |p| File.directory?(p) }
-  end.sort_by { |p| File.mtime(p) }.reverse.first(3).map do |p|
+  recent_problems = sort_problems_newest_first(
+    tiers.flat_map { |tier| Dir.glob("#{tier}/*").select { |p| File.directory?(p) } }
+  ).first(3).map do |p|
     tier_name = File.basename(File.dirname(p))
     problem_name = File.basename(p)
     {

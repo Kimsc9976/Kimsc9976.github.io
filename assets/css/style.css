@@ -3,6 +3,7 @@
 @import url("./rouge-theme.css");
 @import url("./layout.css");
 @import url("./sidebar.css");
+@import url("./toc-accordion.css");
 @import url("./components.css");
 @import url("./chartss.css");
 @import url("./pages/tier.css");

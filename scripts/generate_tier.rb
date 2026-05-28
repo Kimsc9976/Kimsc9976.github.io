@@ -1,6 +1,7 @@
 require "fileutils"
 require "unicode_normalize/tables"
 require "uri"
+require_relative "algorithm_utils"
 
 BASE = "modules/Algorithm"
 OUT_BASE = "_algorithm"
@@ -52,6 +53,8 @@ Dir.glob("#{BASE}/*/*").each do |tier_path|
 
   problem_dirs = Dir.glob("#{tier_path}/*").select { |p| File.directory?(p) }
   next if problem_dirs.empty?
+
+  problem_dirs = sort_problems_newest_first(problem_dirs)
 
   groups = problem_dirs.each_slice(20).to_a
 

@@ -131,19 +131,14 @@
 
 /* 반응형 너비/여백은 layout.css에서 통합 관리 (Mobile / Tablet / Desktop) */
 
-#markdown-toc {
+/* 포스트 목차: .toc-accordion 래퍼가 sticky·스타일 담당 (toc-accordion.css) */
+#markdown-toc:not(.toc-accordion #markdown-toc) {
     position: sticky;
     top: 20px;
-    
-    /* 영역 설정 */
     background-color: #ffffff !important;
-    border: 10px solid #ffffff; /* 보더를 두껍게 주고 흰색으로 설정 */
-    
-    /* 리스트 기본 스타일 제거 */
+    border: 10px solid #ffffff;
     list-style: none;
     margin: 0;
     padding: 20px;
-    
-    /* 위아래 본문과 구분을 위해 아주 연한 그림자만 주거나, 아예 생략 */
-    box-shadow: 0 0 20px 20px #ffffff; /* 그림자를 흰색으로 크게 주어 주변 마진까지 덮는 트릭 */
+    box-shadow: 0 0 20px 20px #ffffff;
 }
