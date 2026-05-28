@@ -16,10 +16,10 @@ blog:
 algorithm:
   백준:
   - bronze
-  - diamond
+  - silver
   - gold
   - platinum
-  - silver
+  - diamond
   프로그래머스:
   - '1'
   - '2'
