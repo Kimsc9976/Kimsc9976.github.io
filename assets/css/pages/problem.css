@@ -85,6 +85,13 @@
    - .problem-body (README content)
    ========================================================================== */
 
+/* Problem page content wrapper */
+.problem-content {
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+}
+
 /* README body wrapper */
 .problem-body {
   background: #ffffff;
@@ -92,6 +99,10 @@
   border-radius: 16px;
   padding: 18px 20px;
   box-shadow: 0 6px 18px rgba(0,0,0,.04);
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+  overflow-wrap: break-word;
 }
 
 /* Typo inside README content */
@@ -134,6 +145,33 @@
 
 .problem-body a:hover {
   text-decoration: underline;
+}
+
+/* Images (BOJ/Programmers HTML often ships fixed inline width/height) */
+.problem-body img,
+.problem-content img {
+  display: block;
+  max-width: 100%;
+  width: auto !important;
+  height: auto !important;
+  margin: 12px auto;
+  border-radius: 8px;
+}
+
+.problem-body p img,
+.problem-content p img {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 640px) {
+  .problem-body img[style*="float"],
+  .problem-content img[style*="float"] {
+    float: none !important;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 /* Tables (Programmers) */
