@@ -83,9 +83,6 @@ jobs:
       - name: Commit and push if updated
         if: steps.check.outputs.needs_sync == 'true'
         run: |
-          git fetch origin main
-          git rebase origin/main
-
           git add "${SUBMODULE_PATH}" \
             sideproject/trade/daily-report \
             sideproject/trade/journal \
@@ -96,12 +93,12 @@ jobs:
           git commit -m "chore: sync trade_report submodule, daily-report and journal [skip ga]"
 
           for i in 1 2 3 4 5; do
+            git fetch origin main
+            git rebase origin/main
             if git push origin HEAD:main; then
               exit 0
             fi
             echo "Push rejected (attempt $i). Rebasing and retrying..."
-            git fetch origin main
-            git rebase origin/main
           done
 
           echo "Push failed after retries."
