@@ -2,5 +2,7 @@ scripts/_data
 .jekyll-cache
 _site
 _algorithm
+run-scripts.bat
+setup-local.bat
 
 credentials.json
