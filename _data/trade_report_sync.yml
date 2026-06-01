@@ -1,33 +1,29 @@
-# trade_report 원격 저장소 → sideproject/trade 동기화 설정
-# last_synced_sha 는 sync-trade-daily-report.yml 워크플로가 성공 시 갱신합니다.
-
+---
 repo_url: https://github.com/Kimsc9976/trade_report.git
 branch: main
 submodule_path: modules/trade_report
 source_root: daily-report
 output_dir: sideproject/trade/daily-report
-last_synced_sha: ""
-
+last_synced_sha: 301bba8a646dc57b8ed009baf7766c70e9f16682
 journal:
   source_root: journal
   output_dir: sideproject/trade/journal
   chart_source_name: chart.png
   chart_output_dir: assets/images/trade/journal
-  default_time: "15:30:00 +0900"
+  default_time: 15:30:00 +0900
   sessions_order:
-    - morning
-    - afternoon
-
+  - morning
+  - afternoon
 sessions:
   morning:
     session: am
     session_label: 오전
-    default_time: "09:00:00 +0900"
+    default_time: '09:00:00 +0900'
     suffix: am
     tag: 오전
   afternoon:
     session: pm
     session_label: 오후
-    default_time: "15:30:00 +0900"
+    default_time: 15:30:00 +0900
     suffix: pm
     tag: 오후
