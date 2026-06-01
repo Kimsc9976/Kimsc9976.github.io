@@ -1,0 +1,108 @@
+name: Sync trade_report daily-report
+
+on:
+  schedule:
+    # trade_report 스케줄러(12:00/16:00/20:00 KST push) 이후 여유 — UTC 04, 09, 13시
+    - cron: '5 4,9,13 * * *'
+  workflow_dispatch:
+  repository_dispatch:
+    types: [trade-report-updated]
+
+concurrency:
+  group: sync-trade-daily-report-main
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+env:
+  SUBMODULE_PATH: modules/trade_report
+
+jobs:
+  sync-trade-daily-report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          submodules: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check if sync needed
+        id: check
+        run: |
+          cd "${SUBMODULE_PATH}"
+          git fetch origin
+          LATEST=$(git rev-parse origin/main || git rev-parse origin/master)
+          CURRENT=$(git rev-parse HEAD)
+          echo "REMOTE_SHA=$LATEST" >> "$GITHUB_ENV"
+
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            echo "needs_sync=true" >> "$GITHUB_OUTPUT"
+            echo "Triggered by trade_report push (repository_dispatch)"
+            exit 0
+          fi
+
+          if [ "$LATEST" != "$CURRENT" ]; then
+            echo "needs_sync=true" >> "$GITHUB_OUTPUT"
+            echo "Submodule update needed: $CURRENT -> $LATEST"
+          else
+            echo "needs_sync=false" >> "$GITHUB_OUTPUT"
+            echo "Already at latest submodule commit $CURRENT"
+          fi
+
+      - name: Update trade_report submodule
+        if: steps.check.outputs.needs_sync == 'true'
+        run: |
+          git submodule update --remote "${SUBMODULE_PATH}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Setup Ruby
+        if: steps.check.outputs.needs_sync == 'true'
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler: none
+
+      - name: Sync daily-report markdown
+        if: steps.check.outputs.needs_sync == 'true'
+        run: |
+          ruby scripts/sync_trade_daily_report.rb \
+            --source "${SUBMODULE_PATH}" \
+            --remote-sha "${REMOTE_SHA}" \
+            --update-config
+
+      - name: Sync journal markdown
+        if: steps.check.outputs.needs_sync == 'true'
+        run: |
+          ruby scripts/sync_trade_journal.rb --source "${SUBMODULE_PATH}"
+
+      - name: Commit and push if updated
+        if: steps.check.outputs.needs_sync == 'true'
+        run: |
+          git fetch origin main
+          git rebase origin/main
+
+          git add "${SUBMODULE_PATH}" \
+            sideproject/trade/daily-report \
+            sideproject/trade/journal \
+            assets/images/trade/journal \
+            _data/trade_report_sync.yml
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+
+          git commit -m "chore: sync trade_report submodule, daily-report and journal [skip ga]"
+
+          for i in 1 2 3 4 5; do
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            echo "Push rejected (attempt $i). Rebasing and retrying..."
+            git fetch origin main
+            git rebase origin/main
+          done
+
+          echo "Push failed after retries."
+          exit 1

@@ -4,7 +4,7 @@ title: 일간 레포트
 project: trade
 trade_section: daily-report
 permalink: /sideproject/trade/daily-report/
-description: A 프로젝트 submodule에서 오전/오후 세션별로 자동 생성되는 일간 레포트 목록입니다.
+description: modules/trade_report 서브모듈에서 동기화되는 오전/오후 일간 레포트 목록입니다.
 ---
 
 <p class="trade-back-link">
