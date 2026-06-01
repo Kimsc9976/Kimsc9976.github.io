@@ -1,6 +1,8 @@
 [submodule "modules/Algorithm"]
 	path = modules/Algorithm
 	url = https://github.com/Kimsc9976/study_algorithm.git
+	branch = main
 [submodule "modules/trade_report"]
 	path = modules/trade_report
 	url = https://github.com/Kimsc9976/trade_report.git
+	branch = main
