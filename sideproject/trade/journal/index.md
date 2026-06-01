@@ -4,7 +4,7 @@ title: 매매일지
 project: trade
 trade_section: journal
 permalink: /sideproject/trade/journal/
-description: B 프로젝트 submodule에서 1일 1건으로 자동 생성되는 매매일지 + buy/sell 차트(PNG) 목록입니다.
+description: modules/trade_report 서브모듈에서 동기화되는 매매일지 + buy/sell 차트(PNG) 목록입니다.
 ---
 
 <p class="trade-back-link">
