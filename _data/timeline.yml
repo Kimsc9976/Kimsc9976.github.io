@@ -1,0 +1,49 @@
+# About 페이지 Career 영역 — 섹션별 타임라인
+# layout: list (경력) | grid (자격증·학력 등 카드형)
+sections:
+  - title: "💼 QA Engineering Experience"
+    layout: list
+    items:
+      - year: 2025
+        title: 뉴빌리티
+        descriptions:
+          - 검증 자동화 인프라 설계
+          - Agile에 따른 기능 테스트 수행
+
+      - year: 2025
+        title: 미리디
+        descriptions:
+          - 비즈하우스 UI/UX 부문 UT 수행
+          - 비즈하우스 플랫폼 QA 자동화 구축
+
+      - year: 2024
+        title: 뉴빌리티
+        descriptions:
+          - 유저 시나리오 기반 테스트 전략 도입
+
+  - title: "🏆 Certificate"
+    layout: grid
+    items:
+      - year: 2024
+        title: ISTQB
+        descriptions:
+          - SW Testing Level CTFL
+
+      - year: 2023
+        title: PCCP
+        descriptions:
+          - 코딩전문역량인증시험 Level 3
+
+      - year: 2023
+        title: OPIc
+        descriptions:
+          - English Speaking Test – IH
+
+  # Education 추가 시 아래 섹션 주석 해제
+  # - title: "🎓 Education"
+  #   layout: grid
+  #   items:
+  #     - year: 2020
+  #       title: 학교명
+  #       descriptions:
+  #         - 전공 · 학위

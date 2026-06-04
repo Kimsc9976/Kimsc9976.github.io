@@ -1,0 +1,36 @@
+image: /assets/images/profile2.jpg
+image_alt: 김수찬 프로필
+section_title: Brief Me
+
+links:
+  - emoji: "💾"
+    text: "[GitHub]  Kimsc9976"
+    url: https://github.com/Kimsc9976
+  - emoji: "📧"
+    text: "[Mail]  tncks097@naver.com"
+    url: mailto:tncks097@naver.com
+  - emoji: "👥"
+    text: "[Linked In]  Su Chan Kim"
+    url: https://www.linkedin.com/in/su-chan-kim-0874a3241/
+
+callout:
+  icon: "🤔"
+  paragraphs:
+    - |
+      **질문**하고 **고민**하는 것을 즐기는 엔지니어입니다.<br>
+      **제품의 완성도**는 질을 반복하며 발전한다고 판단하고, 행동합니다.
+    - |
+      저는 그 질문의 답을 찾기 위해, <br> 
+      여러 서비스 환경에서 발생하는 품질 리스크를 구조적으로 해결하며,<br>
+    - |
+      QA 과정을 **단순 테스트 수행**이 아닌<br> **검증 시스템 설계**의 영역으로 이해시키고자 해왔습니다.
+
+paragraphs:
+  - |
+    저는 서비스의 안정성을 **검증하는 과정**을 중요하게 생각합니다. 
+  - |
+    사용자 만족도가 중요한 서비스 환경에서는 <br> 기능 중심 QA만으로는 Usability를 충분히 검증하기 어렵다 생각하기에,<br>
+    **유저 시나리오 기반 테스트 전략**과 **자동화 인프라 설계**를 통해<br> 반복 가능하고 확장 가능한 검증 체계를 구축해왔습니다.
+  - |
+    QA·개발·운영 조직이 동일한 기준으로 품질을 해석할 수 있도록 검증 데이터를 구조화하고,<br>
+    품질을 개인의 역량이 아닌 **시스템으로 관리**하는 환경을 만들어가고자 합니다.
