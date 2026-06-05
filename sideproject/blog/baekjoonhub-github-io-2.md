@@ -64,7 +64,7 @@ jobs:
       - name: Trigger main repository workflow
         uses: peter-evans/repository-dispatch@v3
         with:
-          token:  secrets.REPO_DISPATCH_TOKEN 
+          token: ${{ secrets.REPO_DISPATCH_TOKEN }}
           repository: 사용자의 github io 레포지토리 명 
           event-type: submodule-updated
           client-payload: |

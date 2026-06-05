@@ -83,7 +83,7 @@ flowchart TD
 1. **서브모듈 연결** 
     - `.gitmodules`로 `modules/Algorithm`이 `study_algorithm` 레포를 가리키게 두고, 메인 레포는 “참조 + 빌드” 수행
 2. **풀이 레포 → 메인 레포 Trigger** 
-    - `study_algorithm` 쪽 GitHub Actions에서 `repository_dispatch`로 메인 레포에 `submodule-updated` 이벤트를 Triggering, 그리고 환경 (`REPO_DISPATCH_TOKEN` 등) 설정
+    - `study_algorithm` 쪽 GitHub Actions에서 `repository_dispatch`로 메인 레포에 `submodule-updated` 이벤트를 Triggering, 그리고 GitHub Actions 시크릿(PAT) 설정
 3. **메인 레포에서 서브모듈 최신화** 
     - `update-submodule.yml`: `modules/Algorithm`에서 `fetch` 후 로컬과 원격 커밋 비교, 필요할 때만 `submodule update --remote` 후 커밋·푸시하는 흐름, 그리고 **스케줄/수동 실행**
 4. **빌드·배포** 
