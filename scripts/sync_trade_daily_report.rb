@@ -1,8 +1,9 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# modules/trade_report/daily-report/YYYY/MM/DD/morning.md   → sideproject/trade/daily-report/YYYY-MM-DD-am.md
-# modules/trade_report/daily-report/YYYY/MM/DD/afternoon.md → sideproject/trade/daily-report/YYYY-MM-DD-pm.md
+# modules/trade_report/daily-report/YYYY/MM/DD/morning.md            → sideproject/trade/daily-report/YYYY-MM-DD-am.md
+# modules/trade_report/daily-report/YYYY/MM/DD/YYYY-MM-DD_morning.md → sideproject/trade/daily-report/YYYY-MM-DD-am.md
+# (afternoon / YYYY-MM-DD_afternoon.md 동일)
 #
 # 오전/오후를 반드시 분리된 파일로 생성합니다.
 
@@ -45,9 +46,9 @@ TradeReportSync.day_dirs(dr_root).each do |day_dir|
   date = TradeReportSync.date_str(year, month, day)
   next if since_date && Date.parse(date) < since_date
 
-  SESSION_MAP.each do |filename, sess|
-    src = File.join(day_dir, "#{filename}.md")
-    next unless File.exist?(src)
+  SESSION_MAP.each do |session_key, sess|
+    src = TradeReportSync.resolve_session_src(day_dir, date, session_key)
+    next unless src
 
     body = File.read(src, encoding: "UTF-8")
 
