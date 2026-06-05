@@ -18,6 +18,32 @@
   color: #222;
 }
 
+.sidebar h3 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.sidebar-section-title {
+  display: inline-block;
+  color: #222;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 2px 4px;
+  transition: all .15s ease;
+}
+
+.sidebar-section-title:hover {
+  color: #2563eb;
+  background: rgba(37, 99, 235, 0.08);
+  text-decoration: none;
+}
+
+.sidebar-section-title.active {
+  color: #1d4ed8;
+  background: rgba(37, 99, 235, 0.12);
+}
+
 /* 버튼형 네비 */
 .main-links {
   display: flex;

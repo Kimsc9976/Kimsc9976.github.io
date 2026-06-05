@@ -4,9 +4,8 @@ title: Engineering Notes on QA & Automation
 user: Kimsc9976
 ---
 
-# Welcome to My GitHub Pages
+# Welcome
 
-This is a simple website hosted on GitHub Pages. 
-진짜 힘들다.. 포스트 어캐함?ㅋㅋ
-You can customize this page by editing the `index.md` file in your repository.
+QA 엔지니어링과 자동화, 알고리즘 풀이 기록을 정리하는 공간입니다.
+방문해 주셔서 감사합니다.
 

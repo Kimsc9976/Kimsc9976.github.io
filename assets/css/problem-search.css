@@ -1,0 +1,144 @@
+/* 알고리즘 목록 페이지 헤더 검색 (algorithm / platform / tier 레이아웃) */
+.algo-page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #eee;
+}
+
+.algo-page-header-main {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+
+.algo-page-header .platform-title,
+.algo-page-header h1 {
+  margin: 0 0 4px;
+}
+
+.algo-page-header .platform-sub {
+  margin: 0;
+}
+
+.tier-header {
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.tier-header-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1 1 220px;
+  min-width: 0;
+}
+
+.problem-search {
+  position: relative;
+  flex: 1 1 240px;
+  max-width: 360px;
+  margin-bottom: 0;
+}
+
+.problem-search-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.problem-search-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  background: #fff;
+  color: #222;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.problem-search-input::placeholder {
+  color: #9ca3af;
+}
+
+.problem-search-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.problem-search-results {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.problem-search-results li {
+  margin: 0;
+}
+
+.problem-search-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.12s ease;
+}
+
+.problem-search-item:hover,
+.problem-search-item.is-active {
+  background: #eef2ff;
+}
+
+.problem-search-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #4b5563;
+}
+
+.problem-search-title {
+  font-size: 0.88rem;
+  color: #111827;
+  line-height: 1.35;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.problem-search-empty {
+  padding: 10px;
+  font-size: 0.85rem;
+  color: #6b7280;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .problem-search {
+    max-width: none;
+    flex-basis: 100%;
+  }
+}

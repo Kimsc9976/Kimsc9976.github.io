@@ -1,0 +1,25 @@
+<div
+  class="problem-search"
+  id="problem-search"
+  data-index-url="{{ '/assets/search-index.json' | relative_url }}"
+>
+  <label class="problem-search-label" for="problem-search-input">문제 검색</label>
+  <input
+    type="search"
+    id="problem-search-input"
+    class="problem-search-input"
+    placeholder="문제 제목 · 번호 검색"
+    autocomplete="off"
+    spellcheck="false"
+    role="combobox"
+    aria-expanded="false"
+    aria-controls="problem-search-results"
+    aria-autocomplete="list"
+  />
+  <ul
+    id="problem-search-results"
+    class="problem-search-results"
+    role="listbox"
+    hidden
+  ></ul>
+</div>
