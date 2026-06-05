@@ -9,7 +9,6 @@ setup-local.bat
 credentials.json
 
 # 내부 운영/빌드 파일 — 공개 레포에 노출하지 않음
-scripts/
 SETUP_*.md
 PROJECT_STRUCTURE.md
 requirements.txt
