@@ -7,11 +7,11 @@ from google.analytics.data_v1beta.types import (
 )
 from datetime import datetime, timedelta
 
-PROPERTY_ID = os.environ.get("ANALYTICS_PROPERTY")
+PROPERTY_ID = os.environ.get("GA_PROPERTY_ID")
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "credentials.json"
 
 if not PROPERTY_ID:
-    print("Error: ANALYTICS_PROPERTY is missing.")
+    print("Error: GA_PROPERTY_ID is missing.")
     sys.exit(1)
 
 client = BetaAnalyticsDataClient()
