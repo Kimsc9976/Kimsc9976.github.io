@@ -25,7 +25,12 @@
     </nav>
 
     <hr class="sidebar-divider">
-    <h3> 📔 Engineering</h3>
+    {% assign eng = site.data.sidebar.sections.engineering %}
+    <h3>
+      <a href="{{ eng.url }}" class="sidebar-section-title {% if page.url == eng.url or page.url contains '/log/' %}active{% endif %}">
+        {{ eng.title }}
+      </a>
+    </h3>
     {% for item in site.data.sidebar.blog %}
     <details class="sidebar-group">
       <summary class="toggle-text">
@@ -36,7 +41,12 @@
     </details>
     {% endfor %}
     <hr class="sidebar-divider">
-    <h3> 👩🏻‍💻 Algorithm List</h3>
+    {% assign algo = site.data.sidebar.sections.algorithm %}
+    <h3>
+      <a href="{{ algo.url }}" class="sidebar-section-title {% if page.url == algo.url or page.url contains '/algorithm/' %}active{% endif %}">
+        {{ algo.title }}
+      </a>
+    </h3>
     <!-- 자동 알고리즘 -->
     {% for platform in site.data.sidebar.algorithm %}
     <details class="sidebar-group">
@@ -53,7 +63,12 @@
     </details>
     {% endfor %}
     <hr class="sidebar-divider">
-    <h3> 🗂️ Side Projects</h3>
+    {% assign sp = site.data.sidebar.sections.sideprojects %}
+    <h3>
+      <a href="{{ sp.url }}" class="sidebar-section-title {% if page.url == sp.url or page.url contains '/sideproject/' %}active{% endif %}">
+        {{ sp.title }}
+      </a>
+    </h3>
     {% for item in site.data.sidebar.sideprojects %}
     <details class="sidebar-group">
       <summary class="toggle-text">

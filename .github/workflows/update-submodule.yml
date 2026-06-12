@@ -24,7 +24,6 @@ jobs:
           ref: main
           fetch-depth: 0
           submodules: true
-          # GITHUB_TOKEN 대신 생성한 PAT(GH_PAT)를 사용해야 다음 워크플로우가 트리거됩니다.
           token: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Check if update needed

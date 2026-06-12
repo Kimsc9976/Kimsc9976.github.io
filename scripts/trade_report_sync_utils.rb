@@ -93,4 +93,12 @@ module TradeReportSync
     rel = dir.sub(%r{\A#{Regexp.escape(root)}[/\\]?}, "")
     rel.split(%r{[/\\]})
   end
+
+  # daily-report 세션 파일: morning.md 우선, 없으면 YYYY-MM-DD_morning.md
+  def resolve_session_src(day_dir, date, session_key)
+    [
+      File.join(day_dir, "#{session_key}.md"),
+      File.join(day_dir, "#{date}_#{session_key}.md")
+    ].find { |path| File.exist?(path) }
+  end
 end

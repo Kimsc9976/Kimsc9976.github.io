@@ -9,8 +9,12 @@ layout: default
   {{ content }}
 </div> -->
 
-<h1>{{ page.title }}</h1>
-<hr>
+<div class="algo-page-header">
+  <div class="algo-page-header-main">
+    <h1>{{ page.title }}</h1>
+  </div>
+  {% include problem-search.html %}
+</div>
 
 <div class="algorithm-grid">
   {% assign sites = site.algorithm | where:"layout","problem" | map:"platform" | uniq %}
@@ -38,13 +42,13 @@ layout: default
           {% else %}
             {% assign tier_class = "tier-unknown" %}
           {% endif %}
-          {% assign tier_page = site.algorithm | where:"platform", site_name | where:"tier", tier_name | first %}
+          {% assign tier_page = site.algorithm | where:"layout","tier" | where:"platform", site_name | where:"tier", tier_name | first %}
           {% if tier_page.platform_url and tier_page.tier_url %}
             <a href="/algorithm/{{ tier_page.platform_url }}/{{ tier_page.tier_url }}/" class="tier-card {{ tier_class }}">
               {{ tier_name }}
             </a>
           {% else %}
-            <a href="/algorithm/{{ site_name }}/{{ tier_name }}/" class="tier-card {{ tier_class }}">
+            <a href="/algorithm/{{ site_name }}/{{ tier_name | downcase }}/" class="tier-card {{ tier_class }}">
               {{ tier_name }}
             </a>
           {% endif %}

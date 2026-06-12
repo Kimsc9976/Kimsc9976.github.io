@@ -2,8 +2,13 @@
 layout: default
 ---
 
-<h1 class="platform-title">{{ page.platform }}</h1>
-<p class="platform-sub">Algorithm Tiers Overview</p>
+<div class="algo-page-header">
+  <div class="algo-page-header-main">
+    <h1 class="platform-title">{{ page.platform }}</h1>
+    <p class="platform-sub">Algorithm Tiers Overview</p>
+  </div>
+  {% include problem-search.html %}
+</div>
 
 <div class="tier-dashboard">
 
@@ -14,7 +19,12 @@ layout: default
 
   <div class="tier-column">
 
-    <a class="tier-header" href="/algorithm/{{ page.platform }}/{{ tier }}/">
+    {% assign tier_page = site.algorithm | where:"layout","tier" | where:"platform", page.platform | where:"tier", tier | first %}
+    {% if tier_page.platform_url and tier_page.tier_url %}
+    <a class="tier-header" href="/algorithm/{{ tier_page.platform_url }}/{{ tier_page.tier_url }}/">
+    {% else %}
+    <a class="tier-header" href="/algorithm/{{ page.platform_url | default: page.platform }}/{{ tier | downcase }}/">
+    {% endif %}
       {{ tier }}
     </a>
 

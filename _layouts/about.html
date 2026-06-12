@@ -11,80 +11,125 @@ layout: default
     <aside class="about-sidebar">
       <nav class="about-nav">
         <ul>
-          {% for item in site.data.about_nav %}
-          <li><a href="{{ item.href }}">{{ item.label }}</a></li>
-          {% endfor %}
+          <li><a href="#brief">Brief Me</a></li>
+          <li><a href="#career">Career & Certificate</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#practice">QA Practices</a></li>
+          <li><a href="#skills">Skills</a></li>
         </ul>
       </nav>
     </aside>
 
     <main class="about-main">
-      {% assign profile = site.data.profile %}
       <section class="about-grid about-section" id="brief">
 
+        <!-- LEFT : Profile -->
         <div class="about-left">
-          <img src="{{ profile.image }}" alt="{{ profile.image_alt }}" class="about-profile-image">
-          <h3 class="about-title">{{ profile.section_title }}</h3>
+          <img src="/assets/images/profile2.jpg" alt="김수찬 프로필" class="about-profile-image">
+          <h3 class="about-title">Brief Me</h3>
         </div>
 
+        <!-- RIGHT : Description -->
         <div class="about-right">
 
           <p class="about-links">
-            {% for link in profile.links %}
-            <a href="{{ link.url }}">{{ link.emoji }} {{ link.text }}</a>{% unless forloop.last %}<br>{% endunless %}
-            {% endfor %}
+            <a href="https://github.com/Kimsc9976">💾 [GitHub]  Kimsc9976</a><br>
+            <a href="mailto:tncks097@naver.com">📧 [Mail]  tncks097@naver.com</a><br>
+            <a href="https://www.linkedin.com/in/su-chan-kim-0874a3241/"> 👥 [Linked In]  Su Chan Kim</a>
           </p>
 
           <div class="about-callout">
-            <span class="icon">{{ profile.callout.icon }}</span>
+            <span class="icon">🤔</span>
             <div>
-              {% for paragraph in profile.callout.paragraphs %}
-              {{ paragraph | markdownify }}
-              {% endfor %}
+              <p>
+                <strong>질문</strong>하고 <strong>고민</strong>하는 것을 즐기는 엔지니어입니다.<br>
+                <strong>제품의 완성도</strong>는 질문과 답을 반복하며 발전한다고 믿습니다.
+              </p>
+              <p>
+                궁금한 것이 생기면 선배, 동료, 레퍼런스를 통해<br>
+                문제의 본질에 접근하고 <strong>완성도 있는 결과</strong>를 추구합니다.
+              </p>
             </div>
           </div>
 
-          {% for paragraph in profile.paragraphs %}
-          {{ paragraph | markdownify }}
-          {% endfor %}
+          <p>
+            저는 서비스의 안정성을 <strong>검증하는 과정</strong>을 중요하게 생각합니다.
+          </p>
+
+          <p>
+            이에, 문제를 재현하고 원인을 좁히는 과정에서,<br>
+            QA가 더 효율적으로 수행될 수 있도록 <strong>경험과 기준을 정리</strong>합니다.
+          </p>
+
+          <p>
+            이러한 방식으로 팀이 신뢰할 수 있는<br>
+            <strong>검증의 흐름</strong>을 만들어가는 데 기여하고자 합니다.
+          </p>
         </div>
       </section>
 
-      {% assign timeline = site.data.timeline %}
       <section class="about-timeline-section" id="career">
-        {% for section in timeline.sections %}
-        <div class="timeline-block{% if section.layout == 'grid' %} cert-timeline{% endif %}">
-          <h3>{{ section.title }}</h3>
+        <!-- Experience -->
+        <div class="timeline-block">
+          <h3>💼 QA Engineering Experience</h3>
 
-          {% if section.layout == 'grid' %}
+          <div class="timeline-item" id="career">
+            <span class="year">2025</span>
+            <div class="timeline-content">
+              <strong class="company">뉴빌리티</strong>
+              <p class="desc">검증 자동화 인프라 설계</p>
+              <p class="desc">Agile에 따른 기능 테스트 수행</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <span class="year">2025</span>
+            <div class="timeline-content">
+              <strong class="company">미리디</strong>
+              <p class="desc">비즈하우스 UI/UX 부문 UT 수행</p>
+              <p class="desc">비즈하우스 플랫폼 QA 자동화 구축</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <span class="year">2024</span>
+            <div class="timeline-content">
+              <strong class="company">뉴빌리티</strong>
+              <p class="desc">유저 시나리오 기반 테스트 전략 도입</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Certificate & Award -->
+        <div class="timeline-block cert-timeline">
+          <h3>🏆 Certificate </h3>
+
           <div class="timeline-grid">
-            {% for item in section.items %}
             <div class="timeline-item">
-              <span class="year">{{ item.year }}</span>
+              <span class="year">2024</span>
               <div class="timeline-content">
-                <strong class="company">{{ item.title }}</strong>
-                {% for desc in item.descriptions %}
-                <p class="desc">{{ desc }}</p>
-                {% endfor %}
+                <strong class="company">ISTQB</strong>
+                <p class="desc">SW Testing Level CTFL</p>
               </div>
             </div>
-            {% endfor %}
-          </div>
-          {% else %}
-          {% for item in section.items %}
-          <div class="timeline-item">
-            <span class="year">{{ item.year }}</span>
-            <div class="timeline-content">
-              <strong class="company">{{ item.title }}</strong>
-              {% for desc in item.descriptions %}
-              <p class="desc">{{ desc }}</p>
-              {% endfor %}
+
+            <div class="timeline-item">
+              <span class="year">2023</span>
+              <div class="timeline-content">
+                <strong class="company">PCCP</strong>
+                <p class="desc">코딩전문역량인증시험 Level 3</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <span class="year">2023</span>
+              <div class="timeline-content">
+                <strong class="company">OPIc</strong>
+                <p class="desc">English Speaking Test – IH</p>
+              </div>
             </div>
           </div>
-          {% endfor %}
-          {% endif %}
         </div>
-        {% endfor %}
       </section>
 
       <!-- Projects / Practices / Skills: 한 덩어리로 시각화 -->
@@ -168,29 +213,60 @@ layout: default
 
         <div class="showcase-panel" id="skills">
           <h2>Skills</h2>
-
+        
           <div class="skill-grid">
-            {% for skill in site.data.skills %}
+            <!-- QA -->
             <div class="skill-card">
               <div class="skill-header">
-                <img src="{{ skill.icon }}" alt="{{ skill.icon_alt }}" class="skill-icon" />
-                <strong>
-                  {% if skill.title_lines %}
-                    {% for line in skill.title_lines %}
-                      {{ line }}{% unless forloop.last %}<br>{% endunless %}
-                    {% endfor %}
-                  {% else %}
-                    {{ skill.title }}
-                  {% endif %}
-                </strong>
+                <img src="/assets/images/qa.png" alt="QA" class="skill-icon" />
+                <strong>Quality Assurance</strong>
               </div>
               <p>
-                {% for point in skill.points %}
-                · {{ point }}{% unless forloop.last %}<br>{% endunless %}
-                {% endfor %}
+                · 유저 시나리오 기반 TC 설계 & 적용<br>
+                · 기능 명세 리뷰 프로세스 도입<br>
+                · TC–명세 간 정합성 강화<br>
               </p>
             </div>
-            {% endfor %}
+        
+            <!-- Automation -->
+            <div class="skill-card">
+              <div class="skill-header">
+                <img src="/assets/images/qtcreator.jpg" alt="Automation" class="skill-icon" />
+                <strong>Automation &<br>
+                   QA Tools</strong>
+              </div>
+              <p>
+                · 로봇 데이터 시각화 도구 구현<br>
+                · 시뮬레이터 연동 QA 자동화 인프라 설계<br>
+                · Playwrights 기반 웹 페이지 자동화 검증<br>
+              </p>
+            </div>
+        
+            <!-- Programming -->
+            <div class="skill-card">
+              <div class="skill-header">
+                <img src="/assets/images/c_programming.svg" alt="Programming" class="skill-icon" />
+                <strong>Programming</strong>
+              </div>
+              <p>
+                · REST API 설계 및 데이터 흐름 구조 정의<br>
+                · 테스트 모듈에 대한 및 상태 관리 설계<br>
+                · 예외 상황 디버깅 및 원인 분석
+              </p>
+            </div>
+        
+            <!-- Collaboration -->
+            <div class="skill-card">
+              <div class="skill-header">
+                <img src="/assets/images/git.png" alt="Collaboration" class="skill-icon" />
+                <strong>Collaboration</strong>
+              </div>
+              <p>
+                · GitHub 기반 협업 및 형상관리
+                · Jira / Confluence를 통한 업무 관리<br>
+                · 유관부서 커뮤니케이션 및 F/U
+              </p>
+            </div>
           </div>
         </div>
       </section>

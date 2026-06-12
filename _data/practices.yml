@@ -7,7 +7,7 @@
     - 내부 API 연동 자동 스트레스 테스트 환경 구성
     - 수천 회 반복 시나리오 기반 안정성·강건성 검증 체계 마련
     - 자동화된 결과 축적으로 테스트 재현성 및 추적성 확보
-  # detail_url: /practice/qa-automation-infrastructure
+  detail_url: /practice/qa-automation-infrastructure
 
 - title: 유저 시나리오 기반 웹페이지 QA 자동화
   period: 2025.02 ~ 2025.06
@@ -26,7 +26,11 @@
     - 이슈 재현 및 원인 분석 시간 단축을 위한 UI 제공
     - QA·개발·운영 조직에서 공통 디버깅 도구로 활용
     - 분석 기준 표준화를 통해 커뮤니케이션 비용 감소
+<<<<<<< HEAD
   # detail_url: /practice/qa-visualization-tools
+=======
+  detail_url: /practice/qa-visualization-tools
+>>>>>>> a964272b24b1739a265ca541f6261383517ff4c6
 
 - title: 유저 시나리오 기반 테스팅
   period: 2024.04 ~ 2024.10
@@ -35,7 +39,11 @@
     - Sanity Test를 유저 시나리오 기준으로 재구성
     - "릴리즈 후 CS 이슈 발생률 15% 이상 감소"
     - 로봇–웹 연동 이슈 조기 발견
+<<<<<<< HEAD
   # detail_url: /practice/user-scenario-testing
+=======
+  detail_url: /practice/user-scenario-testing
+>>>>>>> a964272b24b1739a265ca541f6261383517ff4c6
 
 - title: 운행안전인증 QA 대응
   period: 2024.04 ~ 2024.05 / 2024.11 ~ 2024.12
@@ -45,7 +53,11 @@
     - 안전성 및 성능 중심 테스트 범위 정의
     - SW/HW 업데이트에 따른 TC 확장 및 우선순위 기반 검증
     - 촉박한 심사 일정 속 유관부서 협업을 통한 인증 통과 기여
+<<<<<<< HEAD
   # detail_url: /practice/safety-certification-qa
+=======
+  detail_url: /practice/safety-certification-qa
+>>>>>>> a964272b24b1739a265ca541f6261383517ff4c6
 
 - title: 로봇 배달 PoC 대응
   period: 2024.04 / 2024.09
@@ -55,4 +67,8 @@
     - 특정 구간에서 반복 발생하는 성능 저하 이슈 발견 및 보고
     - 재현 가능한 조건의 기능 오류 식별 및 공유
     - 주 고객층 관점의 현장 피드백을 수집하여 유관부서 전달
+<<<<<<< HEAD
   # detail_url: /practice/robot-poc-qa
+=======
+  detail_url: /practice/robot-poc-qa
+>>>>>>> a964272b24b1739a265ca541f6261383517ff4c6

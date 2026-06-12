@@ -2,12 +2,19 @@
 layout: default
 ---
 
-<div class="tier-header">
-  <div class="tier-badge">{{ page.platform }}</div>
-  <div class="tier-main">
-    <span class="tier-title">{{ page.title }}</span>
-    <span class="tier-sub">Problem Archive</span>
+<div class="tier-header algo-page-header">
+  <div class="tier-header-info">
+    {% if page.platform_url %}
+    <a href="/algorithm/{{ page.platform_url }}/" class="tier-badge">{{ page.platform }}</a>
+    {% else %}
+    <a href="/algorithm/{{ page.platform }}/" class="tier-badge">{{ page.platform }}</a>
+    {% endif %}
+    <div class="tier-main">
+      <span class="tier-title">{{ page.title }}</span>
+      <span class="tier-sub">Problem Archive</span>
+    </div>
   </div>
+  {% include problem-search.html %}
 </div>
 
 

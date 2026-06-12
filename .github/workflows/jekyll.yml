@@ -38,7 +38,7 @@ jobs:
           mkdir -p _data
           echo "$GA_CREDENTIALS" > credentials.json
           python scripts/update_stats.py
-          rm credentials.json
+          rm -f credentials.json
       - name: Upload stats artifact
         uses: actions/upload-artifact@v4
         with:
@@ -77,7 +77,10 @@ jobs:
           ruby scripts/generate_algo_level.rb
           ruby scripts/generate_tier.rb
           ruby scripts/generate_problem.rb
+          ruby scripts/generate_search_index.rb
           ruby scripts/generate_sidebar.rb
+          ruby scripts/sync_trade_daily_report.rb
+          ruby scripts/sync_trade_journal.rb
 
       - name: Setup Pages
         id: pages

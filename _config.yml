@@ -1,9 +1,20 @@
 title: "QA & Engineering Blog"
 description: "A Blog about Quality · Automation · Engineering"
 baseurl: ""
-url: "https://Kimsc9976.github.io"
+url: "https://kimsc9976.github.io"
+lang: ko
 
 markdown: kramdown
+
+plugins:
+  - jekyll-feed
+
+feed:
+  path: feed.xml
+  excerpt_only: true
+
+author:
+  name: 김수찬
 
 kramdown:
   toc_levels: 1..2
@@ -27,7 +38,7 @@ collections:
 
 # permalink: /blog/:category/:year/:month/:day/:title/
 
-# Jekyll이 modules 폴더를 제외하지 않도록 설정
+# Jekyll 빌드 산출물(_site)에서 제외할 항목
 exclude:
   - Gemfile
   - Gemfile.lock
@@ -37,15 +48,37 @@ exclude:
   - vendor/gems/
   - vendor/ruby/
   - modules
+  # 내부 운영/빌드 파일이 배포 사이트에 노출되지 않도록 제외
+  - credentials.json
+  - scripts/
+  - SETUP_INSTRUCTIONS.md
+  - SETUP_TRADE_REPORT_SYNC.md
+  - PROJECT_STRUCTURE.md
+  - requirements.txt
+  - "*.bat"
+  - .github/
 
-# # 카테고리 기본 설정
-# defaults:
-#   - scope:
-#       path: ""
-#       type: "posts"
-#     values:
-#       layout: "post"
-#       categories: helloworld
+# sitemap.xml 기본값 (yenarue 글 권장: weekly / 0.5)
+defaults:
+  - scope:
+      path: ""
+    values:
+      sitemap:
+        changefreq: weekly
+        priority: 0.5
+  - scope:
+      path: ""
+      type: posts
+    values:
+      sitemap:
+        changefreq: monthly
+        priority: 0.7
+  - scope:
+      path: "index.md"
+    values:
+      sitemap:
+        changefreq: weekly
+        priority: 1.0
 
 # # paginate: 5
 # # paginate_path: "/page:num/"
