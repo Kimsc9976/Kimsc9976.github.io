@@ -68,6 +68,8 @@ TradeReportSync.day_dirs(journal_root).each do |day_dir|
   chart_result = TradeReportSync.copy_if_changed(chart_src, chart_dest, dry_run: options[:dry_run])
   written += 1 if chart_result == :written
 
+  prepend_header_chart = journal_cfg.fetch("prepend_header_chart", false)
+
   front_matter = {
     "layout"         => "sideproject",
     "title"          => "#{date} 매매일지",
@@ -84,7 +86,9 @@ TradeReportSync.day_dirs(journal_root).each do |day_dir|
 
   if File.exist?(chart_src)
     front_matter["chart"] = chart_web_path
-    body = "## 📈 Buy / Sell 차트\n\n![#{date} 매매 차트](#{chart_web_path}){: .trade-chart}\n\n#{body.strip}"
+    if prepend_header_chart
+      body = "## 📈 Buy / Sell 차트\n\n![#{date} 매매 차트](#{chart_web_path}){: .trade-chart}\n\n#{body.strip}"
+    end
   end
 
   out_path = File.join(output_dir, "#{date}.md")

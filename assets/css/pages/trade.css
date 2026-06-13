@@ -250,6 +250,34 @@
   height: auto;
 }
 
+/* Daily-report markdown tables (섹터 자금 집중도 등) */
+.sideproject-post .post-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0 20px;
+  font-size: 0.92rem;
+}
+
+.sideproject-post .post-content th,
+.sideproject-post .post-content td {
+  padding: 8px 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.sideproject-post .post-content th {
+  background: #f8fafc;
+  font-weight: 700;
+  color: #374151;
+}
+
+.sideproject-post .post-content tr:nth-child(even) td {
+  background: #fafafa;
+}
+
+.sideproject-post .post-content h3 + table {
+  margin-top: 8px;
+}
+
 @media (max-width: 480px) {
   .trade-journal-recent-list .trade-journal-list__link,
   .trade-journal-list__link {

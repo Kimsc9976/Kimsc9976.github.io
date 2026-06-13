@@ -11,6 +11,7 @@ journal:
   chart_source_name: chart.png
   chart_output_dir: assets/images/trade/journal
   charts_subdir: charts
+  prepend_header_chart: false
   default_time: 15:30:00 +0900
   sessions_order:
   - morning

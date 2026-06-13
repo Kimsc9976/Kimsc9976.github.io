@@ -7,6 +7,7 @@ run-scripts.bat
 setup-local.bat
 
 credentials.json
+_data/ga.local.yml
 
 # 내부 운영/빌드 파일 — 공개 레포에 노출하지 않음
 SETUP_*.md

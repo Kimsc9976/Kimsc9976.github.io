@@ -1,17 +1,50 @@
 import os
 import json
 import sys
+import re
+from pathlib import Path
+
 from google.analytics.data_v1beta import BetaAnalyticsDataClient
 from google.analytics.data_v1beta.types import (
     DateRange, Dimension, Metric, RunReportRequest, OrderBy, FilterExpression, Filter
 )
 from datetime import datetime, timedelta
 
-PROPERTY_ID = os.environ.get("GA_PROPERTY_ID")
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "credentials.json"
+ROOT = Path(__file__).resolve().parent.parent
+LOCAL_GA_CONFIG = ROOT / "_data" / "ga.local.yml"
+
+
+def load_property_id():
+    value = os.environ.get("GA_PROPERTY_ID", "").strip()
+    if value:
+        return value
+
+    if LOCAL_GA_CONFIG.exists():
+        for line in LOCAL_GA_CONFIG.read_text(encoding="utf-8").splitlines():
+            match = re.match(r'^property_id:\s*["\']?([^"\']+)["\']?\s*$', line.strip())
+            if match:
+                value = match.group(1).strip()
+                if value:
+                    return value
+
+    return ""
+
+
+PROPERTY_ID = load_property_id()
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = str(ROOT / "credentials.json")
 
 if not PROPERTY_ID:
     print("Error: GA_PROPERTY_ID is missing.")
+    print("  - CI: GitHub Secrets -> GA_PROPERTY_ID")
+    print("  - Local: set env GA_PROPERTY_ID or create _data/ga.local.yml")
+    print("    property_id: <numeric GA4 property id>")
+    print("  - Measurement ID in _includes/head.html (G-YC1YTHMFVN) is not the Data API property id.")
+    sys.exit(1)
+
+if not Path(os.environ["GOOGLE_APPLICATION_CREDENTIALS"]).exists():
+    print("Error: credentials.json is missing.")
+    print("  - CI: GitHub Secrets -> GA_CREDENTIALS")
+    print("  - Local: place service account JSON at credentials.json (gitignored)")
     sys.exit(1)
 
 client = BetaAnalyticsDataClient()
@@ -113,7 +146,7 @@ stats = {
 }
 
 os.makedirs('_data', exist_ok=True)
-with open('_data/stats.json', 'w', encoding='utf-8') as f:
+with open(ROOT / '_data' / 'stats.json', 'w', encoding='utf-8') as f:
     json.dump(stats, f, indent=2, ensure_ascii=False)
 
 print("Stats updated successfully!")

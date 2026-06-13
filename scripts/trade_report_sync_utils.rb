@@ -30,8 +30,19 @@ module TradeReportSync
   # front matter hash + body string → Jekyll md string
   def render_page(front_matter, body)
     body = body.sub(/\A\s+/, "").sub(/\s+\z/, "")
+    body = normalize_markdown_tables(body)
     fm_yaml = front_matter.to_yaml.sub(/\A---\n/, "").sub(/\n\.\.\.\z/, "").rstrip
     "---\n#{fm_yaml}\n---\n\n#{body}\n"
+  end
+
+  # Kramdown은 제목(h1~h6) 바로 다음 줄의 | 테이블을 문단으로 처리함 → 빈 줄 삽입
+  def normalize_markdown_tables(body)
+    crlf = body.include?("\r\n")
+    normalized = body.gsub("\r\n", "\n")
+    normalized = normalized.gsub(/^(#+\s+.+)\n(?!\n)(\|)/m, "\\1\n\n\\2")
+    # 테이블 행 사이 빈 줄 제거 (분리 렌더링 방지)
+    normalized = normalized.gsub(/(\|[^\n]*\|)\n\n(\|)/m, "\\1\n\\2")
+    crlf ? normalized.gsub("\n", "\r\n") : normalized
   end
 
   # 내용이 변경된 경우에만 파일 쓰기
