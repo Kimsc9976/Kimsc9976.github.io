@@ -4,7 +4,7 @@ branch: main
 submodule_path: modules/trade_report
 source_root: daily-report
 output_dir: sideproject/trade/daily-report
-last_synced_sha: 7b4ee6ad36c75317ed6133a6d51cf6b9bc80bb23
+last_synced_sha: b49423c6e08d2a8f155e33455fdc4bb56d12e5bb
 journal:
   source_root: journal
   output_dir: sideproject/trade/journal
