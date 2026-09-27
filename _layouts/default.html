@@ -12,7 +12,7 @@
         </div>
     </header>
     <div class="container">
-        {% include sidebar.html %}
+        {% unless page.layout == 'practice' %}{% include sidebar.html %}{% endunless %}
         <main class="content">
             {{ content }}
         </main>

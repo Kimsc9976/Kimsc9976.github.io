@@ -69,67 +69,33 @@ layout: default
       </section>
 
       <section class="about-timeline-section" id="career">
-        <!-- Experience -->
-        <div class="timeline-block">
-          <h3>💼 QA Engineering Experience</h3>
+        {% for section in site.data.timeline.sections %}
+        <div class="timeline-block{% if section.layout == 'grid' %} cert-timeline{% endif %}">
+          <h3>{{ section.title }}</h3>
 
-          <div class="timeline-item" id="career">
-            <span class="year">2025</span>
-            <div class="timeline-content">
-              <strong class="company">뉴빌리티</strong>
-              <p class="desc">검증 자동화 인프라 설계</p>
-              <p class="desc">Agile에 따른 기능 테스트 수행</p>
+          {% if section.layout == 'grid' %}<div class="timeline-grid">{% endif %}
+            {% for item in section.items %}
+            <div class="timeline-item{% if item.expired %} is-expired{% endif %}">
+              <span class="year">
+                {{ item.year }}
+                {% if item.note %}
+                <span class="year-note{% if item.current %} is-current{% endif %}">{{ item.note }}</span>
+                {% endif %}
+              </span>
+              <div class="timeline-content">
+                <strong class="company">
+                  {{ item.title }}
+                  {% if item.expired %}<span class="cert-badge">만료</span>{% endif %}
+                </strong>
+                {% for desc in item.descriptions %}
+                <p class="desc">{{ desc }}</p>
+                {% endfor %}
+              </div>
             </div>
-          </div>
-
-          <div class="timeline-item">
-            <span class="year">2025</span>
-            <div class="timeline-content">
-              <strong class="company">미리디</strong>
-              <p class="desc">비즈하우스 UI/UX 부문 UT 수행</p>
-              <p class="desc">비즈하우스 플랫폼 QA 자동화 구축</p>
-            </div>
-          </div>
-
-          <div class="timeline-item">
-            <span class="year">2024</span>
-            <div class="timeline-content">
-              <strong class="company">뉴빌리티</strong>
-              <p class="desc">유저 시나리오 기반 테스트 전략 도입</p>
-            </div>
-          </div>
+            {% endfor %}
+          {% if section.layout == 'grid' %}</div>{% endif %}
         </div>
-
-        <!-- Certificate & Award -->
-        <div class="timeline-block cert-timeline">
-          <h3>🏆 Certificate </h3>
-
-          <div class="timeline-grid">
-            <div class="timeline-item">
-              <span class="year">2024</span>
-              <div class="timeline-content">
-                <strong class="company">ISTQB</strong>
-                <p class="desc">SW Testing Level CTFL</p>
-              </div>
-            </div>
-
-            <div class="timeline-item">
-              <span class="year">2023</span>
-              <div class="timeline-content">
-                <strong class="company">PCCP</strong>
-                <p class="desc">코딩전문역량인증시험 Level 3</p>
-              </div>
-            </div>
-
-            <div class="timeline-item">
-              <span class="year">2023</span>
-              <div class="timeline-content">
-                <strong class="company">OPIc</strong>
-                <p class="desc">English Speaking Test – IH</p>
-              </div>
-            </div>
-          </div>
-        </div>
+        {% endfor %}
       </section>
 
       <!-- Projects / Practices / Skills: 한 덩어리로 시각화 -->
@@ -163,6 +129,12 @@ layout: default
                       <li>{{ point }}</li>
                       {% endfor %}
                     </ul>
+
+                    {% if project.detail_url %}
+                    <a href="{{ project.detail_url | relative_url }}" class="detail-link">
+                      View Detail →
+                    </a>
+                    {% endif %}
                   </article>
                 </div>
               </div>
@@ -202,7 +174,7 @@ layout: default
               </ul>
 
               {% if practice.detail_url %}
-              <a href="{{ practice.detail_url }}" class="detail-link">
+              <a href="{{ practice.detail_url | relative_url }}" class="detail-link">
                 View Practice →
               </a>
               {% endif %}

@@ -1,0 +1,191 @@
+---
+layout: default
+---
+{% comment %}
+  QA Engineering Practice 상세 페이지 (구조 참고: twa04047.github.io/ko/projects/*)
+  - 카드 정보(title/period/summary/points)는 _data/practices.yml 의 detail_url 로 매칭
+  - 관련 Projects 는 _data/projects.yml 에서 detail_url 이 같은 항목을 자동 수집
+  - 본문(content)의 ## 제목이 좌측 목차(#section-N)로 자동 생성됨
+  - 선택 front matter: eyebrow, headline, disclosure{title,text}, role, tech[],
+    cover{src,alt,caption}, highlights[{value,label}], resources[{title,url}], note
+  - default 레이아웃에서 이 레이아웃은 사이드바(Index)를 숨김
+{% endcomment %}
+{% assign practice = site.data.practices | where: "detail_url", page.url | first %}
+{% assign related_projects = site.data.projects | where: "detail_url", page.url %}
+
+<div class="practice-detail">
+  <a class="practice-back-link" href="{{ '/about/#practice' | relative_url }}">← QA Engineering Practice 목록</a>
+
+  <header class="practice-header">
+    <div class="practice-eyebrow">{{ page.eyebrow | default: "QA Engineering Practice" }}</div>
+    <h1>{{ practice.title | default: page.title }}</h1>
+    {% assign summary = page.headline | default: practice.summary %}
+    {% if summary %}<p class="practice-summary">{{ summary }}</p>{% endif %}
+
+    {% if page.disclosure %}
+    <aside class="practice-disclosure">
+      {% if page.disclosure.title %}<strong>{{ page.disclosure.title }}</strong>{% endif %}
+      <p>{{ page.disclosure.text }}</p>
+    </aside>
+    {% endif %}
+
+    <dl class="practice-facts">
+      {% if page.role %}
+      <div>
+        <dt>나의 역할</dt>
+        <dd>{{ page.role }}</dd>
+      </div>
+      {% endif %}
+      {% if practice.period %}
+      <div>
+        <dt>기간</dt>
+        <dd>{{ practice.period }}</dd>
+      </div>
+      {% endif %}
+      {% if page.tech %}
+      <div>
+        <dt>사용 기술</dt>
+        <dd>{{ page.tech | join: " · " }}</dd>
+      </div>
+      {% endif %}
+    </dl>
+  </header>
+
+  {% if page.cover %}
+  <figure class="practice-cover">
+    <img src="{{ page.cover.src | relative_url }}" alt="{{ page.cover.alt }}">
+    {% if page.cover.caption %}<figcaption>{{ page.cover.caption }}</figcaption>{% endif %}
+  </figure>
+  {% endif %}
+
+  {% if page.highlights %}
+  <dl class="practice-highlights">
+    {% for h in page.highlights %}
+    <div>
+      <dt>{{ h.label }}</dt>
+      <dd>{{ h.value }}</dd>
+    </div>
+    {% endfor %}
+  </dl>
+  {% endif %}
+
+  <div class="practice-layout">
+    <aside class="practice-nav">
+      <p>이 Practice에서</p>
+      <nav aria-label="이 Practice에서"></nav>
+    </aside>
+
+    <div class="practice-body">
+      <article class="practice-prose">
+        {% if practice.points %}
+        <h2>핵심 요약</h2>
+        <ul>
+          {% for point in practice.points %}
+          <li>{{ point }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+
+        {{ content }}
+
+        {% if related_projects.size > 0 %}
+        <h2>관련 프로젝트</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>프로젝트</th>
+              <th>수행 내용</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for project in related_projects %}
+            <tr>
+              <td>
+                <strong>{{ project.title }}</strong><br>
+                <span class="practice-muted">{{ project.period }}</span>
+              </td>
+              <td>
+                {{ project.summary }}
+                <ul>
+                  {% for point in project.points %}
+                  <li>{{ point }}</li>
+                  {% endfor %}
+                </ul>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% endif %}
+      </article>
+
+      {% if page.resources %}
+      <section class="practice-resources">
+        <h2>관련 자료</h2>
+        {% for r in page.resources %}
+        <a href="{{ r.url | relative_url }}">{{ r.title }} ↗</a>
+        {% endfor %}
+      </section>
+      {% endif %}
+
+      {% if page.note %}
+      <p class="practice-note">{{ page.note }}</p>
+      {% endif %}
+    </div>
+  </div>
+
+  {% comment %} 다음 Practice (마지막이면 첫 번째로 순환) {% endcomment %}
+  {% assign practices = site.data.practices | where_exp: "p", "p.detail_url" %}
+  {% assign next = practices | first %}
+  {% for p in practices %}
+    {% if p.detail_url == page.url %}
+      {% assign next_index = forloop.index0 | plus: 1 %}
+      {% if next_index < practices.size %}{% assign next = practices[next_index] %}{% endif %}
+    {% endif %}
+  {% endfor %}
+  {% if next and next.detail_url != page.url %}
+  <a class="practice-next" href="{{ next.detail_url | relative_url }}">
+    <span>다음 Practice</span>
+    <strong>{{ next.title }}</strong>
+    <span aria-hidden="true">→</span>
+  </a>
+  {% endif %}
+</div>
+
+<script>
+  (function () {
+    const prose = document.querySelector('.practice-prose');
+    const nav = document.querySelector('.practice-nav nav');
+    if (!prose || !nav) return;
+
+    const headings = Array.from(prose.querySelectorAll('h2'));
+    const links = headings.map((h, i) => {
+      h.id = 'section-' + (i + 1);
+      const a = document.createElement('a');
+      a.href = '#' + h.id;
+      a.textContent = h.textContent;
+      nav.appendChild(a);
+      return a;
+    });
+
+    // id 를 JS 로 부여하므로 #section-N 으로 진입 시 위치 보정
+    if (location.hash) {
+      const target = document.getElementById(location.hash.slice(1));
+      if (target) target.scrollIntoView();
+    }
+
+    if (!('IntersectionObserver' in window)) return;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const idx = headings.indexOf(entry.target);
+        links.forEach((a, i) => a.classList.toggle('active', i === idx));
+        // 좁은 화면(가로 목차)에서는 활성 링크가 보이도록 가로 스크롤
+        if (nav.scrollWidth > nav.clientWidth && links[idx]) {
+          nav.scrollLeft = links[idx].offsetLeft - nav.offsetLeft - 16;
+        }
+      });
+    }, { rootMargin: '0px 0px -70% 0px' });
+    headings.forEach((h) => observer.observe(h));
+  })();
+</script>

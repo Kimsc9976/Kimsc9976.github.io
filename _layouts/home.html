@@ -21,37 +21,28 @@ layout: default
 
           <h2>🧭 Engineering Timeline</h2>
 
+          <!-- 경력: About과 같은 _data/timeline.yml (layout: list) 사용 -->
+          {% assign experience = site.data.timeline.sections | where: "layout", "list" | first %}
           <div class="timeline-block">
-            <h3>💼 QA Engineering Experience</h3>
+            <h3>{{ experience.title }}</h3>
 
+            {% for item in experience.items %}
             <div class="timeline-item">
-              <span class="year">2025</span>
+              <span class="year">
+                {{ item.year }}
+                {% if item.note %}
+                <span class="year-note{% if item.current %} is-current{% endif %}">{{ item.note }}</span>
+                {% endif %}
+              </span>
 
               <div class="timeline-content">
-                <strong class="company">뉴빌리티</strong>
-                <p class="desc">검증 자동화 인프라 설계</p>
-                <p class="desc">Agile에 따른 기능 테스트 수행</p>
+                <strong class="company">{{ item.title }}</strong>
+                {% for desc in item.descriptions %}
+                <p class="desc">{{ desc }}</p>
+                {% endfor %}
               </div>
             </div>
-
-            <div class="timeline-item">
-              <span class="year">2025</span>
-
-              <div class="timeline-content">
-                <strong class="company">미리디</strong>
-                <p class="desc">비즈하우스 UI/UX 부문 UT 수행</p>
-                <p class="desc">비즈하우스 플랫폼 QA 자동화 구축</p>
-              </div>
-            </div>
-
-            <div class="timeline-item">
-              <span class="year">2024</span>
-
-              <div class="timeline-content">
-                <strong class="company">뉴빌리티</strong>
-                <p class="desc">유저 시나리오 기반 테스트 전략 도입</p>
-              </div>
-            </div>
+            {% endfor %}
           </div>
 
           <div class="timeline-block">

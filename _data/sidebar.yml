@@ -8,13 +8,13 @@ main:
   url: "/log/"
 sections:
   engineering:
-    title: "📔 Engineering"
+    title: "\U0001F4D4 Engineering"
     url: "/log/"
   algorithm:
-    title: "👩🏻‍💻 Algorithm List"
+    title: "\U0001F469\U0001F3FB‍\U0001F4BB Algorithm List"
     url: "/algorithm/"
   sideprojects:
-    title: "🗂️ Side Projects"
+    title: "\U0001F5C2️ Side Projects"
     url: "/sideproject/"
 blog:
 - title: For QA

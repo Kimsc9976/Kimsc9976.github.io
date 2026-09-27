@@ -1,22 +1,27 @@
 # About 페이지 Career 영역 — 섹션별 타임라인
 # layout: list (경력) | grid (자격증·학력 등 카드형)
+# note: 연도 하단 기간. current: true 이면 재직중 강조. expired: true 이면 만료 표시.
 sections:
   - title: "💼 QA Engineering Experience"
     layout: list
     items:
       - year: 2025
+        note: "06월 ~ 재직중"
+        current: true
         title: 뉴빌리티
         descriptions:
           - 검증 자동화 인프라 설계
           - Agile에 따른 기능 테스트 수행
 
       - year: 2025
+        note: "1월 ~ 6월"
         title: 미리디
         descriptions:
           - 비즈하우스 UI/UX 부문 UT 수행
           - 비즈하우스 플랫폼 QA 자동화 구축
 
       - year: 2024
+        note: "· 1년"
         title: 뉴빌리티
         descriptions:
           - 유저 시나리오 기반 테스트 전략 도입
@@ -24,6 +29,11 @@ sections:
   - title: "🏆 Certificate"
     layout: grid
     items:
+      - year: 2026
+        title: TOEFL
+        descriptions:
+          - 3.5/6
+
       - year: 2024
         title: ISTQB
         descriptions:
@@ -31,11 +41,13 @@ sections:
 
       - year: 2023
         title: PCCP
+        expired: true
         descriptions:
           - 코딩전문역량인증시험 Level 3
 
       - year: 2023
         title: OPIc
+        expired: true
         descriptions:
           - English Speaking Test – IH
 

@@ -119,6 +119,35 @@
   min-width: 48px;
 }
 
+/* 연도 아래 기간 note — Home / About 공통 */
+.timeline-item .year-note {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #8a8a8a;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+
+/* 재직중 강조: 메인 파랑(#007bff)보다 한 톤 진하게 */
+.timeline-item .year-note.is-current {
+  font-weight: 700;
+  color: #0a58ca;
+}
+
+/* Home 경력: 연도 아래 note 를 두는 세로 배치 (About 과 동일) */
+.timeline-card .timeline-item .year {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 0 0 4.4rem;
+  width: 4.4rem;
+  min-width: 4.4rem;
+  gap: 1px;
+  line-height: 1.15;
+}
+
 .timeline-content {
   display: flex;
   flex-direction: column;

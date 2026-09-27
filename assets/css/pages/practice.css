@@ -1,0 +1,502 @@
+/* QA Engineering Practice 상세 페이지 (_layouts/practice.html)
+   구조·비율은 twa04047.github.io/ko/projects/* 참고, 색·서체는 블로그 톤 유지 */
+.practice-detail {
+  --pd-ink: #1f2937;
+  --pd-muted: #6b7280;
+  --pd-line: #d5dadd;
+  --pd-accent: #2563eb;
+  --pd-navy: #132449;
+  --pd-soft: #eef2f7;
+
+  font-family: "Noto Serif KR", serif;
+  color: var(--pd-ink);
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 10px 16px 0;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* 전역 header(사이트 상단 바) 스타일 무효화 */
+.practice-detail header {
+  background: none;
+  color: inherit;
+  text-align: left;
+}
+
+.practice-detail a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.practice-back-link {
+  font-size: 14px;
+  color: var(--pd-muted) !important;
+}
+
+.practice-back-link:hover {
+  color: var(--pd-accent) !important;
+}
+
+/* ---------- Header ---------- */
+.practice-header {
+  padding: 30px 0 0;
+}
+
+.practice-eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--pd-accent);
+}
+
+.practice-header h1 {
+  margin: 20px 0 23px;
+  max-width: 900px;
+  font-size: clamp(28px, 4vw, 46px);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -1.5px;
+  color: var(--pd-navy);
+  overflow-wrap: break-word;
+}
+
+.practice-summary {
+  max-width: 740px;
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.8;
+  color: var(--pd-muted);
+}
+
+.practice-disclosure {
+  max-width: 920px;
+  margin: 26px 0;
+  padding: 16px 22px;
+  border: 1px solid #c7d2db;
+  border-left: 3px solid #4f6ca5;
+  border-radius: 4px;
+  background: #e9eef3;
+  font-size: 14px;
+  line-height: 1.85;
+}
+
+.practice-disclosure strong {
+  display: block;
+  margin-bottom: 5px;
+  color: #2e3c54;
+}
+
+.practice-disclosure p {
+  margin: 0;
+  color: #465560;
+}
+
+.practice-facts {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 17px;
+  margin: 25px 0 0;
+  padding: 24px 0;
+  border-top: 1px solid var(--pd-line);
+}
+
+.practice-facts > div {
+  display: grid;
+  grid-template-columns: 85px 1fr;
+  gap: 15px;
+}
+
+.practice-facts dt {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--pd-muted);
+}
+
+.practice-facts dd {
+  margin: 0;
+  font-size: 16px;
+}
+
+@media (min-width: 900px) {
+  .practice-facts {
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    gap: 30px;
+    margin-top: 35px;
+  }
+
+  .practice-facts > div {
+    display: block;
+  }
+
+  .practice-facts dt {
+    margin-bottom: 5px;
+  }
+}
+
+/* ---------- Cover ---------- */
+.practice-cover {
+  margin: 10px 0 0;
+}
+
+.practice-cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--pd-line);
+  border-radius: 5px;
+}
+
+.practice-cover figcaption {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--pd-muted);
+}
+
+/* ---------- Highlights (핵심 수치) ---------- */
+.practice-highlights {
+  display: grid;
+  grid-template-columns: 1fr;
+  text-align: left;
+  margin: 22px 0 0;
+  border-top: 1px solid var(--pd-line);
+  border-bottom: 1px solid var(--pd-line);
+}
+
+.practice-highlights > div {
+  display: grid;
+  grid-template-columns: 125px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  padding: 18px 0;
+}
+
+.practice-highlights > div + div {
+  border-top: 1px solid var(--pd-line);
+}
+
+.practice-highlights dt {
+  grid-column: 2;
+  grid-row: 1;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--pd-muted);
+}
+
+.practice-highlights dd {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  line-height: 1.2;
+  color: var(--pd-navy);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (min-width: 900px) {
+  .practice-highlights {
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    margin-top: 30px;
+  }
+
+  .practice-highlights > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 26px 24px 28px;
+  }
+
+  .practice-highlights > div:first-child {
+    padding-left: 0;
+  }
+
+  .practice-highlights > div + div {
+    border-top: 0;
+    border-left: 1px solid var(--pd-line);
+  }
+
+  .practice-highlights dd {
+    order: -1;
+    font-size: clamp(28px, 3vw, 40px);
+  }
+}
+
+/* ---------- Body: 목차 + 본문 ---------- */
+.practice-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 30px;
+  margin-top: 45px;
+}
+
+.practice-nav {
+  /* 스크롤 시 목차가 따라 내려오도록 모든 화면 폭에서 sticky */
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  align-self: start;
+  font-size: 14px;
+  background: #fff;
+  border-bottom: 1px solid var(--pd-line);
+  padding: 12px 0;
+}
+
+.practice-nav > p {
+  margin: 0 0 12px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--pd-muted);
+}
+
+.practice-nav nav {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px 20px;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+
+.practice-nav nav::-webkit-scrollbar {
+  display: none;
+}
+
+.practice-nav a {
+  color: var(--pd-muted) !important;
+  line-height: 1.5;
+}
+
+.practice-nav a:hover,
+.practice-nav a.active {
+  color: var(--pd-accent) !important;
+}
+
+.practice-nav a.active {
+  font-weight: 600;
+}
+
+@media (min-width: 1000px) {
+  .practice-layout {
+    grid-template-columns: 200px minmax(0, 760px);
+    gap: 60px;
+  }
+
+  .practice-nav {
+    top: 35px;
+    background: none;
+    border-bottom: 0;
+    padding: 0;
+  }
+
+  .practice-nav nav {
+    flex-direction: column;
+    gap: 13px;
+    overflow-x: visible;
+    white-space: normal;
+  }
+}
+
+.practice-body {
+  min-width: 0;
+}
+
+/* ---------- Prose ---------- */
+.practice-prose {
+  font-size: 16px;
+  line-height: 1.95;
+}
+
+.practice-prose h2 {
+  margin: 42px 0 18px;
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 1.45;
+  letter-spacing: -0.7px;
+  color: var(--pd-navy);
+  scroll-margin-top: 70px; /* 모바일 sticky 목차 높이만큼 */
+}
+
+.practice-prose h2:first-child {
+  margin-top: 0;
+}
+
+.practice-prose h3 {
+  margin: 28px 0 10px;
+  font-size: 19px;
+}
+
+.practice-prose p {
+  margin: 0 0 20px;
+}
+
+.practice-prose ul,
+.practice-prose ol {
+  padding-left: 23px;
+}
+
+.practice-prose li {
+  margin-bottom: 10px;
+}
+
+.practice-prose a {
+  color: var(--pd-accent);
+  text-decoration: underline;
+}
+
+.practice-prose blockquote {
+  margin: 28px 0;
+  padding: 15px 24px;
+  border-left: 3px solid var(--pd-accent);
+  background: var(--pd-soft);
+  color: #46525b;
+}
+
+.practice-prose blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.practice-prose code {
+  font-size: 0.9em;
+  background: #e4e8eb;
+  padding: 3px 6px;
+  border-radius: 3px;
+  overflow-wrap: anywhere;
+}
+
+.practice-prose table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  margin: 0 0 20px;
+  font-size: 15px;
+}
+
+.practice-prose th,
+.practice-prose td {
+  border: 1px solid var(--pd-line);
+  padding: 9px 14px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.practice-prose th {
+  background: #e9edef;
+  white-space: nowrap;
+}
+
+.practice-prose td ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+
+.practice-prose td li {
+  margin-bottom: 4px;
+}
+
+.practice-muted {
+  font-size: 13px;
+  color: var(--pd-muted);
+}
+
+/* 본문 이미지: <div class="figures"><figure><img><figcaption></figure></div> */
+.practice-prose figure {
+  margin: 30px 0;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid var(--pd-line);
+  border-radius: 5px;
+}
+
+.practice-prose img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: auto;
+  border-radius: 4px;
+}
+
+.practice-prose figcaption {
+  margin-top: 13px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--pd-muted);
+}
+
+.practice-prose .figures.paired {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.practice-prose .figures.paired figure {
+  margin: 0;
+}
+
+/* ---------- 관련 자료 / 노트 ---------- */
+.practice-resources {
+  margin-top: 35px;
+  padding-top: 25px;
+  border-top: 1px solid var(--pd-line);
+}
+
+.practice-resources h2 {
+  margin: 0 0 10px;
+  font-size: 24px;
+  color: var(--pd-navy);
+}
+
+.practice-resources a {
+  display: block;
+  padding: 10px 0;
+  color: var(--pd-accent) !important;
+  text-decoration: underline !important;
+}
+
+.practice-note {
+  margin: 40px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--pd-line);
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--pd-muted);
+}
+
+/* ---------- 다음 Practice ---------- */
+.practice-next {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  margin: 70px 0 0;
+  padding: 30px 0 45px;
+  border-top: 1px solid var(--pd-line);
+}
+
+.practice-next > span:first-child {
+  grid-column: 1 / -1;
+  font-size: 13px;
+  color: var(--pd-muted);
+}
+
+.practice-next strong {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--pd-navy);
+}
+
+.practice-next > span:last-child {
+  font-size: 28px;
+  line-height: 1;
+  align-self: center;
+}
+
+.practice-next:hover strong,
+.practice-next:hover > span:last-child {
+  color: var(--pd-accent);
+}

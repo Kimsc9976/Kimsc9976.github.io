@@ -497,8 +497,9 @@ footer {
 }
 
 @media (min-width: 1024px) {
+  /* 데스크톱도 2열 고정: 카드가 늘어나면 행이 자동으로 추가됨 (N행 2열) */
   .skill-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 32px;
   }
 }
