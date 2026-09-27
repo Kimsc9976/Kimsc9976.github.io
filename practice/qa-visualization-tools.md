@@ -10,9 +10,9 @@ tech: [Python, ROS2, PyQt5, FastAPI, React, TypeScript, three.js]
 #   src: /assets/images/practice/visualization/ss-tool-overview.png
 #   alt: SS 검증 도구 전체 화면
 #   caption: 카메라·SS·LDM 동기화 뷰어와 검증 패널
-# highlights:                 # 핵심 수치 (확정된 수치가 있으면 채워주세요)
-#   - value: ""
-#     label: ""
+highlights:
+  - value: "3개 부서"
+    label: NTT를 표준 디버깅 도구로 채택한 조직 (Autonomy PNC·QA, Product TM)
 # resources:
 #   - title: 관련 블로그 글
 #     url: /log/...
@@ -28,7 +28,7 @@ tech: [Python, ROS2, PyQt5, FastAPI, React, TypeScript, three.js]
 자율주행 로봇의 이슈는 대부분 **"로봇이 그 순간 무엇을 보고, 어떤 상태였는가"**를 알아야 원인을 좁힐 수 있습니다.
 하지만 그 정보는 ROS2 토픽의 Raw 메시지와 숫자 코드로만 남아 있어서, 같은 로그를 두고도 QA·개발·운영이 서로 다르게 해석하는 일이 잦았습니다.
 
-- **로깅 단계** — 상태 코드(예: 경로 계획 실패 코드, 횡단보도 시나리오 단계)를 사람이 매번 명세와 대조해야 했고, 현장에서 즉시 확인하기 어려웠습니다.
+- **로깅 단계** — Topic·Message의 Raw 데이터와 상태 코드(예: 경로 계획 실패 코드, 횡단보도 시나리오 단계)를 로그에서 직접 해석해야 해서 분석 진입장벽이 높았습니다. 같은 이슈를 여러 사람이 반복 분석했고, 부서 간에 이슈를 공유할 때마다 설명과 설득에 드는 비용도 컸습니다.
 - **인지(Perception) 단계** — Semantic Segmentation·Object Detection 결과가 "보증 거리 안에서 맞게 판단했는지"를 눈으로만 확인했기 때문에, 판단 기준이 사람마다 달랐고 버전 간 비교(Regression)도 수작업이었습니다.
 
 ## 접근 방법
@@ -42,6 +42,7 @@ tech: [Python, ROS2, PyQt5, FastAPI, React, TypeScript, three.js]
 - ROS2 토픽 구독 기반 **시스템 모니터** — 관제 주시 신호(remote attention flag) 등 운영 핵심 상태 표시
 - **Ego 상태 디버그 뷰** — Local Path Planner 실패 사유, 횡단보도 시나리오 단계 등을 코드가 아닌 설명으로 표시
 - SSH 기반 **기체 SW 버전 확인·ROS 파라미터 설정**으로 현장 테스트 준비 시간 단축
+- 실시간 모니터링과 후처리 분석을 같은 UI로 제공해, 특정 부서에 한정되지 않는 **범용 분석 도구**로 설계
 - 로봇 SW 버전(2.1.x ~ 2.11.x)별 브랜치로 메시지 구조 변경에 대응
 
 <!--
@@ -76,7 +77,9 @@ ROS2 bag 또는 실시간 토픽에서 카메라·SS·LDM·Cliff 데이터를 �
 
 ## 결과
 
+- NTT는 Autonomy PNC·Autonomy QA·Product TM 등 **3개 부서에서 표준 디버깅 도구**로 채택되었습니다.
 - 상태 코드·인지 결과를 **같은 화면, 같은 지표**로 보게 되면서 QA·개발·운영 간 해석 차이와 커뮤니케이션 비용이 줄었습니다.
+- 분석 사례가 조직의 기술 자산으로 쌓여, 신규 인원 온보딩과 기술 전수 비용이 줄었습니다.
 - 이슈 재현 시 해당 시점으로 바로 이동(메모·절대 시각 기반 seek)할 수 있어 원인 분석 시간이 단축되었습니다.
 - 인지 모듈 버전 간 비교가 수작업에서 **자동화된 Regression 리포트**로 바뀌어, 반복 검증이 가능한 구조가 되었습니다.
 

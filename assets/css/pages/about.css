@@ -234,7 +234,8 @@
   /* 서비스 환경별 경험 카드 (_data/profile.yml → environments) */
   .about-env-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    /* min(100%, …): 칸이 좁을 때 최소 폭 때문에 about-right가 왼쪽 칸으로 넘치지 않도록 */
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
     gap: 12px;
   }
 

@@ -2,46 +2,69 @@
 layout: practice
 title: "유저 시나리오 기반 웹페이지 QA 자동화"
 permalink: /practice/web-scenario-automation/
-# ── 아래는 선택 항목: 주석(#)을 풀고 값을 넣으면 해당 영역이 표시됩니다 ──
-# eyebrow: QA Engineering Practice / 뉴빌리티   # 제목 위 분류 텍스트
-# headline: 카드 summary 대신 보여줄 한 줄 소개
-# disclosure:                 # 헤더 아래 강조 박스
-#   title: 한 줄 강조
-#   text: 설명 문단
-# role: 담당 역할
+eyebrow: QA Engineering Practice / 미리디 (비즈하우스)
+headline: '"기능이 동작하는가"에서 "사용자가 목적을 달성하는가"로 — 유저 행동 기반 시나리오 자동화와 프로덕션 모니터링'
+role: 유저 시나리오 설계, 웹 자동화·모니터링 구축, UI/UX 테스트 수행
 tech: [Playwright, Checkly]
-# cover:                      # 대표 이미지
-#   src: /assets/images/practice/example.png
-#   alt: 이미지 설명
-#   caption: 이미지 캡션
-# highlights:                 # 핵심 수치
-#   - value: "15%↓"
-#     label: 릴리즈 후 CS 이슈 발생률
-# resources:                  # 하단 관련 자료 링크
-#   - title: 관련 블로그 글
-#     url: /log/...
-# note: 하단 보충 설명 문단
+# cover:                      # 대표 이미지 (이미지 업로드 후 주석 해제)
+#   src: /assets/images/practice/web/checkly-dashboard.png
+#   alt: Checkly 프로덕션 모니터링 화면
+#   caption: 핵심 사용자 흐름 모니터링
+resources:
+  - title: Shift Left - 적용하기 전에 먼저 물어야 할 것들
+    url: /log/qa/2026/05/28/shift-left/
 ---
 
 <!--
-  본문의 '## 제목'이 좌측 목차(#section-N)로 자동 생성됩니다.
-  '핵심 요약'(맨 앞)과 '관련 프로젝트'(맨 뒤)는 _data 에서 자동으로 채워집니다.
-  이미지: <figure><img src="..." alt="..."><figcaption>설명</figcaption></figure>
-  두 장 나란히: <div class="figures paired"><figure>...</figure><figure>...</figure></div>
+  이미지 업로드 위치: /assets/images/practice/web/
+  아래 <figure> 주석을 풀면 해당 위치에 표시됩니다. (파일명은 자유롭게 바꿔도 됩니다)
 -->
 
 ## 배경과 문제
 
-> ✍️ 작성 예정 — 어떤 상황에서 어떤 문제가 있었는지
+비즈하우스는 다양한 인쇄 상품군을 다루는 커머스 플랫폼으로, 상품군이 늘어날수록 검증해야 할 사용자 흐름도 함께 늘어났습니다.
+
+- **기능 단위 검증의 한계** — 개별 기능이 동작해도, 실제 사용자가 주문 완료 같은 목적까지 도달하는지는 따로 확인해야 했습니다.
+- **릴리즈 이후의 공백** — 배포 후 운영 환경에서 생기는 흐름 이상은 QA 범위 밖에 있어, 문제를 늦게 인지할 위험이 있었습니다.
+- **UI/UX 개선의 근거** — 개선안이 실제로 사용자 경험을 나아지게 하는지 판단할 기준이 필요했습니다.
 
 ## 접근 방법
 
-> ✍️ 작성 예정 — 문제를 어떻게 정의하고 어떤 방식으로 풀었는지
+### 1. 사용자 행동 데이터 기반 시나리오 정의
+
+- 사용자 행동 데이터를 분석해 **핵심 유저 시나리오**를 도출하고 테스트 케이스로 정의
+- 제품군 단위로 시나리오를 구성해, 상품군이 늘어나도 같은 구조로 확장할 수 있도록 설계
+
+### 2. Playwright 기반 유저 시나리오 자동화
+
+- 핵심 시나리오를 Playwright로 자동화해 릴리즈마다 반복 검증
+- 사용자 행동 데이터를 근거로 기능·흐름을 검증하고 리스크를 판단
+
+### 3. Checkly 기반 프로덕션 모니터링
+
+- 핵심 사용자 흐름을 운영 환경에서 주기적으로 실행해 **배포 후 이상 징후를 실시간 감지**
+- QA의 범위를 릴리즈 단계에서 **운영 단계까지 확장**
+
+<!--
+<figure>
+  <img src="/assets/images/practice/web/playwright-scenario.png" alt="Playwright 시나리오 테스트">
+  <figcaption>제품군 단위 유저 시나리오 자동화</figcaption>
+</figure>
+-->
+
+### 4. UI/UX A/B 테스트 · Usability Test
+
+- UI/UX 개선안에 대한 A/B 테스트를 설계하고 결과를 검증
+- 실제 사용자 경험을 기반으로 Usability Test 수행
 
 ## 결과
 
-> ✍️ 작성 예정 — 수치·변화·팀에 미친 영향
+- 핵심 유저 시나리오를 릴리즈마다 자동으로 반복 검증하는 구조를 마련했습니다.
+- 프로덕션 모니터링으로 배포 이후에도 핵심 흐름의 이상 징후를 실시간으로 감지할 수 있게 되었습니다.
+- 제품군 단위 시나리오 구조로, 상품군 확장에 대응할 수 있는 테스트 인프라를 설계했습니다.
+- UI/UX 개선 판단에 A/B 테스트·Usability Test 결과라는 근거를 더했습니다.
 
 ## 배운 점
 
-> ✍️ 작성 예정
+- **좋은 시나리오는 데이터에서 나옵니다.** 추측으로 만든 시나리오보다 실제 사용자 행동에서 도출한 시나리오가 자동화 우선순위를 정하는 데 훨씬 명확한 기준이 되었습니다.
+- **QA는 릴리즈에서 끝나지 않습니다.** 배포 전 검증(Shift Left)과 배포 후 모니터링(Shift Right)이 함께 있어야 사용자 관점의 품질을 지킬 수 있었습니다.

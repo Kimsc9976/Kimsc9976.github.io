@@ -11,7 +11,7 @@ sections:
         title: 뉴빌리티
         descriptions:
           - 검증 자동화 인프라 설계
-          - Agile에 따른 기능 테스트 수행
+          - Agile 기반 기능 테스트 수행
 
       - year: 2025
         note: "1월 ~ 6월"
@@ -25,6 +25,7 @@ sections:
         title: 뉴빌리티
         descriptions:
           - 유저 시나리오 기반 테스트 전략 도입
+          - 로봇 배달 PoC·운행안전인증 대응
 
   - title: "🏆 Certificate"
     layout: grid
@@ -37,7 +38,7 @@ sections:
       - year: 2024
         title: ISTQB
         descriptions:
-          - SW Testing Level CTFL
+          - CTFL (Foundation Level)
 
       - year: 2023
         title: PCCP

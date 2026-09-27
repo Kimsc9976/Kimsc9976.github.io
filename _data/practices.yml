@@ -4,8 +4,8 @@
   points:
     - HILS 기반 반복 검증 자동화 인프라 설계 및 구축
     - 시뮬레이션 연동을 통한 주행 시나리오 커버리지 확보
-    - 내부 API 연동 자동 스트레스 테스트 환경 구성
-    - 수천 회 반복 시나리오 기반 안정성·강건성 검증 체계 마련
+    - 플랫폼 API 연동 1,000회 이상 장기 반복 스트레스 테스트로 SW 강건성 검증
+    - 인적 개입 최소화로 반복 검증 리소스 약 80% 절감
     - 자동화된 결과 축적으로 테스트 재현성 및 추적성 확보
   detail_url: /practice/qa-automation-infrastructure/
 
@@ -23,9 +23,9 @@
   summary: 로봇 로그부터 인지(Perception) 결과까지, 공통 기준으로 해석하는 QA 시각화 도구 구축
   points:
     - "[NTT] ROS2 토픽·상태 코드를 명세 기반 시각 정보로 변환하는 로깅 시각화 도구"
+    - "[NTT] Autonomy PNC·QA, Product TM 등 3개 부서의 표준 디버깅 도구로 채택"
     - "[SS Tool] Semantic Segmentation·Object Detection 결과를 검증하는 웹 도구"
     - 이슈 재현 및 원인 분석 시간 단축을 위한 UI 제공
-    - QA·개발·운영 조직에서 공통 디버깅 도구로 활용
     - 분석 기준 표준화를 통해 커뮤니케이션 비용 감소
   detail_url: /practice/qa-visualization-tools/
 
@@ -49,7 +49,7 @@
   detail_url: /practice/user-scenario-testing/
 
 - title: 운행안전인증 QA 대응
-  period: 2026.09 / 2024.12 / 2024.04 
+  period: 2024.04 / 2024.12 / 2026.09
   summary: 운행안전인증 심사 기준 기반 QA 및 인증 대응
   points:
     - 운행안전인증 심사 기준 분석 및 테스트 케이스 작성·수행
