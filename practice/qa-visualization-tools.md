@@ -35,7 +35,7 @@ tech: [Python, ROS2, PyQt5, FastAPI, React, TypeScript, three.js]
 
 같은 문제를 두 단계로 나눠, 각 단계에 맞는 도구를 만들었습니다.
 
-### 1. NTT (Neubie Test Tool) — 로깅 시각화 (2024)
+### 1. NTT (Neubie Test Tool) — 로깅 시각화 (2025.02)
 
 로봇에 연결해 실시간 토픽을 구독하고, **숫자 코드를 명세 기반의 의미 있는 상태로 변환해 보여주는** 데스크톱 도구입니다.
 
