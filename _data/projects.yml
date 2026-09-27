@@ -54,7 +54,7 @@
   detail_url: /practice/robot-poc-qa/
 
 - title: "뉴빌리티 - 로깅 시각화 도구 (NTT)"
-  period: 2025.02
+  period: 2024.12
   summary: 로봇 ROS2 토픽·상태 코드를 실시간으로 해석해 보여주는 로깅 시각화 도구 개발
   points:
     - ROS2 토픽 구독 기반 시스템 모니터 (관제 주시 신호 등 운영 핵심 상태 표시)
