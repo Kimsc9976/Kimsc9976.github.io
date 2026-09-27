@@ -14,3 +14,8 @@ SETUP_*.md
 PROJECT_STRUCTURE.md
 *.bat
 .github/workflows/*.example
+
+# GA 검증 리포트 출력
+_reports/
+scripts/visitor_report.py
+__pycache__/

@@ -231,6 +231,44 @@
     margin-top: 6px;
   }
 
+  /* 서비스 환경별 경험 카드 (_data/profile.yml → environments) */
+  .about-env-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 12px;
+  }
+
+  .about-env {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 14px 18px;
+    background: #fafafa;
+    min-width: 0;
+  }
+
+  .about-env h4 {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 8px;
+    font-size: 1rem;
+  }
+
+  .about-env ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    line-height: 1.55;
+  }
+
+  .about-env li + li {
+    margin-top: 4px;
+  }
+
+  .about-closing {
+    border-left: 3px solid #3498db;
+    padding: 4px 0 4px 14px;
+  }
+
 .about-timeline-section {
   display: flex;
   flex-direction: column;

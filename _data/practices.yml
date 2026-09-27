@@ -19,15 +19,25 @@
   detail_url: /practice/web-scenario-automation/
 
 - title: 데이터 시각화 도구 구축
-  period: 2024.01 ~ 2024.12
-  summary: 테스트·운영·CS 간 분석 기준을 통합한 QA 시각화 도구 구축
+  period: 2024 / 2026.06 ~ 2026.09
+  summary: 로봇 로그부터 인지(Perception) 결과까지, 공통 기준으로 해석하는 QA 시각화 도구 구축
   points:
-    - 테스트 결과 및 로그를 공통 기준으로 해석 가능한 시각화 도구 설계
-    - 바이트 단위 Raw 데이터를 명세 기반 시각 정보로 변환
+    - "[NTT] ROS2 토픽·상태 코드를 명세 기반 시각 정보로 변환하는 로깅 시각화 도구"
+    - "[SS Tool] Semantic Segmentation·Object Detection 결과를 검증하는 웹 도구"
     - 이슈 재현 및 원인 분석 시간 단축을 위한 UI 제공
     - QA·개발·운영 조직에서 공통 디버깅 도구로 활용
     - 분석 기준 표준화를 통해 커뮤니케이션 비용 감소
   detail_url: /practice/qa-visualization-tools/
+
+- title: 시뮬레이터 기반 검증 환경 구축
+  period: 2026.03 ~
+  summary: 실기체 투입 전 주행 시나리오를 반복 재현하기 위한 QA 테스트베드 구축 및 평가
+  points:
+    - SimWorld(Unreal Engine + UnrealCV)에 실제 로봇과 동일한 센서 배치로 환경 구성
+    - 다중 카메라 FPS 급락(20~25 → 2~5)의 구조적 원인 분석 및 오픈소스 이슈 보고
+    - URBAN-SIM(Isaac Sim) 비교 — 재현성·디버깅·운영 비용 기준 QA 적합성 평가
+    - 검증 목적에 맞는 테스트베드 선택 기준 정리 및 팀 공유
+  detail_url: /practice/simulator-verification/
 
 - title: 유저 시나리오 기반 테스팅
   period: 2024.04 ~ 2024.10

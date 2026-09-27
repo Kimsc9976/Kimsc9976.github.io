@@ -1,3 +1,23 @@
+- title: "뉴빌리티 - SS 검증 도구"
+  period: 2026.06 ~ 2026.09
+  summary: "자율주행 로봇의 Semantic Segmentation·Object Detection 인지 결과 검증 도구 개발"
+  points:
+    - ROS2 bag 재생·실시간 토픽 스트리밍 기반 카메라·SS·LDM 동기화 뷰어 구현
+    - ROI 내 클래스 점유율, SS↔LDM 비교, 오토레이블링 GT 대비 픽셀 일치율로 정량 검증
+    - 2D 검출 박스와 3D 객체 컨투어를 같은 색상 체계로 표시해 교차 확인
+    - Regression 자동화 — 업로드·버전 설치·재기록·회수·이슈별 리포트 캡처를 한 번에 실행
+  detail_url: /practice/qa-visualization-tools/
+
+- title: "뉴빌리티 - 시뮬레이터 검증 환경 셋업"
+  period: 2026.03 ~
+  summary: "실기체 투입 전 주행 시나리오를 반복 검증하기 위한 Micromobility 시뮬레이터 환경 구축"
+  points:
+    - SimWorld(Unreal Engine + UnrealCV) 기반 로봇 센서·카메라 구성 및 환경 셋업
+    - 다중 카메라 FPS 급락 등 구조적 한계를 분석해 도입 판단 근거로 정리
+    - URBAN-SIM(Isaac Sim) 비교 평가 — 재현성·디버깅 난이도 등 QA 관점 적합성 검토
+    - 시뮬레이션 연동 자동 검증으로 주행 시나리오 커버리지 확장 기반 마련
+  detail_url: /practice/simulator-verification/
+
 - title: "미리디 - 비즈하우스"
   period: 2025.04 ~ 2025.06
   summary: "실제 사용자의 경험 기반으로 UI/UX 에 대한 A/B 테스트 & Usability Test 수행"
@@ -32,3 +52,13 @@
     - Third Party 통합 후 자율주행 시스템 안정성 테스트
     - 보도/횡단보도 주행 관련 운행안전인증 심사 대응
   detail_url: /practice/robot-poc-qa/
+
+- title: "뉴빌리티 - 로깅 시각화 도구 (NTT)"
+  period: 2025.02
+  summary: 로봇 ROS2 토픽·상태 코드를 실시간으로 해석해 보여주는 로깅 시각화 도구 개발
+  points:
+    - ROS2 토픽 구독 기반 시스템 모니터 (관제 주시 신호 등 운영 핵심 상태 표시)
+    - 경로 계획 실패 사유·횡단보도 시나리오 단계를 코드가 아닌 설명으로 표시
+    - SSH 기반 기체 SW 버전 확인·ROS 파라미터 설정으로 현장 테스트 준비 시간 단축
+    - 로봇 SW 버전별 브랜치 운영으로 메시지 구조 변경에 대응
+  detail_url: /practice/qa-visualization-tools/
