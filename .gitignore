@@ -19,3 +19,6 @@ PROJECT_STRUCTURE.md
 _reports/
 scripts/visitor_report.py
 __pycache__/
+
+# 비밀방(/room/) 가사 평문 — 절대 커밋 금지 (암호문은 assets/room/*.enc.json)
+.private/

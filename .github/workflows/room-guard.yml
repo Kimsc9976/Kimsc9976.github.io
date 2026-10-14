@@ -1,0 +1,45 @@
+name: Room guard and AdSense build checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  room-security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Reject plaintext or invalid room artifacts in tracked tree
+        run: bash tools/check-room-files.sh --tracked
+      - name: Test encrypted vault and pre-commit guard in isolated workspace
+        run: bash tools/test-room.sh
+  jekyll-render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+          bundler-cache: true
+      - name: Inject disposable AdSense client into CI workspace
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('_config.yml')
+          s = p.read_text()
+          needle = '  client: ""\n'
+          if s.count(needle) != 1:
+              raise SystemExit('expected exactly one blank adsense.client')
+          p.write_text(s.replace(needle, '  client: "ca-pub-0000000000000000"\n', 1))
+          PY
+      - name: Render Jekyll in production mode
+        run: bundle exec jekyll build
+        env:
+          JEKYLL_ENV: production
+      - name: Assert AdSense/GA, noindex and deployment exclusions
+        run: python3 tools/check-room-build.py

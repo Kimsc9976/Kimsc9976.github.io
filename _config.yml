@@ -57,9 +57,39 @@ exclude:
   - requirements.txt
   - "*.bat"
   - .github/
+  # 비밀방 도구(암호화 스크립트 등)는 배포하지 않음
+  - tools/
+  - .private/
+  - SETUP_ROOM.md  # ignored 운영 가이드가 로컬 Jekyll 빌드에서 노출되지 않도록 제외
+
+# 광고(AdSense) 설정 — 승인 후 client 값(ca-pub-XXXX)만 채우면 _includes/ads.html 이 켜짐
+# 페이지 front matter 에 ads: false 를 주면 그 페이지에는 광고 스크립트가 로드되지 않음
+adsense:
+  client: ""
+  # prefix match: every page in these sections is excluded from auto ads
+  exclude_paths:
+    - /room/
+    - /about/
+    - /practice/
 
 # sitemap.xml 기본값 (yenarue 글 권장: weekly / 0.5)
 defaults:
+  # 포트폴리오 및 QA Practices 상세 페이지: 광고만 차단, GA 유지
+  - scope:
+      path: "about.md"
+    values:
+      ads: false
+  - scope:
+      path: "practice"
+    values:
+      ads: false
+  # 비밀방: 광고·사이트맵·통계 전부 제외 (room/index.html 자체도 같은 값을 갖고 있음 — 이중 안전장치)
+  - scope:
+      path: "room"
+    values:
+      ads: false
+      sitemap: false
+      analytics: false
   - scope:
       path: ""
     values:
