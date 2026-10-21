@@ -1,0 +1,23 @@
+{%- comment -%}
+  Auto ads must NOT load on excluded pages. Site-wide settings belong to
+  _config.yml (adsense.exclude_paths); /room/ is also a fail-safe guard.
+{%- endcomment -%}
+{%- assign ads_client = site.adsense.client | default: '' | strip -%}
+{%- assign ads_blocked = false -%}
+{%- if page.ads == false -%}
+  {%- assign ads_blocked = true -%}
+{%- endif -%}
+{%- assign room_path_prefix = page.url | slice: 0, 6 -%}
+{%- if page.url == '/room' or room_path_prefix == '/room/' -%}
+  {%- assign ads_blocked = true -%}
+{%- endif -%}
+{%- for excluded_path in site.adsense.exclude_paths -%}
+  {%- assign prefix_length = excluded_path | size -%}
+  {%- assign actual_prefix = page.url | slice: 0, prefix_length -%}
+  {%- if excluded_path != '' and actual_prefix == excluded_path -%}
+    {%- assign ads_blocked = true -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- if jekyll.environment == 'production' and ads_client != '' and ads_blocked == false -%}
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ ads_client | escape }}" crossorigin="anonymous"></script>
+{%- endif -%}

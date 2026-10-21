@@ -2,6 +2,7 @@
 layout: about
 title: How I Work
 permalink: /about/
+ads: false
 ---
 
 # 김수찬 | QA Engineer
