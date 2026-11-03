@@ -1,0 +1,57 @@
+name: AdSense page exclusion checks
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-ads:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+          bundler-cache: true
+
+      # This dummy ID is used ONLY inside an isolated Actions runner.
+      # It must never be pushed to _config.yml or deployed.
+      - name: Production build with test AdSense ID
+        env:
+          JEKYLL_ENV: production
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('_config.yml')
+          src = p.read_text(encoding='utf-8')
+          old = '  client: ""'
+          assert src.count(old) == 1, 'Expected a single disabled AdSense client'
+          p.write_text(src.replace(old, '  client: "ca-pub-0000000000000000"', 1), encoding='utf-8')
+          PY
+          bundle exec jekyll build
+          python3 .github/scripts/check_ads_build.py prod_test
+
+      - name: Production build with AdSense disabled (committed config)
+        env:
+          JEKYLL_ENV: production
+        run: |
+          git restore _config.yml
+          bundle exec jekyll build
+          python3 .github/scripts/check_ads_build.py prod_empty
+
+      - name: Development build never loads ads
+        env:
+          JEKYLL_ENV: development
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('_config.yml')
+          src = p.read_text(encoding='utf-8')
+          old = '  client: ""'
+          assert src.count(old) == 1
+          p.write_text(src.replace(old, '  client: "ca-pub-0000000000000000"', 1), encoding='utf-8')
+          PY
+          bundle exec jekyll build
+          python3 .github/scripts/check_ads_build.py dev_test
