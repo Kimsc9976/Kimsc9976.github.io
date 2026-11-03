@@ -58,8 +58,27 @@ exclude:
   - "*.bat"
   - .github/
 
+# AdSense 자동 광고: 승인을 받은 후에만 게시자 ID를 지정합니다.
+# ID가 비어 있으면 어느 페이지에서도 광고 스크립트를 로드하지 않습니다.
+# /room/은 나중에 개설할 페이지로, 미리 광고 제외만 예약합니다.
+adsense:
+  client: ""
+  exclude_paths:
+    - /room/
+    - /about/
+    - /practice/
+
 # sitemap.xml 기본값 (yenarue 글 권장: weekly / 0.5)
 defaults:
+  # 포트폴리오와 QA Practice 상세 페이지는 광고 제외, GA 통계는 유지
+  - scope:
+      path: "about.md"
+    values:
+      ads: false
+  - scope:
+      path: "practice"
+    values:
+      ads: false
   - scope:
       path: ""
     values:
