@@ -1,0 +1,9 @@
+---
+layout: null
+permalink: /ads.txt
+sitemap: false
+---
+{%- assign ads_client = site.adsense.client | default: '' | strip -%}
+{%- if ads_client != '' -%}
+google.com, {{ ads_client | remove_first: 'ca-' }}, DIRECT, f08c47fec0942fa0
+{% endif %}
