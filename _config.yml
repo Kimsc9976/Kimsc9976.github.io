@@ -58,11 +58,12 @@ exclude:
   - "*.bat"
   - .github/
 
-# AdSense 자동 광고: 승인을 받은 후에만 게시자 ID를 지정합니다.
+# AdSense 사이트 연결 및 자동 광고용 공개 게시자 ID입니다.
+# 사이트 검토는 배포 후 AdSense 콘솔에서 별도로 요청합니다.
 # ID가 비어 있으면 어느 페이지에서도 광고 스크립트를 로드하지 않습니다.
 # /room/은 나중에 개설할 페이지로, 미리 광고 제외만 예약합니다.
 adsense:
-  client: ""
+  client: "ca-pub-7835493657278522"
   exclude_paths:
     - /room/
     - /about/

@@ -27,7 +27,8 @@
 
   {% include ads.html %}
 
-  {% if jekyll.environment == "production" %}
+  {% assign analytics_room_prefix = page.url | slice: 0, 6 %}
+  {% if jekyll.environment == "production" and page.analytics != false and page.url != '/room' and analytics_room_prefix != '/room/' %}
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-YC1YTHMFVN"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
