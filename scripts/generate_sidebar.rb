@@ -12,6 +12,15 @@ puts
 sidebar = File.exist?("_data/sidebar.yml") ? YAML.load_file("_data/sidebar.yml") : {}
 sidebar["algorithm"] ||= {}
 
+# 티어 표시 순서 (Bronze → Silver → Gold → Platinum → Diamond ...)
+# Dir.glob 순서는 OS·파일시스템마다 달라 그대로 쓰면 sidebar 순서가 섞임
+TIER_ORDER = File.exist?("_data/tier_order.yml") ? YAML.load_file("_data/tier_order.yml").map { |t| t.to_s.downcase } : []
+
+def tier_sort_key(tier)
+  idx = TIER_ORDER.index(tier.to_s.downcase)
+  idx ? [0, idx, ""] : [1, 0, tier.to_s] # 목록에 없는 티어는 뒤로, 이름순
+end
+
 
 def safe_path(str)
   str
@@ -47,6 +56,8 @@ Dir.glob("#{BASE}/*").each do |platform_dir|
     sidebar["algorithm"][platform] << tier
 
   end
+
+  sidebar["algorithm"][platform].sort_by! { |t| tier_sort_key(t) }
 end
 
 puts

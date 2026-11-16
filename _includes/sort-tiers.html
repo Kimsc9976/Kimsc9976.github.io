@@ -1,0 +1,15 @@
+{%- comment -%}
+  티어 목록을 _data/tier_order.yml 순서로 정렬 (Bronze → Silver → Gold → Platinum → Diamond ...)
+  사용: {% include sort-tiers.html tiers=raw_tiers %} 후 sorted_tiers 사용
+  목록에 없는 티어는 맨 뒤에 원래 순서대로 붙음
+{%- endcomment -%}
+{%- assign sorted_tiers = "" | split: "" -%}
+{%- for tier_key in site.data.tier_order -%}
+  {%- for t in include.tiers -%}
+    {%- assign t_key = t | append: "" | downcase -%}
+    {%- if t_key == tier_key -%}{%- assign sorted_tiers = sorted_tiers | push: t -%}{%- endif -%}
+  {%- endfor -%}
+{%- endfor -%}
+{%- for t in include.tiers -%}
+  {%- unless sorted_tiers contains t -%}{%- assign sorted_tiers = sorted_tiers | push: t -%}{%- endunless -%}
+{%- endfor -%}
