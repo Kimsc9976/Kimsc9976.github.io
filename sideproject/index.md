@@ -6,20 +6,21 @@ permalink: /sideproject/
 
 <div class="sideproject-hub">
 
-<section class="sideproject-hero">
-  <h1>🗂️ Side Projects</h1>
+<header class="page-intro">
+  <p class="page-intro__eyebrow">Side Projects</p>
+  <h1>Side Projects</h1>
   <p>개인 프로젝트 제작 과정과 기록을 모아둔 허브입니다.</p>
-</section>
+</header>
 
-<section class="sideproject-categories">
+<ul class="log-cards">
   {% for item in site.data.sidebar.sideprojects %}
-  <a class="sideproject-card" href="{{ item.url }}">
-    <h3>{{ item.title }}</h3>
-    {% if item.description %}
-      <p>{{ item.description }}</p>
-    {% endif %}
-  </a>
+  <li>
+    <a class="log-card" href="{{ item.url }}">
+      <span class="log-card__title">{{ item.title }}</span>
+      {% if item.description %}<span class="log-card__desc">{{ item.description }}</span>{% endif %}
+    </a>
+  </li>
   {% endfor %}
-</section>
+</ul>
 
 </div>

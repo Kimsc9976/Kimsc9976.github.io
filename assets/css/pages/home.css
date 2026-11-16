@@ -1,438 +1,321 @@
-/* ===== HOME HERO ===== */
+/* ==========================================================================
+   Home (_layouts/home.html) — About / Log 와 같은 디자인 문법
+   - Mobile First. 열 배치는 viewport 가 아니라 container query
+       home      = .home-page  전체 폭 → 오른쪽 프로필 열을 둘지
+       home-left = .home-left  본문 폭 → 타임라인·최근 글 열 수
+   - 공통 블록(.section-head, .career-*)은 components.css, 글 목록(.post-list)은 pages/blog.css
+   - 색은 base.css 토큰만 사용
+   ========================================================================== */
+
+.home-page {
+  container: home / inline-size;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--c-ink);
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.home-page *,
+.home-page *::before,
+.home-page *::after {
+  box-sizing: border-box;
+}
+
+.home-page h1,
+.home-page h2,
+.home-page h3,
+.home-page p,
+.home-page ul,
+.home-page ol,
+.home-page dl,
+.home-page dd {
+  margin: 0;
+}
+
+@media (min-width: 1024px) {
+  .home-page {
+    font-size: 1.03125rem; /* 16.5px — About 과 동일 */
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Hero
+   -------------------------------------------------------------------------- */
 
 .home-hero {
+  padding: 8px 0 28px;
   text-align: center;
-  margin-bottom: 24px;
 }
 
-.hero-title {
-  font-size: 2.4rem;
+.home-hero .hero-title {
+  margin-bottom: 8px;
+  font-size: clamp(1.5rem, 3.6vw + 0.7rem, 2.25rem);
   font-weight: 700;
+  line-height: 1.3;
   letter-spacing: -0.02em;
+  color: var(--c-ink);
 }
 
-.home-sub {
-  margin-top: 12px;
-  color: #666;
-  font-size: 1.05rem;
+.home-hero .home-sub {
+  font-size: 0.95em;
+  color: var(--c-ink-soft);
 }
 
-/* ===== MAIN GRID ===== */
+/* --------------------------------------------------------------------------
+   Layout — 좁을 때: 본문 → 프로필 / 넓을 때: 본문 | 프로필(260px, sticky)
+   -------------------------------------------------------------------------- */
 
 .home-main {
   display: grid;
-  gap: 32px;
-  /* 모바일 퍼스트: 1열 (layout.css의 반응형 규칙과 정합) */
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 52px;
   align-items: start;
 }
-  
-/* left column */
 
 .home-left {
-    display: grid;
-    grid-template-rows: auto auto;
-    gap: 24px;
-}
-  
-.home-grid {
-    display: grid;
-    /* 모바일 퍼스트: 1열 (layout.css의 반응형 규칙과 정합) */
-    grid-template-columns: 1fr;
-    gap: 24px;
+  container: home-left / inline-size;
+  display: flex;
+  flex-direction: column;
+  gap: 52px;
+  min-width: 0;
 }
 
-/* cards */
-
-.home-card {
-  background: #fff;
-  border-radius: 14px;
-  padding: 22px 24px;
-  box-shadow: 0 4px 14px rgba(0,0,0,.06);
+.home-section {
+  min-width: 0;
 }
 
-.card-title {
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin-bottom: 14px;
+@container home (min-width: 880px) {
+  .home-main {
+    grid-template-columns: minmax(0, 1fr) 260px;
+    column-gap: 36px;
+  }
 }
 
-.graph-link {
-  display: inline-block;
+/* --------------------------------------------------------------------------
+   01 Engineering Timeline — 경력 | Side Projects + GitHub 활동 그래프
+   -------------------------------------------------------------------------- */
+
+.home-timeline {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 28px;
 }
 
-.graph-link img {
+@container home-left (min-width: 560px) {
+  .home-timeline {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    column-gap: 32px;
+  }
+}
+
+.github-graph {
   display: block;
-  width: auto;        /* intrinsic width 사용 */
-  max-width: 100%;    /* 부모 기준으로만 제한 */
+  margin-top: 24px;
+  padding: 8px;
+  border: 1px solid var(--c-line);
+  border-radius: 8px;
+  transition: border-color 0.15s ease;
+}
+
+.github-graph:hover {
+  border-color: var(--c-line-strong);
+}
+
+.github-graph img {
+  display: block;
+  width: 100%;
   height: auto;
 }
 
+/* --------------------------------------------------------------------------
+   02 Automation Snapshot — 숫자 3칸, 칸 사이 1px 선
+   -------------------------------------------------------------------------- */
 
-/* lists */
+.home-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--c-line);
+  border-bottom: 1px solid var(--c-line);
+}
 
-.home-list {
+.home-stat {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  flex-direction: column-reverse; /* 마크업은 dt → dd, 화면은 숫자 위 / 라벨 아래 */
+  justify-content: flex-end;
+  gap: 4px;
+  min-width: 0;
+  padding: 16px 12px;
 }
 
-.home-list a {
-  text-decoration: none;
-  color: #333;
-  font-weight: 500;
-  transition: transform .15s, color .15s;
+.home-stat + .home-stat {
+  border-left: 1px solid var(--c-line);
 }
 
-.home-list a:hover {
-  transform: translateX(6px);
-  color: #000;
-}
-
-/* more link */
-
-.more-link {
-  display: inline-block;
-  margin-top: 12px;
-  font-size: .9rem;
-  font-weight: 600;
-  color: #007bff;
-  text-decoration: none;
-}
-
-.more-link:hover {
-  text-decoration: underline;
-}
-
-
-.timeline-item {
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-  margin-bottom: 10px;
-}
-
-.timeline-item .year {
-  padding-top: 1.5%;
+.home-stat dd {
+  font-size: 1.75em;
   font-weight: 700;
-  color: #666;
-  min-width: 48px;
-}
-
-/* 연도 아래 기간 note — Home / About 공통 */
-.timeline-item .year-note {
-  display: block;
-  font-size: 0.62rem;
-  font-weight: 500;
   line-height: 1.2;
-  color: #8a8a8a;
-  letter-spacing: -0.03em;
-  white-space: nowrap;
+  letter-spacing: -0.02em;
+  color: var(--c-ink);
 }
 
-/* 재직중 강조: 메인 파랑(#007bff)보다 한 톤 진하게 */
-.timeline-item .year-note.is-current {
-  font-weight: 700;
-  color: #0a58ca;
-}
-
-/* Home 경력: 연도 아래 note 를 두는 세로 배치 (About 과 동일) */
-.timeline-card .timeline-item .year {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  flex: 0 0 4.4rem;
-  width: 4.4rem;
-  min-width: 4.4rem;
-  gap: 1px;
-  line-height: 1.15;
-}
-
-.timeline-content {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.timeline-content .company {
+.home-stat dt {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
   font-weight: 600;
-  color: #222;
+  line-height: 1.5;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-muted);
 }
 
-.timeline-content .desc {
-  margin: 0;
-  font-size: 0.9rem;
-  color: #555;
+.home-section .home-snapshot-desc {
+  margin-top: 14px;
+  font-size: 0.95em;
+  color: var(--c-ink-soft);
 }
 
+@container home-left (min-width: 480px) {
+  .home-stat {
+    padding: 18px 20px;
+  }
 
+  .home-stat dd {
+    font-size: 2em;
+  }
+}
 
-/* ===== PROFILE ===== */
+/* --------------------------------------------------------------------------
+   03/04 Recent — Log 와 같은 글 목록, 넓으면 2열
+   -------------------------------------------------------------------------- */
+
+.home-recent {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 52px;
+}
+
+@container home-left (min-width: 680px) {
+  .home-recent {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 32px;
+  }
+
+  /* 반 폭에서는 제목이 길어 날짜를 아래 줄로 */
+  .home-recent .post-item,
+  .home-recent .post-item > a {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   PROFILE aside — 프로필 카드 + 방문자 그래프(chartss.css)
+   Mobile: 세로 1열 / Home 600px+: 프로필 | 그래프 2열 / 880px+: 오른쪽 열, sticky
+   -------------------------------------------------------------------------- */
 
 .home-profile {
-  width: 100%;
-  /* 모바일에서는 sticky 해제 (페이지 스크롤/겹침/밀림 방지) */
-  position: static;
-  top: auto;
-  padding: 12px;
-  text-align: center;
-  /* 내부 카드/차트가 한쪽으로 치우치지 않게 중앙 정렬 */
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
+  gap: 16px;
+  width: 100%;
+  min-width: 0;
+  text-align: center;
+}
+
+@container home (min-width: 600px) {
+  .home-profile {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: stretch;
+  }
+}
+
+@container home (min-width: 880px) {
+  .home-profile {
+    display: flex;
+    position: sticky;
+    top: 24px;
+  }
 }
 
 .sckim-profile {
   width: 100%;
-  max-width: 420px;
-  margin: 0 auto;
-  top: 90px;
-  background: #e0e0e0;
-  border-radius: 16px;
-  padding: 12px;
-  box-shadow: 0 6px 18px rgba(0,0,0,.08);
+  margin: 0;
+  padding: 28px 20px 24px;
+  border: 1px solid var(--c-line);
+  border-radius: 8px;
+  background: var(--c-sand);
+  color: var(--c-ink);
   text-align: center;
-  box-sizing: border-box;
 }
 
-.profile-name {
-  font-size: 1.3rem;
-  font-weight: 700;
-}
-
-.profile-image {
-  width: 60%;
-  max-width: 140px;
-  aspect-ratio: 1 / 1;
-
+.sckim-profile .profile-image {
+  display: block;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
   border-radius: 50%;
   object-fit: cover;
-
-  margin-top: 1rem;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  /* 그림자 대신 바탕색 여백 + 얇은 stone 링 */
+  box-shadow: 0 0 0 4px var(--c-surface), 0 0 0 5px var(--c-stone);
 }
 
-.role {
-  color: #000000;
-  font-size: .95rem;
-  margin: 6px 0 16px;
+.sckim-profile .profile-name {
+  margin: 20px 0 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--c-ink);
 }
 
-.intro {
-  font-size: .95rem;
-  line-height: 1.6;
-  margin-bottom: 18px;
+.sckim-profile .role {
+  margin: 6px 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.7;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-umber);
 }
 
-.profile-btn {
-  display: inline-block;
-  background: #444;
-  color: #fff;
+.sckim-profile .intro {
+  max-width: 220px;
+  margin: 18px auto 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--c-stone);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--c-ink-soft);
+}
+
+.sckim-profile .profile-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   padding: 8px 18px;
-  border-radius: 8px;
+  border-radius: 6px;
+  background: var(--c-umber);
+  color: #fff;
+  font-size: 0.9rem;
   font-weight: 600;
   text-decoration: none;
-  transition: background .2s;
+  transition: background 0.2s;
 }
 
-.profile-btn:hover {
-  background: #0c2541;
+.sckim-profile .profile-btn .pictogram {
+  width: 14px;
+  height: 14px;
 }
 
-/* ===== HOME DOUBLE GRID ===== */
-  
-  /* 카드 3개 미리보기 */
-  .preview-grid {
-    display: grid;
-    grid-template-rows: repeat(3, 1fr);
-    gap: 14px;
-    margin-top: 10px;
-  }
-  
-.preview-card.algo-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* 세로 중앙 정렬 */
-  padding: 1rem;
-  border-radius: 0.5rem;
-  background-color: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+.sckim-profile .profile-btn:hover,
+.sckim-profile .profile-btn:focus-visible {
+  background: var(--c-accent-strong);
+  color: #fff;
   text-decoration: none;
-  color: inherit;
-  transition: transform 0.2s ease;
-}
-
-.preview-card.blog-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* 세로 중앙 정렬 */
-  padding: 1rem;
-  border-radius: 0.5rem;
-  background-color: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  text-decoration: none;
-  color: inherit;
-  transition: transform 0.2s ease;
-}
-  
-  .preview-card h4 {
-    font-size: .95rem;
-    font-weight: 700;
-    margin-bottom: 6px;
-  }
-  
-  .preview-card p {
-    font-size: .82rem;
-    color: #666;
-    line-height: 1.4;
-    margin: 0;
-    white-space: nowrap;       /* 한 줄로 유지 */
-    overflow: hidden;          /* 넘치는 텍스트 숨김 */
-    text-overflow: ellipsis;   /* 말줄임(...) 표시 */
-  }
-  
-  /* hover 공통 UX */
-  .preview-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 6px 16px rgba(0,0,0,.12);
-  }
-  
-.preview-card .post-date {
-  font-size: 0.8rem;
-  color: #9ca3af;
-  margin-top: 0.5rem;
-  text-align: right;
-}
-
-  /* 알고리즘 카드 살짝 강조 */
-  .algo-card p {
-    font-weight: 600;
-    color: #444;
-  }
-
-/* 반응형 레이아웃( home-main, home-grid, preview-grid, home-profile )은 layout.css에서 통합 */
-
-  .home-highlight {
-  background: linear-gradient(135deg,#f6f8ff,#ffffff);
-}
-
-.stats-grid {
-  display: grid;
-  grid-template-columns:  repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
-  margin: 16px 0;
-  align-items: start;
-}
-
-.stat-box {
-  display: flex;
-  background: white;
-  border-radius: 12px;
-  padding: 16px;
-  text-align: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,.08);
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.stat-number {
-  font-size: 1.8rem;
-  font-weight: 800;
-  display: block;
-}
-
-.stat-label {
-  font-size: .8rem;
-  color: #666;
-}
-
-.snapshot-desc {
-  margin-top: 10px;
-  color: #444;
-  line-height: 1.4;
-}
-
-/* Timeline Card */
-.timeline-card {
-  background: #fff;
-  padding: 28px;
-  border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.08);
-  text-decoration: none;
-  color: #222;
-  transition: transform .2s ease, box-shadow .2s ease;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.timeline-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 8px 20px rgba(0,0,0,.12);
-}
-
-.timeline-card h2 {
-  margin-bottom: 18px;
-  font-size: 1.5rem;
-}
-
-.timeline-block h3 {
-  font-size: 1.05rem;
-  margin: 10px 0 6px;
-  font-weight: 600;
-  color: #444;
-}
-
-.timeline-block ul {
-  list-style: none;
-  padding-left: 0;
-  margin-bottom: 12px;
-}
-
-.timeline-block li {
-  margin-bottom: 6px;
-  font-size: 0.95rem;
-  color: #555;
-}
-
-.timeline-cta {
-  margin-top: auto;
-  font-weight: 600;
-  color: #007bff;
-}
-
-/* GitHub graph */
-.github-graph {
-  background: #fff;
-  padding: 18px;
-  border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.08);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: min-content;
-}
-
-.github-graph img {
-  width: 100%;
-  height: auto;
-}
-
-/* ===== HOME RESPONSIVE (Tablet+) ===== */
-@media (min-width: 1024px) {
-  .home-main {
-    grid-template-columns: 1fr 280px;
-  }
-
-  .home-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .home-profile {
-    width: 90%;
-    position: sticky;
-    top: 90px;
-  }
 }

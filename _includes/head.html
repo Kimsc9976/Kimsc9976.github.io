@@ -16,6 +16,16 @@
   {% endif %}
 
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <meta name="theme-color" content="#F3EEEA">
+  <noscript>
+    <style>
+      /* JS 없이도 모바일에서 목차에 접근할 수 있도록 드로어 대신 본문 위에 펼쳐 둔다 */
+      .menu-toggle, .sidebar__close { display: none !important; }
+      @media (max-width: 1023.98px) {
+        .site-sidebar { position: static !important; width: auto !important; transform: none !important; visibility: visible !important; border-right: 0 !important; }
+      }
+    </style>
+  </noscript>
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
   <link rel="alternate" type="application/rss+xml" title="{{ site.title | xml_escape }}" href="{{ '/feed.xml' | absolute_url }}">
   <link rel="sitemap" type="application/xml" title="Sitemap" href="{{ '/sitemap.xml' | absolute_url }}">

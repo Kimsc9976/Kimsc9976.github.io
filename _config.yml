@@ -16,6 +16,10 @@ feed:
 author:
   name: 김수찬
 
+# 헤더 우측 UPC-A 바코드 숫자 11자리 (12번째 체크 숫자는 _includes/barcode.html 이 계산)
+# 1 | 54672 = KIMSC (휴대폰 키패드) | 09976
+header_barcode: "15467209976"
+
 kramdown:
   toc_levels: 1..2
 

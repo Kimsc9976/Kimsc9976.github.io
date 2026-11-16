@@ -1,0 +1,36 @@
+{%- comment -%}
+  사이트 상단 헤더 (모든 default 레이아웃 공통)
+  - 우측 상단: 연락처 링크 (_data/contacts.yml)
+  - 좌측: 사이트 제목 / 설명, 우측: 바코드 (_includes/barcode.html)
+  - include.menu 가 true 면 1024px 미만에서 사이드바(목차) 여는 버튼을 노출
+{%- endcomment -%}
+<header class="site-header">
+  <div class="site-header__inner">
+    <ul class="contact-links" aria-label="연락처">
+      {%- for contact in site.data.contacts %}
+      {%- assign contact_scheme = contact.url | slice: 0, 4 %}
+      <li>
+        <a href="{{ contact.url }}" title="{{ contact.title | default: contact.label }}"{% if contact_scheme == 'http' %} target="_blank" rel="noopener noreferrer"{% endif %}>
+          {%- include brand-icon.html name=contact.icon -%}
+          <span>{{ contact.label }}</span>
+        </a>
+      </li>
+      {%- endfor %}
+    </ul>
+
+    <div class="site-header__main">
+      {%- if include.menu %}
+      <button type="button" class="menu-toggle" data-sidebar-toggle aria-controls="site-sidebar" aria-expanded="false" aria-label="목차 열기">
+        <span class="menu-toggle__bars" aria-hidden="true"></span>
+      </button>
+      {%- endif %}
+      <a class="site-brand" href="{{ '/' | relative_url }}">
+        <span class="site-brand__title">{{ site.title }}</span>
+        <span class="site-brand__desc">{{ site.description }}</span>
+      </a>
+      <a class="site-barcode" href="{{ '/' | relative_url }}" tabindex="-1" aria-hidden="true">
+        {%- include barcode.html -%}
+      </a>
+    </div>
+  </div>
+</header>

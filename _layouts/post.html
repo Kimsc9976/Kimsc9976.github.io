@@ -6,18 +6,13 @@ layout: default
 
   <!-- 제목 -->
   <header class="post-header">
-    <h1 class="post-title">{{ page.title }}</h1>
-
     <div class="post-meta">
       {% if page.category %}
-        <a href="/log/{{ page.category }}/" class="category-link">
-          {{ page.category | upcase }}
-        </a>
+        <a href="/log/{{ page.category }}/" class="category-link">{{ page.category | upcase }}</a>
       {% endif %}
-      <span class="post-date">
-        {{ page.date | date: "%Y.%m.%d" }}
-      </span>
+      <time class="post-date" datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y.%m.%d" }}</time>
     </div>
+    <h1 class="post-title">{{ page.title }}</h1>
   </header>
 
   <!-- 본문 -->
@@ -25,25 +20,25 @@ layout: default
     {{ content }}
   </section>
 
-  <!-- 하단 구분선 -->
-  <hr class="post-divider">
-
   <!-- 같은 카테고리 글 -->
   {% if page.category %}
+  {% assign related_posts = site.posts | where: "category", page.category %}
+  {% if related_posts.size > 1 %}
+  <hr class="post-divider">
   <section class="related-posts">
-    <h3>📂 {{ page.category | upcase }}</h3>
-    <ul>
-      {% assign related_posts = site.posts | where: "category", page.category %}
+    <h2 class="section-label">More in {{ page.category | upcase }}</h2>
+    <ul class="post-list">
       {% for post in related_posts %}
         {% if post.url != page.url %}
-        <li>
+        <li class="post-item">
           <a href="{{ post.url }}">{{ post.title }}</a>
-          <span>{{ post.date | date: "%Y.%m.%d" }}</span>
+          <span class="post-date">{{ post.date | date: "%Y.%m.%d" }}</span>
         </li>
         {% endif %}
       {% endfor %}
     </ul>
   </section>
+  {% endif %}
   {% endif %}
 
 </article>
@@ -56,7 +51,7 @@ layout: default
     // 2. Mermaid 초기화
     mermaid.initialize({
       startOnLoad: false,
-      theme: 'default',
+      theme: 'neutral',
       securityLevel: 'loose',
     });
 

@@ -1,0 +1,259 @@
+/* ==========================================================================
+   CHROME — 사이트 헤더 / 본문 면 / 푸터 (모양만, 폭·배치는 layout.css)
+   Mobile First: 기본 = 모바일, min-width 로만 확장
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   HEADER
+   [연락처 링크 ........................ Google | Naver | LinkedIn | GitHub]
+   [☰] [사이트 제목 / 설명 ................................... ║│║║│ 바코드]
+   -------------------------------------------------------------------------- */
+
+.site-header {
+  background: var(--c-surface);
+  border-bottom: 1px solid var(--c-line);
+  color: var(--c-ink);
+}
+
+.site-header__inner {
+  padding-top: 6px;
+  padding-bottom: 14px;
+}
+
+/* 우측 상단 연락처 — 네이버 블로그 상단 메뉴처럼 얇은 세로선으로 구분 */
+.contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  row-gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.contact-links li {
+  display: flex;
+  align-items: center;
+}
+
+.contact-links li + li::before {
+  content: "";
+  width: 1px;
+  height: 10px;
+  margin: 0 9px;
+  background: var(--c-line-strong);
+}
+
+.contact-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 0;
+  color: var(--c-ink-soft);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.contact-links a:hover {
+  color: var(--c-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.brand-icon {
+  display: block;
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+}
+
+/* 선 픽토그램 (_includes/pictogram.html) — 이모지 대체. 크기·색은 쓰는 곳에서 덮어씀 */
+.pictogram {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 1.15em;
+  height: 1.15em;
+  vertical-align: -0.2em;
+}
+
+.site-header__main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.site-brand {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.site-brand:hover,
+.site-brand:focus {
+  color: inherit;
+  text-decoration: none;
+}
+
+.site-brand__title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--c-ink);
+}
+
+.site-brand__desc {
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: var(--c-muted);
+}
+
+.site-barcode {
+  display: block;
+  flex-shrink: 0;
+  width: 96px;
+  color: var(--c-ink);
+}
+
+.barcode {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* 모바일·태블릿 목차 버튼 (데스크톱에선 숨김) */
+.menu-toggle {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--c-ink);
+  cursor: pointer;
+}
+
+.menu-toggle:hover {
+  background: var(--c-sand);
+}
+
+.menu-toggle__bars,
+.menu-toggle__bars::before,
+.menu-toggle__bars::after {
+  display: block;
+  width: 16px;
+  height: 1.5px;
+  background: currentColor;
+}
+
+.menu-toggle__bars {
+  position: relative;
+}
+
+.menu-toggle__bars::before,
+.menu-toggle__bars::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+
+.menu-toggle__bars::before {
+  top: -5px;
+}
+
+.menu-toggle__bars::after {
+  top: 5px;
+}
+
+@media (min-width: 768px) {
+  .site-header__inner {
+    padding-top: 8px;
+    padding-bottom: 18px;
+  }
+
+  .contact-links {
+    font-size: 0.8rem;
+  }
+
+  .contact-links li + li::before {
+    margin: 0 12px;
+  }
+
+  .site-header__main {
+    margin-top: 14px;
+  }
+
+  .site-brand__title {
+    font-size: 1.25rem;
+  }
+
+  .site-brand__desc {
+    font-size: 0.82rem;
+  }
+
+  .site-barcode {
+    width: 136px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .menu-toggle {
+    display: none;
+  }
+
+  .site-header__main {
+    align-items: flex-end;
+    margin-top: 18px;
+  }
+
+  .site-barcode {
+    width: 170px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   CONTENT SURFACE
+   Mobile: 화면 폭 전체(좌우 테두리 없음) → Tablet+: 얇은 테두리 카드
+   -------------------------------------------------------------------------- */
+
+.content {
+  background: var(--c-surface);
+  border-bottom: 1px solid var(--c-line);
+}
+
+@media (min-width: 768px) {
+  .content {
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   FOOTER
+   -------------------------------------------------------------------------- */
+
+.site-footer {
+  margin-top: 24px;
+  padding: 20px 0 28px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--c-muted);
+}
+
+.site-footer__inner {
+  text-align: center;
+}

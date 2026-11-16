@@ -2,19 +2,22 @@ image: /assets/images/profile2.jpg
 image_alt: 김수찬 프로필
 section_title: Brief Me
 
+# 연락처 — pictogram: _includes/pictogram.html 의 이름
 links:
-  - emoji: "💾"
-    text: "[GitHub]  Kimsc9976"
+  - pictogram: github
+    label: GitHub
+    text: Kimsc9976
     url: https://github.com/Kimsc9976
-  - emoji: "📧"
-    text: "[Mail]  tncks097@naver.com"
+  - pictogram: mail
+    label: Mail
+    text: tncks097@naver.com
     url: mailto:tncks097@naver.com
-  - emoji: "👥"
-    text: "[LinkedIn]  Su Chan Kim"
+  - pictogram: linkedin
+    label: LinkedIn
+    text: Su Chan Kim
     url: https://www.linkedin.com/in/su-chan-kim-0874a3241/
 
 callout:
-  icon: "🤔"
   paragraphs:
     - |
       **질문**하고 **고민**하는 것을 즐기는 엔지니어입니다.<br>
@@ -32,14 +35,14 @@ intro:
 
 # 서비스 환경별 경험 (카드)
 environments:
-  - icon: "🤖"
+  - pictogram: robot
     title: 로봇 서비스
     points:
       - "**시뮬레이터 기반** 검증 자동화 인프라 설계"
       - "**HILS·실기체** 기반 반복 검증 구조로 안전·운영 핵심 기능을 장기간·다회 반복 검증"
       - "플랫폼 API 연동을 통한 **시스템 전반 통합 검증**"
       - "테스트 결과를 이슈 트래킹과 연결해 **제품 안정성 개선 흐름** 정착"
-  - icon: "🌐"
+  - pictogram: platform
     title: 플랫폼 서비스
     points:
       - "**유저 행동 기반** 웹 시나리오 자동화"

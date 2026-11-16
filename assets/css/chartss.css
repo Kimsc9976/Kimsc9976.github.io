@@ -1,60 +1,142 @@
+/* ==========================================================================
+   Visitor chart (_includes/visitor-charts.html) — Home 오른쪽 aside
+   Mobile First. 폭 단계는 Home 의 container query(home) 기준
+   ========================================================================== */
+
 .graph-container {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    margin: 16px 0;
-  }
-  /* 탭 메뉴 스타일 */
-  .stats-tabs {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 16px 12px 12px;
+  border: 1px solid var(--c-line);
+  border-radius: 8px;
+  background: var(--c-surface);
+  text-align: left;
+}
+
+.graph-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 4px 12px;
+}
+
+.graph-caption {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-muted);
+}
+
+/* 탭 — 세그먼트 버튼 */
+.stats-tabs {
+  display: inline-flex;
+  flex-shrink: 0;
+  padding: 2px;
+  border: 1px solid var(--c-line);
+  border-radius: 6px;
+  background: var(--c-paper);
+}
+
+.tab-btn {
+  min-width: 52px;
+  margin: 0;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--c-ink-soft);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.tab-btn:hover {
+  color: var(--c-ink);
+}
+
+.tab-btn.active {
+  background: var(--c-umber);
+  color: #fff;
+}
+
+/* 차트 영역 — Chart.js responsive + maintainAspectRatio:false 라 부모 높이가 필수 */
+.stats-container {
+  min-height: 280px;
+  margin: 0;
+}
+
+.chart-panel {
+  display: none;
+  position: relative;
+  height: 280px;
+  animation: fadeIn 0.5s;
+}
+
+.chart-panel.active {
+  display: block;
+}
+
+.graph-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Home 600px+: 프로필 카드 옆(2열)에 놓이므로 카드 높이만큼 차트를 늘림 */
+@container home (min-width: 600px) {
+  .graph-container {
     display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  .tab-btn {
-    padding: 5px 15px 10px 15px;
-    cursor: pointer;
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: 0.3s;
-  }
-  .tab-btn.active {
-    background-color: #e0e0e0;
-    color: rgba(0, 0, 0, 0.8);
-    border-color: #e0e0e0;
-  }
-  /* 차트 컨테이너 제어 */
-  .stats-container {
-    /* Chart.js가 기준으로 삼을 높이를 확보 */
-    min-height: 240px;
-  }
-  .chart-panel {
-    display: none; /* 기본적으로 숨김 */
-    animation: fadeIn 0.5s;
-    /* Chart.js responsive + maintainAspectRatio:false 조합에서 필수 */
-    position: relative;
-    height: 240px;
-  }
-  .chart-panel.active {
-    display: block; /* 활성화된 탭만 표시 */
-  }
-  @media (min-width: 1024px) {
-    .stats-container {
-      min-height: 220px;
-    }
-    .chart-panel {
-      height: 220px;
-    }
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    flex-direction: column;
   }
 
-  .graph-container canvas {
-    width: 100% !important;
-    height: 100% !important;
+  .stats-container {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
   }
+
+  .chart-panel.active {
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 280px;
+  }
+}
+
+/* Home 880px+: 오른쪽 260px 열 안에서 세로로 쌓이므로 고정 높이로 되돌림 */
+@container home (min-width: 880px) {
+  .graph-container {
+    display: block;
+    padding: 14px 10px 10px;
+  }
+
+  .stats-container {
+    display: block;
+    min-height: 220px;
+  }
+
+  .chart-panel,
+  .chart-panel.active {
+    flex: none;
+    height: 220px;
+    min-height: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chart-panel {
+    animation: none;
+  }
+}

@@ -1,0 +1,19 @@
+# 헤더 우측 상단 연락처 링크 (_includes/site-header.html)
+# - icon: _includes/brand-icon.html 의 name 과 매칭 (google | naver | linkedin | github)
+# - url 이 http 로 시작하면 새 탭으로 열린다.
+- label: Google
+  icon: google
+  url: mailto:tncks097@gmail.com
+  title: Gmail · tncks097@gmail.com
+- label: Naver
+  icon: naver
+  url: mailto:tncks097@naver.com
+  title: Naver Mail · tncks097@naver.com
+- label: LinkedIn
+  icon: linkedin
+  url: https://www.linkedin.com/in/su-chan-kim-0874a3241/
+  title: LinkedIn · Su Chan Kim
+- label: GitHub
+  icon: github
+  url: https://github.com/Kimsc9976
+  title: GitHub · Kimsc9976

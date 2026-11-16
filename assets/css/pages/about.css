@@ -1,976 +1,726 @@
-/* Mobile first */
-.about-layout {
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  box-sizing: border-box;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  row-gap: 24px;
-  column-gap: 0;
-  align-items: start;
-}
-
-/* About는 default 레이아웃의 .home-hero 클래스를 씀 — 히어로 타이포는 home.css가 아니라 여기서만 조정 */
-.about-page .home-hero {
-  box-sizing: border-box;
-  max-width: 100%;
-  padding-left: 8px;
-  padding-right: 8px;
-}
-
-.about-page .hero-title {
-  font-size: clamp(1.25rem, 5vw + 0.65rem, 2.4rem);
-  overflow-wrap: break-word;
-}
-
-.about-page .home-sub {
-  font-size: clamp(0.94rem, 1.5vw + 0.75rem, 1.05rem);
-  overflow-wrap: break-word;
-}
+/* ==========================================================================
+   About (_layouts/about.html)
+   - 프레임: 소개(hero) → 목차 | 본문(세로선) → Brief · Career · Projects · Practices · Skills
+   - Mobile First. 열 수는 viewport 가 아니라 container query 로 결정한다.
+     (데스크톱은 사이트 사이드바 260px 이 있어 태블릿보다 본문이 좁을 수 있음)
+       about       = .about-page   전체 폭 → 목차를 위(가로 탭) / 왼쪽(세로) 중 어디에 둘지
+       about-main  = .about-main   본문 폭 → 각 섹션의 열 수
+       about-text  = .about-text   자기소개 글 폭 → 경험 카드 열 수
+   - 색은 base.css 토큰만 사용. 아이콘은 _includes/pictogram.html
+   ========================================================================== */
 
 .about-page {
-  font-family: "Noto Serif KR", serif;
-  font-size: 15.5px;
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
+  container: about / inline-size;
   box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
   overflow-x: clip;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--c-ink);
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
-.about-main {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 40px;
-  border-left: 2px solid rgba(0, 0, 0, 0.08);
-  min-width: 0;
-  width: 100%;
-  max-width: 100%;
+.about-page *,
+.about-page *::before,
+.about-page *::after {
   box-sizing: border-box;
+}
+
+.about-page h1,
+.about-page h2,
+.about-page h3,
+.about-page p,
+.about-page ul,
+.about-page ol {
+  margin: 0;
+}
+
+@media (min-width: 1024px) {
+  .about-page {
+    font-size: 1.03125rem; /* 16.5px */
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Hero — 이름 + 한 줄 소개
+   -------------------------------------------------------------------------- */
+
+.about-hero {
+  padding: 8px 0 22px;
+  text-align: center;
+}
+
+.about-hero h1 {
+  margin-bottom: 8px;
+  font-size: clamp(1.5rem, 3.6vw + 0.7rem, 2.25rem);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: var(--c-ink);
+}
+
+.about-hero p {
+  font-size: 0.95em;
+  color: var(--c-ink-soft);
+}
+
+/* --------------------------------------------------------------------------
+   Layout — 좁을 때: 목차가 위쪽 sticky 가로 탭 / 넓을 때: 왼쪽 세로 목차 + 세로선
+   -------------------------------------------------------------------------- */
+
+.about-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  min-width: 0;
+}
+
+.about-sidebar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  margin-bottom: 4px;
+  border-top: 1px solid var(--c-line);
+  border-bottom: 1px solid var(--c-line);
+  background: rgba(251, 249, 246, 0.94); /* --c-surface */
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 
 .about-nav {
   user-select: none;
 }
 
-.about-sidebar {
-  position: sticky;
-  top: 100px; /* 헤더 아래 */
-  z-index: 40;
+.about-nav ul {
+  display: flex;
+  justify-content: space-between;
+  gap: 2px;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
 
-.about-nav ul {
-  list-style: none;
-  margin: 0;
-  padding-left: 12px;
-  border-left: 2px solid rgba(0, 0, 0, 0.15);
+.about-nav ul::-webkit-scrollbar {
+  display: none;
+}
+
+.about-nav li {
+  flex: 0 0 auto;
 }
 
 .about-nav a {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  
+  display: block;
+  padding: 11px 6px 9px;
+  border-bottom: 2px solid transparent;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
   text-decoration: none;
-  font-size: 14px;
-  font-weight: 500;
-  
-  color: #555;
-  cursor: pointer;
-  
-  user-select: none;          /* 🔥 커서 방지 */
-  outline: none;              /* 🔥 포커스 outline 제거 */
+  color: var(--c-muted);
+  transition: color 0.15s ease, border-color 0.15s ease;
 }
 
-
-.about-nav li {
-  position: relative;
-  padding-left: 8px;
-}
-
-.about-nav li::before {
-  content: '';
-  position: absolute;
-  left: -13px;
-  top: 50%;
-  transform: translateY(-50%);
-
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.35);
-
-  transition: transform 0.2s ease, background-color 0.2s ease;
-}
-
-.about-nav li:hover::before {
-  transform: translateY(-50%) scale(1.3);
-  background: #000;
-}
-
-.about-nav li:hover a {
-  color: #000;
-}
-
-.about-nav li:has(a.active)::before {
-  background: #000;
-  transform: translateY(-50%) scale(1.4);
-}
-
-.about-nav a:focus {
-  outline: none;
-}
-
-.about-nav a:focus-visible {
-  outline: none;
+.about-nav a:hover {
+  color: var(--c-ink);
 }
 
 .about-nav a.active {
-  color: #111;
-  font-weight: 600;
-  padding-left: 8px;
+  border-bottom-color: var(--c-umber);
+  color: var(--c-ink);
 }
 
-.about-grid {
+.about-main {
+  container: about-main / inline-size;
+  display: flex;
+  flex-direction: column;
+  gap: 52px;
+  min-width: 0;
+  padding-top: 24px;
+}
+
+/* 탭 바가 넓어지면 양끝 정렬 대신 왼쪽부터 */
+@container about (min-width: 560px) {
+  .about-nav ul {
+    justify-content: flex-start;
+    gap: 18px;
+  }
+}
+
+/* 목차 바(약 44px)에 제목이 가려지지 않도록 */
+.about-section {
+  min-width: 0;
+  scroll-margin-top: 60px;
+}
+
+@container about (min-width: 880px) {
+  .about-layout {
+    grid-template-columns: 148px minmax(0, 1fr);
+    column-gap: 36px;
+  }
+
+  .about-sidebar {
+    top: 24px;
+    margin: 0;
+    padding-top: 30px;
+    border: 0;
+    background: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .about-nav ul {
+    flex-direction: column;
+    gap: 2px;
+    overflow: visible;
+    border-left: 1px solid var(--c-line);
+  }
+
+  .about-nav a {
+    position: relative;
+    padding: 6px 0 6px 16px;
+    border-bottom: 0;
+    font-size: 0.85rem;
+    font-weight: 500;
+    white-space: normal;
+  }
+
+  .about-nav a::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -4px;
+    width: 7px;
+    height: 7px;
+    margin-top: -3.5px;
+    border-radius: 50%;
+    background: var(--c-line-strong);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+
+  .about-nav a:hover::before,
+  .about-nav a.active::before {
+    background: var(--c-umber);
+    transform: scale(1.3);
+  }
+
+  .about-nav a.active {
+    font-weight: 700;
+  }
+
+  .about-main {
+    gap: 64px;
+    padding: 30px 0 8px 36px;
+    border-left: 1px solid var(--c-line);
+  }
+
+  .about-section {
+    scroll-margin-top: 24px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   01 Brief — 사진·연락처 | 소개 글
+   Mobile: 사진(작게) + 연락처 한 줄 → 소개 글
+   본문 600px+: 왼쪽 열(사진 위, 연락처 아래) | 오른쪽 소개 글
+   -------------------------------------------------------------------------- */
+
+.about-brief {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 24px;
-  justify-items: stretch;
-  width: 100%;
-  min-width: 0;
-}
-  
-  .about-left {
-    text-align: center;
-  }
-  
-  .about-right {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;            /* 문단 간격 */
-    max-width: none;
-    min-width: 0;         /* 그리드 플렉스 자식 가로 오버플로 방지 */
-  }
-
-  .about-profile-image {
-    display: block;
-    width: 100%;
-    max-width: min(300px, 100%);
-    height: auto;
-    aspect-ratio: 1 / 1;
-  
-    border-radius: 15%;
-    object-fit: cover;
-    object-position: center 10%;
-  
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 1rem;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  }
-  
-  .about-title {
-    margin-top: 16px;
-    text-align: center;
-  }
-  
-  .about-links {
-    margin-bottom: 20px;
-    color: #9ca3af;
-  }
-  
-  .about-links a {
-    color: inherit;
-    text-decoration: none;
-    overflow-wrap: anywhere;
-    word-break: break-word;
-  }
-  
-  .about-callout {
-    border: 1.5px solid rgba(0, 0, 0, 0.15);
-    border-radius: 14px;
-    padding: 20px 24px;
-  
-    background: #fff;
-    box-shadow: 0 6px 18px rgba(0,0,0,.06);
-  
-    line-height: 1.6;
-    min-width: 0;
-    overflow-wrap: break-word;
-  }
-  
-  .about-callout .icon {
-    font-size: 1.4rem;
-  }
-  
- /* 전체 중앙 정렬 */
-.about-section {
-    width: 100%;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 24px;
-    outline: none;
-    caret-color: transparent;
-    min-width: 0;
-    box-sizing: border-box;
-} 
-  
-.about-section h2 {
-  margin-bottom: 24px;
 }
 
-  /* 문단 간격 */
-  .about-right p {
-    margin: 0;
-    line-height: 1.55;
-  }
-  
-  .about-right p + p {
-    margin-top: 6px;
-  }
-
-  /* 서비스 환경별 경험 카드 (_data/profile.yml → environments) */
-  .about-env-grid {
-    display: grid;
-    /* min(100%, …): 칸이 좁을 때 최소 폭 때문에 about-right가 왼쪽 칸으로 넘치지 않도록 */
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-    gap: 12px;
-  }
-
-  .about-env {
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-    padding: 14px 18px;
-    background: #fafafa;
-    min-width: 0;
-  }
-
-  .about-env h4 {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin: 0 0 8px;
-    font-size: 1rem;
-  }
-
-  .about-env ul {
-    margin: 0;
-    padding-left: 1.1rem;
-    line-height: 1.55;
-  }
-
-  .about-env li + li {
-    margin-top: 4px;
-  }
-
-  .about-closing {
-    border-left: 3px solid #3498db;
-    padding: 4px 0 4px 14px;
-  }
-
-.about-timeline-section {
-  display: flex;
-  flex-direction: column;
-  gap: 24px; /* Experience ↔ Certificate 간격 */
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
-  padding-left: 28px; /* 좌측 세로선(about-main)과 텍스트 간격 */
-  box-sizing: border-box;
-  outline: none;
-  caret-color: transparent;
-}
-
-/* 경력만: 홈 timeline-item과 같은 가로 정렬. 연도는 그대로 두고, 기간은 그 아래 작은 글자 */
-.about-timeline-section .timeline-block:not(.cert-timeline) .timeline-item {
-  align-items: flex-start;
-}
-
-.about-timeline-section .timeline-block:not(.cert-timeline) .year {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  flex: 0 0 4.4rem;
-  width: 4.4rem;
-  min-width: 4.4rem;
-  gap: 1px;
-  padding-top: 1.5%;
-  line-height: 1.15;
-}
-
-.about-timeline-section .timeline-item.is-expired .company,
-.about-timeline-section .timeline-item.is-expired .desc {
-  color: #9ca3af;
-}
-
-.about-timeline-section .cert-badge {
-  display: inline-block;
-  margin-left: 6px;
-  padding: 0 6px;
-  font-size: 0.68rem;
-  font-weight: 700;
-  line-height: 1.45;
-  color: #9a3412;
-  background: #ffedd5;
-  border-radius: 999px;
-  vertical-align: 1px;
-}
-
-/* Projects: Bootstrap 5 carousel — 인디케이터 색은 아래 재정의. 높이는 about.html 스크립트가 카드 최대 높이만큼만 부여 */
-.project-bootstrap-carousel {
-  position: relative;
-  max-width: 100%;
-  min-width: 0;
-  /* 인디케이터 아래 여백 */
-  padding-bottom: 3.25rem;
-}
-
-/* Projects 블록 전체와 아래 QA Practice 블록 사이 여백 */
-.showcase-panel#projects {
-  margin-bottom: 2.5rem;
-  padding-bottom: 0.75rem;
-}
-
-/* 좌우 화살표(약 2.75rem)와 겹치지 않도록 카드 영역을 안쪽으로 */
-.project-bootstrap-carousel .carousel-inner {
-  min-height: 0;
-  padding-left: 3.5rem;
-  padding-right: 3.5rem;
-  box-sizing: border-box;
-}
-
-.project-bootstrap-carousel .carousel-item {
-  min-width: 0;
-  min-height: 0;
-}
-
-.project-bootstrap-carousel .carousel-item > div {
-  min-height: 100%;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  box-sizing: border-box;
-  /* Bootstrap px-1 가로는 제거 — 패딩은 carousel-inner에서만 */
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
-
-/* 인디케이터: 대비 확보 + 활성 표시 — 카드와 살짝 띄움 */
-.project-bootstrap-carousel .carousel-indicators {
-  z-index: 5;
-  bottom: 0.35rem;
-  margin-bottom: 0;
-}
-
-.project-bootstrap-carousel .carousel-indicators [data-bs-target] {
-  width: 2.25rem;
-  height: 0.35rem;
-  border: none;
-  border-top: 0;
-  border-bottom: 0;
-  padding: 0;
-  border-radius: 999px;
-  margin-left: 4px;
-  margin-right: 4px;
-  text-indent: -9999px;
-  opacity: 1;
-  background-color: rgba(37, 99, 235, 0.35);
-  background-clip: padding-box;
-  box-sizing: border-box;
-}
-
-.project-bootstrap-carousel .carousel-indicators [data-bs-target].active {
-  background-color: #2563eb;
-}
-
-/* prev/next: 기본 흰색 화살표는 밝은 배경에서 안 보임 → 원형 배경 + 어두운 아이콘 */
-.project-bootstrap-carousel .carousel-control-prev,
-.project-bootstrap-carousel .carousel-control-next {
-  width: 2.75rem;
-  height: 2.75rem;
-  top: 42%;
-  bottom: auto;
-  transform: translateY(-50%);
-  opacity: 1;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.96);
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  z-index: 6;
-}
-
-.project-bootstrap-carousel .carousel-control-prev {
-  left: 0.15rem;
-}
-
-.project-bootstrap-carousel .carousel-control-next {
-  right: 0.15rem;
-}
-
-.project-bootstrap-carousel .carousel-control-prev:hover,
-.project-bootstrap-carousel .carousel-control-next:hover {
-  background: #fff;
-  border-color: rgba(37, 99, 235, 0.35);
-}
-
-.project-bootstrap-carousel .carousel-control-prev-icon,
-.project-bootstrap-carousel .carousel-control-next-icon {
-  width: 1.65rem;
-  height: 1.65rem;
-  filter: brightness(0.35);
-}
-
-.project-bootstrap-carousel .summary-card.card--project {
-  width: 100%;
-  max-width: 36rem;
-  margin-left: auto;
-  margin-right: auto;
-  min-width: 0;
-}
-
-.project-bootstrap-carousel .summary-card.card--project header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 8px;
-  min-width: 0;
-  width: 100%;
-}
-
-.project-bootstrap-carousel .summary-card.card--project header h3 {
-  flex: 1 1 12rem;
-  min-width: 0;
-  margin: 0 0 0 10px;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-.project-bootstrap-carousel .summary-card.card--project .period {
-  flex: 0 1 auto;
-  min-width: 0;
-  text-align: right;
-  white-space: normal;
-  overflow-wrap: anywhere;
-}
-
-.project-bootstrap-carousel .summary-card.card--project .summary,
-.project-bootstrap-carousel .summary-card.card--project .points li {
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-/* 좁은 화면: 버튼 폭에 맞춰 안쪽 여백 축소 */
-@media (max-width: 576px) {
-  .project-bootstrap-carousel .carousel-inner {
-    padding-left: 2.85rem;
-    padding-right: 2.85rem;
-  }
-
-  .project-bootstrap-carousel .summary-card.card--project {
-    max-width: 100%;
-  }
-
-  .project-bootstrap-carousel .carousel-control-prev,
-  .project-bootstrap-carousel .carousel-control-next {
-    width: 2.5rem;
-    height: 2.5rem;
-  }
-
-  .project-bootstrap-carousel .carousel-control-prev {
-    left: 0.05rem;
-  }
-
-  .project-bootstrap-carousel .carousel-control-next {
-    right: 0.05rem;
-  }
-}
-
-.summary-card {
-  position: relative;
-  border: 1px solid #e5e7eb;
-  border-radius: 16px;
-  padding: 22px 24px;
-  background: #fff;
-
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-
-  transition: transform .25s ease, box-shadow .25s ease;
-}
-
-/* .summary-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 28px rgba(0,0,0,.08);
-} */
-
-/* 왼쪽 accent 라인 */
-.summary-card::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 18px;
-  bottom: 18px;
-  width: 4px;
-  border-radius: 4px;
-  background: linear-gradient(180deg, #132449, #60a5fa);
-}
-
-/* header */
-.summary-card header {
-  display: flex;
-  justify-content: space-between;
+.about-profile {
+  display: grid;
+  grid-template-columns: 104px minmax(0, 1fr);
   align-items: center;
-  border-radius: 4px;
+  gap: 18px;
+  min-width: 0;
 }
 
-.summary-card h3 {
-  margin: 0 0 0 10px;
-  font-size: 1.02rem;
-  font-weight: 600;
-  color: #dde1e9;
-}
-
-.period {
-  font-size: 0.75rem;
-  color: #dae3e4;
-  margin: 0 5px 0 5px;
-}
-
-/* summary 강조 */
-.summary {
-  font-size: 0.9rem;
-  color: #1f2937;
-  font-weight: 500;
-
-  padding: 10px 14px;
-  background: #f8fafc;
+.about-profile-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
   border-radius: 10px;
-  border: 1px solid #e5e7eb;
+  object-fit: cover;
+  object-position: center 10%;
+  background: var(--c-sand);
 }
 
-/* points */
-.points {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-
+.about-links {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-
-  font-size: 0.85rem;
-  color: #374151;
+  gap: 2px;
+  min-width: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.88em;
 }
 
-.points li {
-  position: relative;
-  padding-left: 16px;
-}
-
-.points li::before {
-  content: '▸';
-  position: absolute;
-  left: 0;
-  top: 0;
-  color: #2563eb;
-  font-weight: 700;
-}
-
-
-.detail-link {
-  margin-top: auto;
-  align-self: flex-start;
-  font-size: 0.85rem;
-  color: #2563eb;
+.about-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  max-width: 100%;
+  padding: 4px 0;
+  color: var(--c-ink-soft);
   text-decoration: none;
 }
 
-.detail-link:hover {
-  text-decoration: underline;
+.about-links .pictogram {
+  width: 17px;
+  height: 17px;
+  color: var(--c-umber);
 }
 
-/* Practice 그리드: 1fr이 min-content로 팽창하는 것 방지 */
-.card-grid {
+.about-links__label {
+  /* 아이콘으로 구분되므로 화면에서는 숨기고 스크린리더에만 */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.about-links__text {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.about-links a:hover {
+  color: var(--c-ink);
+}
+
+.about-links a:hover .about-links__text {
+  text-decoration: underline;
+  text-decoration-color: var(--c-stone);
+  text-underline-offset: 3px;
+}
+
+.about-text {
+  container: about-text / inline-size;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  min-width: 0;
+}
+
+/* 데이터의 <br> 은 넓은 칸 기준이라, 좁은 칸에서는 자연 줄바꿈에 맡긴다 */
+.about-text br {
+  display: none;
+}
+
+.about-callout {
+  padding: 2px 0 2px 16px;
+  border-left: 2px solid var(--c-umber);
+  font-size: 1.06em;
+  line-height: 1.75;
+  color: var(--c-ink);
+}
+
+.about-callout p + p {
+  margin-top: 10px;
+}
+
+.about-intro {
+  line-height: 1.8;
+  color: var(--c-ink-soft);
+}
+
+.about-intro strong,
+.about-env strong {
+  color: var(--c-ink);
+}
+
+.about-env-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 20px;
-  max-height: none;
-  overflow-y: visible;
-  padding-right: 0;
-  scroll-behavior: smooth;
-  width: 100%;
-  min-width: 0;
+  gap: 12px;
 }
 
-.card-grid .summary-card {
+.about-env {
   min-width: 0;
-  max-width: 100%;
+  padding: 16px 18px;
+  border: 1px solid var(--c-line);
+  border-radius: 8px;
 }
 
-.card-grid .summary-card header {
+.about-env h3 {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap;
+  align-items: center;
   gap: 8px;
-  min-width: 0;
+  margin-bottom: 10px;
+  font-size: 0.98em;
+  font-weight: 700;
+  color: var(--c-ink);
+}
+
+.about-env h3 .pictogram {
+  width: 20px;
+  height: 20px;
+  color: var(--c-umber);
+}
+
+.about-env ul {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0;
+  list-style: none;
+  font-size: 0.92em;
+  line-height: 1.65;
+  color: var(--c-ink-soft);
+}
+
+.about-closing {
+  padding: 16px 18px;
+  border-radius: 8px;
+  background: var(--c-sand);
+  line-height: 1.75;
+  color: var(--c-ink);
+}
+
+@container about-main (min-width: 600px) {
+  .about-brief {
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: 36px;
+  }
+
+  .about-profile {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    align-content: start;
+    gap: 16px;
+  }
+}
+
+@container about-main (min-width: 780px) {
+  .about-brief {
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 44px;
+  }
+}
+
+@container about-text (min-width: 520px) {
+  .about-env-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* 문장 단위 줄바꿈은 글 칸이 충분히 넓을 때만 살림 */
+  .about-callout br {
+    display: inline;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   02 Career — Experience | Certificate | Competition
+   Mobile: 1열 / 본문 560px+: 경력 한 줄 + 자격증·대회 2열 / 본문 780px+: 3열
+   -------------------------------------------------------------------------- */
+
+.career-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 30px;
+}
+
+/* .career-col / .career-list / .career-item 모양은 components.css (Home 과 공통) */
+
+@container about-main (min-width: 560px) {
+  .career-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 32px;
+  }
+
+  .career-col--list {
+    grid-column: 1 / -1;
+  }
+}
+
+@container about-main (min-width: 780px) {
+  .career-grid {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 28px;
+  }
+
+  .career-col--list {
+    grid-column: auto;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Card — Projects(캐러셀) / Practices 공통
+   -------------------------------------------------------------------------- */
+
+.about-page .summary-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   width: 100%;
-}
-
-.card-grid .summary-card header h3 {
-  flex: 1 1 12rem;
   min-width: 0;
-  margin: 0 0 0 10px;
-  overflow-wrap: anywhere;
-  word-break: break-word;
+  height: 100%;
+  padding: 20px;
+  border: 1px solid var(--c-line);
+  border-radius: 8px;
+  background: var(--c-surface);
 }
 
-.card-grid .summary-card .period {
-  flex: 0 1 auto;
+.about-page .summary-card__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--c-line);
+}
+
+.about-page .summary-card h3 {
   min-width: 0;
-  text-align: right;
-  white-space: normal;
-  overflow-wrap: anywhere;
+  font-size: 1.05em;
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--c-ink);
 }
 
-.card-grid .summary-card .summary {
-  min-width: 0;
-  overflow-wrap: anywhere;
-  word-break: break-word;
+.about-page .summary-card .period {
+  font-family: var(--font-mono);
+  font-size: 0.75em;
+  white-space: nowrap;
+  color: var(--c-muted);
 }
 
-.card-grid .points li {
-  overflow-wrap: anywhere;
-  word-break: break-word;
+.about-page .summary-card .summary {
+  font-size: 0.95em;
+  font-weight: 600;
+  line-height: 1.65;
+  color: var(--c-ink);
 }
 
-.card-grid::-webkit-scrollbar {
+.about-page .points,
+.about-page .skill-points {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9em;
+  line-height: 1.65;
+  color: var(--c-ink-soft);
+}
+
+/* 짧은 가로선 마커 (경험 카드·포인트·스킬 공통) */
+.about-page .points li,
+.about-page .skill-points li,
+.about-env li {
+  position: relative;
+  padding-left: 14px;
+}
+
+.about-page .points li::before,
+.about-page .skill-points li::before,
+.about-env li::before {
+  content: "";
+  position: absolute;
+  top: 0.82em;
+  left: 0;
   width: 6px;
+  height: 1px;
+  background: var(--c-umber);
 }
 
-.card-grid::-webkit-scrollbar-track {
+.about-page .detail-link {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 4px;
+  font-size: 0.85em;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--c-umber);
+}
+
+.about-page .detail-link .pictogram {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.15s ease;
+}
+
+.about-page .detail-link:hover {
+  color: var(--c-ink);
+}
+
+.about-page .detail-link:hover .pictogram {
+  transform: translateX(3px);
+}
+
+/* --------------------------------------------------------------------------
+   03 Projects / 04 Practices — 카드 캐러셀 (Bootstrap carousel 공통)
+   - 카드 바로 아래 한 줄: [‹] ─ 인디케이터 ─ [›]  (모바일·PC 동일, 간격 14px)
+   - 한 슬라이드에 들어갈 카드 수는 --per-page 로 CSS 가 정하고,
+     about.html 스크립트가 그 값에 맞춰 슬라이드를 다시 묶는다.
+       Projects : 항상 1장
+       Practices: 모바일 1장 → 본문 600px+ 2×2 (4장)
+   - 카드 높이는 스크립트가 가장 긴 카드에 맞춤 (넘길 때 아래 내비가 흔들리지 않게)
+   -------------------------------------------------------------------------- */
+
+.card-carousel {
+  --per-page: 1;
+  position: relative;
+  min-width: 0;
+}
+
+.card-carousel .carousel-inner {
+  overflow: hidden;
+}
+
+.card-carousel .carousel-page {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+}
+
+.carousel-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.card-carousel .carousel-indicators {
+  position: static;
+  z-index: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+/* 막대는 3px, 위아래 투명 테두리 10px 로 터치 영역 확보 */
+.card-carousel .carousel-indicators [data-bs-target] {
+  box-sizing: content-box;
+  flex: 0 0 auto;
+  width: 14px;
+  height: 3px;
+  margin: 0 3px;
+  padding: 0;
+  border: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-radius: 0;
+  background-color: var(--c-line-strong);
+  background-clip: padding-box;
+  opacity: 1;
+  text-indent: -999px;
+  transition: width 0.25s ease, background-color 0.25s ease;
+}
+
+.card-carousel .carousel-indicators [data-bs-target]:hover {
+  background-color: var(--c-umber);
+}
+
+.card-carousel .carousel-indicators .active {
+  width: 28px;
+  background-color: var(--c-umber);
+}
+
+.card-carousel .carousel-control-prev,
+.card-carousel .carousel-control-next {
+  position: static;
+  z-index: auto;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--c-line);
+  border-radius: 50%;
   background: transparent;
+  color: var(--c-ink-soft);
+  opacity: 1;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
 }
 
-.card-grid::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.15);
-  border-radius: 10px;
+.card-carousel .carousel-control-prev:hover,
+.card-carousel .carousel-control-next:hover,
+.card-carousel .carousel-control-prev:focus-visible,
+.card-carousel .carousel-control-next:focus-visible {
+  border-color: var(--c-umber);
+  background: var(--c-sand);
+  color: var(--c-ink);
+  opacity: 1;
 }
 
-.card-grid::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(0, 0, 0, 0.25);
+.card-carousel .carousel-control-prev .pictogram,
+.card-carousel .carousel-control-next .pictogram {
+  width: 18px;
+  height: 18px;
 }
+
+@container about-main (min-width: 600px) {
+  .practice-carousel {
+    --per-page: 4;
+  }
+
+  .practice-carousel .carousel-page {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* --------------------------------------------------------------------------
+   05 Skills — 카드 그리드
+   -------------------------------------------------------------------------- */
 
 .skill-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 16px;
-  width: 100%;
   min-width: 0;
 }
 
 .skill-card {
-  padding: 24px;
-  border: 1px solid var(--border-color, #e5e7eb);
-  border-radius: 12px;
-  background: #fff;
   min-width: 0;
-  max-width: 100%;
+  padding: 18px 20px;
+  border: 1px solid var(--c-line);
+  border-radius: 8px;
 }
 
 .skill-header {
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
+  align-items: center;
+  gap: 10px;
   margin-bottom: 12px;
+}
+
+.skill-header .pictogram {
+  width: 22px;
+  height: 22px;
+  color: var(--c-umber);
+}
+
+.skill-header h3 {
   min-width: 0;
+  font-size: 1em;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--c-ink);
 }
 
-.skill-icon {
-  width: 28px;
-  height: 28px;
-  object-fit: contain;
-  flex-shrink: 0;
-}
-
-.skill-card strong {
-  font-size: 1rem;
-  font-weight: 600;
-  flex: 1 1 auto;
-  min-width: 0;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-.skill-card p {
-  font-size: 0.9rem;
-  line-height: 1.6;
-  color: #555;
-  min-width: 0;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-/* ==========================================================================
-   MOBILE ( < 1024px )
-   - desktop min-width는 1024px 기준 유지
-   - Projects는 Bootstrap 캐러셀(마크업/JS는 라이브러리)
-   ========================================================================== */
-@media (max-width: 1023px) {
-  /* 목차를 모바일에서도 sticky로 고정 */
-  .about-sidebar {
-    position: sticky;
-    top: 0;
-    z-index: 60;
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 10px 0;
-    margin: 0 0 8px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  }
-
-  .about-nav {
-    max-width: 100%;
-    overflow-x: visible;
-  }
-
-  .about-nav ul {
-    padding-left: 0;
-    border-left: none;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    gap: 10px;
-    row-gap: 10px;
-    overflow-x: visible;
-    -webkit-overflow-scrolling: auto;
-    padding-bottom: 0;
-    max-width: 100%;
-  }
-
-  .about-nav li {
-    padding-left: 0;
-    flex: 0 1 auto;
-  }
-
-  .about-nav li::before {
-    display: none;
-  }
-
-  .about-nav a {
-    white-space: normal;
-    text-align: center;
-    padding: 10px 12px;
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    border-radius: 999px;
-    background: #fff;
-  }
-
-  .about-nav a.active {
-    padding-left: 12px;
-    padding-right: 12px;
-    border-color: rgba(0, 0, 0, 0.28);
-  }
-
-  .about-main {
-    border-left: none;
-    align-items: stretch;
-    gap: 40px;
-  }
-
-  .about-section {
-    padding: 0 16px;
-  }
-
-  .about-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
-    justify-items: stretch;
-  }
-
-  .about-left {
-    text-align: center;
-  }
-
-  .about-title {
-    text-align: center;
-  }
-
-  .about-links a {
-    overflow-wrap: anywhere;
-    word-break: break-word;
-    display: inline-block;
-  }
-
-  .about-timeline-section {
-    flex-direction: column;
-    gap: 24px;
-  }
-
-  .card-grid {
-    grid-template-columns: 1fr;
-    max-height: none;
-    overflow-y: visible;
-    padding-right: 0;
-  }
-
-  /* 카드/텍스트가 박스를 넘지 않도록 줄바꿈 강제 (Project 캐러셀 카드는 제외) */
-  .card-grid .summary-card:not(.card--project),
-  .skill-card,
-  .about-callout {
-    max-width: 100%;
-    min-width: 0;
-  }
-
-  .card-grid .summary-card:not(.card--project) *,
-  .skill-card *,
-  .about-callout * {
-    overflow-wrap: anywhere;
-    word-break: break-word;
-  }
-
-  .skill-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .summary-card header {
-    gap: 10px;
-    align-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  .period {
-    margin: 0;
-  }
-}
-
-/* about 페이지 범위 box-sizing 고정 (폭 계산 안정화) */
-.about-page,
-.about-page * {
-  font-family: "Noto Serif KR", serif;
-  box-sizing: border-box;
-}
-
-/* Practice/Skills 섹션: 내용이 박스 밖으로 안 새도록 기본 안전장치 */
-.showcase-panel {
-  width: 100%;
-  min-width: 0;
-  max-width: 100%;
-}
-
-.showcase-panel h2 {
-  overflow-wrap: break-word;
-}
-
-.card-grid,
-.skill-grid,
-.summary-card,
-.skill-card {
-  max-width: 100%;
-  min-width: 0;
-  overflow: visible;
-}
-
-/* flex 자식의 기본 min-width:auto로 인한 가로 팽창 방지 — 모든 자손에 max-width:100%는 플렉스 레이아웃과 충돌할 수 있어 min-width만 통일 */
-.summary-card *,
-.skill-card * {
-  min-width: 0;
-}
-
-.summary-card:not(.card--project) *,
-.skill-card * {
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-/* 좁은 모바일: 가로 여백 축소로 잘림 완화 */
-@media (max-width: 480px) {
-  .about-section {
-    padding-left: 12px;
-    padding-right: 12px;
-  }
-
-  .about-callout {
-    padding: 16px 14px;
-  }
-}
-
-/* Career 섹션만: 700px 이상이면 데스크탑처럼 가로 배치 */
-@media (min-width: 700px) and (max-width: 1023px) {
-  .about-timeline-section {
-    flex-direction: row;
-    gap: 48px;
-    align-items: flex-start;
-  }
-}
-
-/* Desktop ( >= 1024px ) */
-@media (min-width: 1024px) {
-  .about-sidebar {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .about-nav {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-  }
-
-  .about-nav ul {
-    margin-left: auto;
-    margin-right: auto;
-    width: fit-content;
-    max-width: 100%;
-  }
-
-  .about-layout {
-    width: 95%;
-    grid-template-columns: 180px 1fr;
-    column-gap: 64px;
-    row-gap: 0;
-  }
-
-  .about-main {
-    align-items: center;
-    gap: 64px;
-  }
-
-  .about-grid {
-    grid-template-columns: 400px minmax(0, 1fr);
-    gap: 0;
-    justify-items: center;
-  }
-
-  .about-title {
-    text-align: right;
-  }
-
-  .about-timeline-section {
-    flex-direction: row;
-    gap: 48px;
-  }
-
-  .card-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    max-height: calc(2 * 220px + 20px);
-    overflow-y: auto;
-    padding-right: 6px;
-  }
-
-  /* 데스크톱도 2열 고정: 카드가 늘어나면 행이 자동으로 추가됨 (N행 2열) */
+@container about-main (min-width: 520px) {
   .skill-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 32px;
   }
 }

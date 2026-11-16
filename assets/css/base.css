@@ -1,27 +1,88 @@
-/* @font-face {
-    font-family: "Noto Serif KR";
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-} */
-/* src: url("../fonts/HSHwalkongSerif-Regular.woff2") format("woff2"); */
+/* ==========================================================================
+   BASE — 디자인 토큰 + 전역 기본값
+   Palette: colorhunt F3EEEA · EBE3D5 · B0A695 · 776B5D (paper / sand / stone / umber)
+   나머지 색(ink, surface 등)은 이 4색에서 명도만 조정해 파생
+   ========================================================================== */
+
+:root {
+  /* palette */
+  --c-paper: #F3EEEA;   /* 페이지 바탕 */
+  --c-sand: #EBE3D5;    /* 옅은 채움, hover 배경 */
+  --c-stone: #B0A695;   /* 강한 구분선, 장식 */
+  --c-umber: #776B5D;   /* 포인트, 보조 텍스트 */
+
+  /* derived */
+  --c-surface: #FBF9F6;     /* 본문/헤더 면 */
+  --c-ink: #2B2620;         /* 본문 텍스트 */
+  --c-ink-soft: #5C5247;    /* 2차 텍스트 */
+  --c-muted: #776B5D;       /* 메타 텍스트 (paper 위 4.5:1 이상) */
+  --c-line: #E2D9CC;        /* 기본 구분선 */
+  --c-line-strong: #B0A695;
+  --c-accent: #776B5D;
+  --c-accent-strong: #4F453B;
+  --c-overlay: rgba(43, 38, 32, 0.42);
+
+  --font-serif: "Noto Serif KR", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+
+  --radius: 4px;
+  --gutter: 16px;            /* 모바일 좌우 여백 */
+  --frame-max: 1440px;       /* 헤더·본문 프레임 최대 폭 */
+}
 
 html {
     font-size: 16px;
 }
 
 body {
-    font-family: "Noto Serif KR", Arial, sans-serif;
+    font-family: var(--font-serif);
     line-height: 1.5;
     text-rendering: optimizeLegibility;
     -webkit-text-size-adjust: 100%;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: var(--c-paper);
+    color: var(--c-ink);
 }
-/* 모든 헤더 태그에 적용 */
+
+/* 모든 헤더 태그에 적용 — 고정된 TOC 높이보다 조금 더 크게 */
 h1, h2, h3, h4, h5, h6 {
-    /* 고정된 TOC의 높이나 'top' 값보다 조금 더 크게 설정하세요 */
-    scroll-margin-top: 222px; 
+    scroll-margin-top: 222px;
+}
+
+::selection {
+    background: var(--c-sand);
+    color: var(--c-ink);
+}
+
+:focus-visible {
+    outline: 2px solid var(--c-umber);
+    outline-offset: 2px;
+}
+
+/* 키보드 사용자를 위한 본문 바로가기 */
+.skip-link {
+    position: absolute;
+    left: 8px;
+    top: -48px;
+    z-index: 2000;
+    padding: 8px 12px;
+    background: var(--c-ink);
+    color: var(--c-surface);
+    font-size: 0.85rem;
+    text-decoration: none;
+    border-radius: var(--radius);
+}
+
+.skip-link:focus {
+    top: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
 }
