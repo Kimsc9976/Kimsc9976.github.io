@@ -1,85 +1,72 @@
-<!-- 기존 고정 메뉴 -->
-<aside>
+{%- comment -%}
+  사이트 사이드바 (Index)
+  - 1024px 이상: 본문 왼쪽 sticky 사이드바
+  - 1024px 미만: 헤더의 메뉴 버튼으로 여는 오프캔버스 드로어 (assets/js/site.js)
+  - 위치·너비는 layout.css, 모양은 sidebar.css 에서 관리
+{%- endcomment -%}
+<aside class="site-sidebar" id="site-sidebar" aria-label="사이트 목차" tabindex="-1">
   <div class="sidebar">
-    <h1 class="sidebar-title">📚 Index</h2>
+    <div class="sidebar__head">
+      <p class="sidebar__title">Index</p>
+      <button type="button" class="sidebar__close" data-sidebar-close aria-label="목차 닫기">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
 
-    <nav class="main-links">
-      {% for item in site.data.sidebar.main %}
-        {% assign base_url = item.url %}
-        {% assign is_active = false %}
-    
-        {% if base_url == "/" %}
-          {% if page.url == "/" %}
-            {% assign is_active = true %}
-          {% endif %}
-        {% else %}
-          {% if page.url == base_url or page.url == base_url | append: "/" or page.url contains base_url | append: "/" %}
-            {% assign is_active = true %}
-          {% endif %}
-        {% endif %}
-    
-        <a href="{{ base_url }}" class="nav-item {% if is_active %}active{% endif %}">
-          {{ item.title }}
-        </a>
-      {% endfor %}
+    <nav class="sidebar-tabs" aria-label="주요 메뉴">
+      {%- for item in site.data.sidebar.main %}
+        {%- assign base_url = item.url %}
+        {%- assign is_active = false %}
+        {%- if base_url == "/" %}
+          {%- if page.url == "/" or page.url == "/index.html" %}{% assign is_active = true %}{% endif %}
+        {%- else %}
+          {%- if page.url contains base_url %}{% assign is_active = true %}{% endif %}
+        {%- endif %}
+      <a href="{{ base_url }}" class="sidebar-tab{% if is_active %} is-active{% endif %}"{% if is_active %} aria-current="page"{% endif %}>{{ item.title }}</a>
+      {%- endfor %}
     </nav>
 
-    <hr class="sidebar-divider">
-    {% assign eng = site.data.sidebar.sections.engineering %}
-    <h3>
-      <a href="{{ eng.url }}" class="sidebar-section-title {% if page.url == eng.url or page.url contains '/log/' %}active{% endif %}">
-        {{ eng.title }}
-      </a>
-    </h3>
-    {% for item in site.data.sidebar.blog %}
-    <details class="sidebar-group">
-      <summary class="toggle-text">
-        <a href="{{ item.url }}">
-          - {{ item.title }}
-        </a>
-      </summary>
-    </details>
-    {% endfor %}
-    <hr class="sidebar-divider">
-    {% assign algo = site.data.sidebar.sections.algorithm %}
-    <h3>
-      <a href="{{ algo.url }}" class="sidebar-section-title {% if page.url == algo.url or page.url contains '/algorithm/' %}active{% endif %}">
-        {{ algo.title }}
-      </a>
-    </h3>
-    <!-- 자동 알고리즘 -->
-    {% for platform in site.data.sidebar.algorithm %}
-    <details class="sidebar-group">
-      <summary class="toggle-text"> - {{ platform[0] }}</summary>
-      <ul>
-        {% for tier in platform[1] %}
-        <li>
-          <a href="/algorithm/{{ platform[0] }}/{{ tier }}/">
-             - {{ tier }}
-          </a>
-        </li>
-        {% endfor %}
+    {%- assign eng = site.data.sidebar.sections.engineering %}
+    <section class="sidebar-section">
+      <a href="{{ eng.url }}" class="sidebar-section__title{% if page.url == eng.url or page.url contains '/log/' %} is-active{% endif %}">{{ eng.title }}</a>
+      <ul class="sidebar-list">
+        {%- for item in site.data.sidebar.blog %}
+        <li><a href="{{ item.url }}"{% if page.url contains item.url %} class="is-active" aria-current="page"{% endif %}>{{ item.title }}</a></li>
+        {%- endfor %}
       </ul>
-    </details>
-    {% endfor %}
-    <hr class="sidebar-divider">
-    {% assign sp = site.data.sidebar.sections.sideprojects %}
-    <h3>
-      <a href="{{ sp.url }}" class="sidebar-section-title {% if page.url == sp.url or page.url contains '/sideproject/' %}active{% endif %}">
-        {{ sp.title }}
-      </a>
-    </h3>
-    {% for item in site.data.sidebar.sideprojects %}
-    <details class="sidebar-group">
-      <summary class="toggle-text">
-        <a href="{{ item.url }}">
-          - {{ item.title }}
-        </a>
-      </summary>
-    </details>
-    {% endfor %}
-    <hr class="sidebar-divider">
-    <h3> 🛠️ Coming soon</h3>
-    <hr class="sidebar-divider">
+    </section>
+
+    {%- assign algo = site.data.sidebar.sections.algorithm %}
+    <section class="sidebar-section">
+      <a href="{{ algo.url }}" class="sidebar-section__title{% if page.url == algo.url or page.url contains '/algorithm/' %} is-active{% endif %}">{{ algo.title }}</a>
+      <ul class="sidebar-list">
+        {%- for platform in site.data.sidebar.algorithm %}
+        {%- capture platform_prefix %}/algorithm/{{ platform[0] }}/{% endcapture %}
+        <li>
+          <details class="sidebar-group"{% if page.url contains platform_prefix %} open{% endif %}>
+            <summary>{{ platform[0] }}</summary>
+            <ul>
+              {%- for tier in platform[1] %}
+              {%- capture tier_url %}/algorithm/{{ platform[0] }}/{{ tier }}/{% endcapture %}
+              <li><a href="{{ tier_url }}"{% if page.url contains tier_url %} class="is-active" aria-current="page"{% endif %}>{{ tier }}</a></li>
+              {%- endfor %}
+            </ul>
+          </details>
+        </li>
+        {%- endfor %}
+      </ul>
+    </section>
+
+    {%- assign sp = site.data.sidebar.sections.sideprojects %}
+    <section class="sidebar-section">
+      <a href="{{ sp.url }}" class="sidebar-section__title{% if page.url == sp.url or page.url contains '/sideproject/' %} is-active{% endif %}">{{ sp.title }}</a>
+      <ul class="sidebar-list">
+        {%- for item in site.data.sidebar.sideprojects %}
+        <li><a href="{{ item.url }}"{% if page.url contains item.url %} class="is-active" aria-current="page"{% endif %}>{{ item.title }}</a></li>
+        {%- endfor %}
+      </ul>
+    </section>
+
+    <p class="sidebar-note">Coming soon</p>
   </div>
 </aside>

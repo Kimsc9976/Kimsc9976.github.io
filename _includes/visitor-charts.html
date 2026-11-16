@@ -1,18 +1,21 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<section class="graph-container">
-  <div class="stats-tabs">
-    <div class="tab-btn active" onclick="openTab(event, 'dailyPanel')">주간</div>
-    <div class="tab-btn" onclick="openTab(event, 'monthlyPanel')">월간</div>
+<section class="graph-container" aria-label="방문자 통계">
+  <div class="graph-head">
+    <p class="graph-caption">Visitors</p>
+    <div class="stats-tabs">
+      <button type="button" class="tab-btn active" aria-pressed="true" onclick="openTab(event, 'dailyPanel')">주간</button>
+      <button type="button" class="tab-btn" aria-pressed="false" onclick="openTab(event, 'monthlyPanel')">월간</button>
+    </div>
   </div>
 
   <div class="stats-container">
     <div id="dailyPanel" class="chart-panel active">
-      <canvas id="dailyChart"></canvas>
+      <canvas id="dailyChart" role="img" aria-label="최근 일별 방문자 수 그래프"></canvas>
     </div>
     <div id="monthlyPanel" class="chart-panel">
-      <canvas id="monthlyChart"></canvas>
-    </div>  
+      <canvas id="monthlyChart" role="img" aria-label="월별 방문자 수 그래프"></canvas>
+    </div>
   </div>
 </section>
 
@@ -26,9 +29,11 @@ function openTab(evt, tabName) {
   const btns = document.getElementsByClassName("tab-btn");
   for (let i = 0; i < btns.length; i++) {
     btns[i].classList.remove("active");
+    btns[i].setAttribute("aria-pressed", "false");
   }
   document.getElementById(tabName).classList.add("active");
   evt.currentTarget.classList.add("active");
+  evt.currentTarget.setAttribute("aria-pressed", "true");
 
   // 필요 시(특히 숨김 상태에서 생성하면 깨짐) 탭 진입 시점에 차트 생성
   if (tabName === "dailyPanel") window.__initDailyChart?.();
@@ -58,25 +63,68 @@ function openTab(evt, tabName) {
       console.error("데이터 로드 실패:", e);
   }
 
-  if (!statsData) return;
+  if (!statsData || typeof Chart === "undefined") return;
 
-  
+  // 색은 base.css 토큰에서 읽음 (팔레트 바뀌면 그래프도 같이 바뀜)
+  const css = getComputedStyle(document.documentElement);
+  const token = (name, fallback) => css.getPropertyValue(name).trim() || fallback;
+  const C = {
+    umber: token("--c-umber", "#776B5D"),
+    stone: token("--c-stone", "#B0A695"),
+    line: token("--c-line", "#E2D9CC"),
+    muted: token("--c-muted", "#776B5D"),
+    surface: token("--c-surface", "#FBF9F6"),
+  };
+
+  Chart.defaults.color = C.muted;
+  Chart.defaults.font.size = 11;
+
+  // x축은 짧게(03.25 / 26.03), 툴팁에는 원래 날짜 그대로
+  const shortDate = (s) => {
+    const p = String(s).split("-");
+    if (p.length === 3) return `${p[1]}.${p[2]}`;
+    if (p.length === 2) return `${p[0].slice(2)}.${p[1]}`;
+    return s;
+  };
+
   const getSmartMax = (dataArray) => {
     if (!dataArray || dataArray.length === 0) return 5;
     const maxVal = Math.max(...dataArray.map(d => d.value));
     return maxVal === 0 ? 5 : maxVal * 1.2;
   };
-  
+
   const makeOptions = (dataArray) => ({
     responsive: true,
     maintainAspectRatio: false, // ★ 부모 컨테이너 크기에 맞추기 위해 필수
+    layout: { padding: { top: 4, right: 4 } },
+    plugins: {
+      // 탭과 캡션이 의미를 설명하므로 범례는 숨겨 그래프 영역을 확보
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: "rgba(43, 38, 32, 0.92)",
+        padding: 8,
+        displayColors: false,
+      },
+    },
     scales: {
-      x: { offset: true },
+      x: {
+        offset: true,
+        grid: { display: false },
+        border: { color: C.line },
+        ticks: {
+          maxRotation: 0,
+          autoSkip: true,
+          autoSkipPadding: 8,
+          callback(value) { return shortDate(this.getLabelForValue(value)); },
+        },
+      },
       // 탭마다 데이터가 다른데 suggestedMax를 daily 기준으로 고정하면 월간 축이 이상해짐
       y: {
         beginAtZero: true,
         suggestedMax: getSmartMax(dataArray),
-        ticks: { stepSize: 1 },
+        grid: { color: C.line },
+        border: { display: false },
+        ticks: { stepSize: 1, precision: 0 },
       },
     },
   });
@@ -92,10 +140,15 @@ function openTab(evt, tabName) {
       data: {
         labels: statsData.daily.map(d => d.date),
         datasets: [{
-          label: '방문자(Active Users)',
+          label: '방문자',
           data: statsData.daily.map(d => d.value),
-          borderColor: '#3498db',
-          backgroundColor: 'rgba(52, 152, 219, 0.1)',
+          borderColor: C.umber,
+          borderWidth: 2,
+          backgroundColor: 'rgba(176, 166, 149, 0.22)',
+          pointBackgroundColor: C.surface,
+          pointBorderColor: C.umber,
+          pointRadius: 3,
+          pointHoverRadius: 5,
           fill: true,
           tension: 0.3
         }]
@@ -115,9 +168,11 @@ function openTab(evt, tabName) {
       data: {
         labels: statsData.monthly.map(d => d.month),
         datasets: [{
-          label: '월간 방문자',
+          label: '방문자',
           data: statsData.monthly.map(d => d.value),
-          backgroundColor: '#2ecc71',
+          backgroundColor: C.stone,
+          hoverBackgroundColor: C.umber,
+          borderRadius: 2,
           barPercentage: 0.5
         }]
       },

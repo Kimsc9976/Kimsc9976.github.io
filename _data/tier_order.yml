@@ -1,0 +1,38 @@
+# 알고리즘 티어 표시 순서 (대소문자 구분 없이 비교)
+# - 사용처: sidebar(scripts/generate_sidebar.rb), /algorithm/, /algorithm/<platform>/ (_includes/sort-tiers.html)
+# - 목록에 없는 티어는 맨 뒤에 원래 순서대로 붙음
+# - 숫자 티어는 따옴표로 감싸야 문자열로 비교됨
+
+# 백준 (solved.ac)
+- bronze
+- silver
+- gold
+- platinum
+- diamond
+- ruby
+
+# 프로그래머스
+- '0'
+- '1'
+- '2'
+- '3'
+- '4'
+- '5'
+- lv0
+- lv1
+- lv2
+- lv3
+- lv4
+- lv5
+
+# SWEA
+- d1
+- d2
+- d3
+- d4
+- d5
+- d6
+- d7
+- d8
+
+- unrated

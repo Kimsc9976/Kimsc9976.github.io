@@ -1,273 +1,410 @@
 ---
 layout: default
 ---
+{%- comment -%}
+  About — 프레임: 상단 소개(hero) / 왼쪽 목차 + 오른쪽 본문(세로선) / Brief → Career → Projects → Practices → Skills
+  - 폭 판단은 viewport 가 아니라 container query (about.css) 로 한다.
+    사이트 사이드바가 있는 데스크톱과 없는 태블릿에서 본문 폭이 달라서다.
+  - 데이터: _data/profile.yml, timeline.yml, projects.yml, practices.yml, skills.yml, about_nav.yml
+  - 아이콘: 이모지 대신 _includes/pictogram.html
+{%- endcomment -%}
 <div class="about-page">
-  <section class="home-hero">
+  <section class="about-hero">
     {{ content }}
   </section>
 
   <div class="about-layout">
 
     <aside class="about-sidebar">
-      <nav class="about-nav">
+      <nav class="about-nav" aria-label="About 목차">
         <ul>
-          <li><a href="#brief">Brief Me</a></li>
-          <li><a href="#career">Career & Certificate</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#practice">QA Practices</a></li>
-          <li><a href="#skills">Skills</a></li>
+          {%- for item in site.data.about_nav %}
+          <li><a href="{{ item.href }}">{{ item.label }}</a></li>
+          {%- endfor %}
         </ul>
       </nav>
     </aside>
 
-    <main class="about-main">
-      <section class="about-grid about-section" id="brief">
+    <div class="about-main">
 
-        {% assign profile = site.data.profile %}
-        <!-- LEFT : Profile -->
-        <div class="about-left">
-          <img src="{{ profile.image }}" alt="{{ profile.image_alt }}" class="about-profile-image">
-          <h3 class="about-title">{{ profile.section_title }}</h3>
+      {%- assign profile = site.data.profile %}
+      <section class="about-section" id="brief" aria-labelledby="brief-title">
+        <div class="section-head">
+          <span class="section-head__no">01</span>
+          <h2 id="brief-title">{{ profile.section_title }}</h2>
         </div>
 
-        <!-- RIGHT : Description (_data/profile.yml) -->
-        <div class="about-right">
+        <div class="about-brief">
+          <div class="about-profile">
+            <img src="{{ profile.image }}" alt="{{ profile.image_alt }}" class="about-profile-image" width="320" height="320">
+            <ul class="about-links">
+              {%- for link in profile.links %}
+              <li>
+                <a href="{{ link.url }}">
+                  {% include pictogram.html name=link.pictogram %}
+                  <span class="about-links__label">{{ link.label }}</span>
+                  <span class="about-links__text">{{ link.text }}</span>
+                </a>
+              </li>
+              {%- endfor %}
+            </ul>
+          </div>
 
-          <p class="about-links">
-            {% for link in profile.links %}
-            <a href="{{ link.url }}">{{ link.emoji }} {{ link.text }}</a>{% unless forloop.last %}<br>{% endunless %}
-            {% endfor %}
-          </p>
-
-          <div class="about-callout">
-            <span class="icon">{{ profile.callout.icon }}</span>
-            <div>
-              {% for paragraph in profile.callout.paragraphs %}
+          <div class="about-text">
+            <div class="about-callout">
+              {%- for paragraph in profile.callout.paragraphs %}
               {{ paragraph | markdownify }}
-              {% endfor %}
+              {%- endfor %}
             </div>
-          </div>
 
-          {% for paragraph in profile.intro %}
-          {{ paragraph | markdownify }}
-          {% endfor %}
-
-          <div class="about-env-grid">
-            {% for env in profile.environments %}
-            <div class="about-env">
-              <h4><span class="icon">{{ env.icon }}</span>{{ env.title }}</h4>
-              <ul>
-                {% for point in env.points %}
-                <li>{{ point | markdownify | remove: '<p>' | remove: '</p>' | strip }}</li>
-                {% endfor %}
-              </ul>
+            <div class="about-intro">
+              {%- for paragraph in profile.intro %}
+              {{ paragraph | markdownify }}
+              {%- endfor %}
             </div>
-            {% endfor %}
-          </div>
 
-          <div class="about-closing">
-            {{ profile.closing | markdownify }}
+            <div class="about-env-grid">
+              {%- for env in profile.environments %}
+              <div class="about-env">
+                <h3>{% include pictogram.html name=env.pictogram %}{{ env.title }}</h3>
+                <ul>
+                  {%- for point in env.points %}
+                  <li>{{ point | markdownify | remove: '<p>' | remove: '</p>' | strip }}</li>
+                  {%- endfor %}
+                </ul>
+              </div>
+              {%- endfor %}
+            </div>
+
+            <div class="about-closing">
+              {{ profile.closing | markdownify }}
+            </div>
           </div>
         </div>
       </section>
 
-      <section class="about-timeline-section" id="career">
-        {% for section in site.data.timeline.sections %}
-        <div class="timeline-block{% if section.layout == 'grid' %} cert-timeline{% endif %}">
-          <h3>{{ section.title }}</h3>
+      <section class="about-section" id="career" aria-labelledby="career-title">
+        <div class="section-head">
+          <span class="section-head__no">02</span>
+          <h2 id="career-title">Career</h2>
+        </div>
 
-          {% if section.layout == 'grid' %}<div class="timeline-grid">{% endif %}
-            {% for item in section.items %}
-            <div class="timeline-item{% if item.expired %} is-expired{% endif %}">
-              <span class="year">
-                {{ item.year }}
-                {% if item.note %}
-                <span class="year-note{% if item.current %} is-current{% endif %}">{{ item.note }}</span>
-                {% endif %}
-              </span>
-              <div class="timeline-content">
-                <strong class="company">
+        <div class="career-grid">
+          {%- for section in site.data.timeline.sections %}
+          <div class="career-col career-col--{{ section.layout }}">
+            <h3 class="career-col__title">{% include pictogram.html name=section.pictogram %}{{ section.label | default: section.title }}</h3>
+
+            <ol class="career-list">
+              {%- for item in section.items %}
+              <li class="career-item{% if item.expired %} is-expired{% endif %}">
+                {%- if item.year or item.note %}
+                <span class="career-item__meta">
+                  {%- if item.year %}<span class="career-item__year">{{ item.year }}</span>{% endif -%}
+                  {%- if item.note %}<span class="career-item__note{% if item.current %} is-current{% endif %}">{{ item.note | remove_first: '· ' }}</span>{% endif -%}
+                </span>
+                {%- endif %}
+                <strong class="career-item__title">
                   {{ item.title }}
-                  {% if item.expired %}<span class="cert-badge">만료</span>{% endif %}
+                  {%- if item.expired %} <span class="cert-badge">만료</span>{% endif %}
                 </strong>
-                {% for desc in item.descriptions %}
-                <p class="desc">{{ desc }}</p>
-                {% endfor %}
-              </div>
-            </div>
-            {% endfor %}
-          {% if section.layout == 'grid' %}</div>{% endif %}
+                {%- for desc in item.descriptions %}
+                <p class="career-item__desc">{{ desc }}</p>
+                {%- endfor %}
+              </li>
+              {%- endfor %}
+            </ol>
+          </div>
+          {%- endfor %}
         </div>
-        {% endfor %}
       </section>
 
-      <!-- Projects / Practices / Skills: 한 덩어리로 시각화 -->
-      <section class="about-section about-showcase" aria-label="Projects, QA Practices, Skills">
-        <div class="showcase-panel" id="projects">
-          <h2>Projects</h2>
+      <section class="about-section" id="projects" aria-labelledby="projects-title">
+        <div class="section-head">
+          <span class="section-head__no">03</span>
+          <h2 id="projects-title">Projects</h2>
+        </div>
 
-          <div id="projectCarousel" class="carousel slide project-bootstrap-carousel" data-bs-ride="carousel" data-bs-wrap="true">
-            <div class="carousel-indicators">
-              {% for project in site.data.projects %}
-              <button type="button" data-bs-target="#projectCarousel" data-bs-slide-to="{{ forloop.index0 }}"{% if forloop.first %} class="active" aria-current="true"{% endif %} aria-label="프로젝트 {{ forloop.index }}"></button>
-              {% endfor %}
-            </div>
-
-            <div class="carousel-inner">
-              {% for project in site.data.projects %}
-              <div class="carousel-item{% if forloop.first %} active{% endif %}" data-bs-interval="10000">
-                <div class="px-1 pb-4">
-                  <article class="summary-card card--project w-100">
-                    <header>
-                      <h3>{{ project.title }}</h3>
-                      <span class="period">{{ project.period }}</span>
-                    </header>
-
-                    <p class="summary">
-                      {{ project.summary }}
-                    </p>
-
-                    <ul class="points">
-                      {% for point in project.points %}
-                      <li>{{ point }}</li>
-                      {% endfor %}
-                    </ul>
-
-                    {% if project.detail_url %}
-                    <a href="{{ project.detail_url | relative_url }}" class="detail-link">
-                      View Detail →
-                    </a>
-                    {% endif %}
-                  </article>
+        {%- comment -%}
+          Bootstrap 5 carousel (.card-carousel — Practices 와 공통). 인디케이터·이전/다음 버튼은 카드 아래 한 줄(.carousel-nav).
+          (Bootstrap 은 data-bs-target 과 .carousel-indicators 를 캐러셀 안에서 찾으므로 위치는 자유)
+        {%- endcomment %}
+        <div id="projectCarousel" class="carousel slide card-carousel project-carousel" data-bs-ride="carousel" data-bs-wrap="true" data-per-page="1" data-item-label="프로젝트">
+          <div class="carousel-inner">
+            {%- for project in site.data.projects %}
+            <div class="carousel-item{% if forloop.first %} active{% endif %}" data-bs-interval="10000">
+              <div class="carousel-page">
+              <article class="summary-card">
+                <div class="summary-card__head">
+                  <h3>{{ project.title }}</h3>
+                  <span class="period">{{ project.period }}</span>
                 </div>
+                <p class="summary">{{ project.summary }}</p>
+                <ul class="points">
+                  {%- for point in project.points %}
+                  <li>{{ point }}</li>
+                  {%- endfor %}
+                </ul>
+                {%- if project.detail_url %}
+                <a href="{{ project.detail_url | relative_url }}" class="detail-link">View Detail {% include pictogram.html name="arrow-right" %}</a>
+                {%- endif %}
+              </article>
               </div>
-              {% endfor %}
+            </div>
+            {%- endfor %}
+          </div>
+
+          <div class="carousel-nav">
+            <button class="carousel-control-prev" type="button" data-bs-target="#projectCarousel" data-bs-slide="prev">
+              {% include pictogram.html name="chevron-left" %}
+              <span class="visually-hidden">이전 프로젝트</span>
+            </button>
+
+            <div class="carousel-indicators">
+              {%- for project in site.data.projects %}
+              <button type="button" data-bs-target="#projectCarousel" data-bs-slide-to="{{ forloop.index0 }}"{% if forloop.first %} class="active" aria-current="true"{% endif %} aria-label="프로젝트 {{ forloop.index }}: {{ project.title | escape }}"></button>
+              {%- endfor %}
             </div>
 
-            <button class="carousel-control-prev" type="button" data-bs-target="#projectCarousel" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <button class="carousel-control-next" type="button" data-bs-target="#projectCarousel" data-bs-slide="next">
+              {% include pictogram.html name="chevron-right" %}
+              <span class="visually-hidden">다음 프로젝트</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="about-section" id="practice" aria-labelledby="practice-title">
+        <div class="section-head">
+          <span class="section-head__no">04</span>
+          <h2 id="practice-title">QA Engineering Practice</h2>
+        </div>
+
+        {%- comment -%}
+          서버에서는 4장씩(2×2) 묶어 렌더링 → 스크립트가 CSS --per-page(모바일 1, 넓으면 4)에 맞춰 다시 묶음.
+          자동 넘김 없음 (카드 4장을 읽는 중에 넘어가지 않도록)
+        {%- endcomment %}
+        {%- assign per_page = 4 %}
+        {%- assign last_slot = per_page | minus: 1 %}
+        {%- assign practice_count = site.data.practices | size %}
+        {%- assign practice_pages = practice_count | plus: last_slot | divided_by: per_page %}
+        <div id="practiceCarousel" class="carousel slide card-carousel practice-carousel" data-bs-interval="false" data-bs-wrap="true" data-per-page="{{ per_page }}" data-item-label="QA Practice">
+          <div class="carousel-inner">
+            {%- for practice in site.data.practices %}
+            {%- assign slot = forloop.index0 | modulo: per_page %}
+            {%- if slot == 0 %}
+            <div class="carousel-item{% if forloop.first %} active{% endif %}">
+              <div class="carousel-page">
+            {%- endif %}
+                <article class="summary-card">
+                  <div class="summary-card__head">
+                    <h3>{{ practice.title }}</h3>
+                    <span class="period">{{ practice.period }}</span>
+                  </div>
+                  <p class="summary">{{ practice.summary }}</p>
+                  <ul class="points">
+                    {%- for point in practice.points %}
+                    <li>{{ point }}</li>
+                    {%- endfor %}
+                  </ul>
+                  {%- if practice.detail_url %}
+                  <a href="{{ practice.detail_url | relative_url }}" class="detail-link">View Detail {% include pictogram.html name="arrow-right" %}</a>
+                  {%- endif %}
+                </article>
+            {%- if slot == last_slot or forloop.last %}
+              </div>
+            </div>
+            {%- endif %}
+            {%- endfor %}
+          </div>
+
+          <div class="carousel-nav">
+            <button class="carousel-control-prev" type="button" data-bs-target="#practiceCarousel" data-bs-slide="prev">
+              {% include pictogram.html name="chevron-left" %}
               <span class="visually-hidden">이전</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#projectCarousel" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+
+            <div class="carousel-indicators">
+              {%- for n in (1..practice_pages) %}
+              {%- assign from = n | minus: 1 | times: per_page | plus: 1 %}
+              {%- assign to = n | times: per_page %}{% if to > practice_count %}{% assign to = practice_count %}{% endif %}
+              <button type="button" data-bs-target="#practiceCarousel" data-bs-slide-to="{{ n | minus: 1 }}"{% if n == 1 %} class="active" aria-current="true"{% endif %} aria-label="QA Practice {{ from }}–{{ to }}"></button>
+              {%- endfor %}
+            </div>
+
+            <button class="carousel-control-next" type="button" data-bs-target="#practiceCarousel" data-bs-slide="next">
+              {% include pictogram.html name="chevron-right" %}
               <span class="visually-hidden">다음</span>
             </button>
           </div>
         </div>
+      </section>
 
-        <div class="showcase-panel" id="practice">
-          <h2>QA Engineering Practice</h2>
-
-          <div class="card-grid">
-            {% for practice in site.data.practices %}
-            <article class="summary-card">
-              <header>
-                <h3>{{ practice.title }}</h3>
-                <span class="period">{{ practice.period }}</span>
-              </header>
-
-              <p class="summary">
-                {{ practice.summary }}
-              </p>
-
-              <ul class="points">
-                {% for point in practice.points %}
-                <li>{{ point }}</li>
-                {% endfor %}
-              </ul>
-
-              {% if practice.detail_url %}
-              <a href="{{ practice.detail_url | relative_url }}" class="detail-link">
-                View Practice →
-              </a>
-              {% endif %}
-            </article>
-            {% endfor %}
-          </div>
+      <section class="about-section" id="skills" aria-labelledby="skills-title">
+        <div class="section-head">
+          <span class="section-head__no">05</span>
+          <h2 id="skills-title">Skills</h2>
         </div>
 
-        <div class="showcase-panel" id="skills">
-          <h2>Skills</h2>
-        
-          <!-- _data/skills.yml -->
-          <div class="skill-grid">
-            {% for skill in site.data.skills %}
-            <div class="skill-card">
-              <div class="skill-header">
-                <img src="{{ skill.icon }}" alt="{{ skill.icon_alt }}" class="skill-icon" />
-                <strong>{% if skill.title_lines %}{% for line in skill.title_lines %}{{ line | escape }}{% unless forloop.last %}<br>{% endunless %}{% endfor %}{% else %}{{ skill.title | escape }}{% endif %}</strong>
-              </div>
-              <p>
-                {% for point in skill.points %}· {{ point | escape }}{% unless forloop.last %}<br>{% endunless %}
-                {% endfor %}
-              </p>
+        <div class="skill-grid">
+          {%- for skill in site.data.skills %}
+          <div class="skill-card">
+            <div class="skill-header">
+              {% include pictogram.html name=skill.pictogram %}
+              <h3>{% if skill.title_lines %}{{ skill.title_lines | join: ' ' | escape }}{% else %}{{ skill.title | escape }}{% endif %}</h3>
             </div>
-            {% endfor %}
+            <ul class="skill-points">
+              {%- for point in skill.points %}
+              <li>{{ point | escape }}</li>
+              {%- endfor %}
+            </ul>
           </div>
+          {%- endfor %}
         </div>
       </section>
-    </main>
+    </div>
   </div>
 </div>
 
 <script>
-  const links = document.querySelectorAll('.about-nav a');
+  (function () {
+    /* 목차 활성 표시 — 해시 이동 + 스크롤 위치 */
+    var links = Array.prototype.slice.call(document.querySelectorAll('.about-nav a'));
+    function setActive(hash) {
+      links.forEach(function (link) {
+        var on = link.getAttribute('href') === hash;
+        link.classList.toggle('active', on);
+        if (on) { link.setAttribute('aria-current', 'location'); } else { link.removeAttribute('aria-current'); }
+      });
+    }
+    window.addEventListener('hashchange', function () { setActive(location.hash); });
+    if (location.hash) setActive(location.hash);
 
-  window.addEventListener('hashchange', () => {
-    links.forEach(link => {
-      link.classList.toggle(
-        'active',
-        link.getAttribute('href') === location.hash
-      );
-    });
-  });
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) setActive('#' + entry.target.id);
+        });
+      }, { rootMargin: '-35% 0px -60% 0px' });
+      links.forEach(function (link) {
+        var target = document.querySelector(link.getAttribute('href'));
+        if (target) io.observe(target);
+      });
+    }
+  })();
 
   (function () {
-    const root = document.getElementById('projectCarousel');
-    if (!root) return;
+    /* 카드 캐러셀 (Projects / Practices)
+       1) CSS 의 --per-page 값(모바일 1, 넓으면 4 등)에 맞춰 슬라이드를 다시 묶는다
+       2) 모든 카드 높이를 가장 긴 카드에 맞춘다 (넘길 때 아래 내비가 흔들리지 않게) */
+    var roots = Array.prototype.slice.call(document.querySelectorAll('.card-carousel'));
+    if (!roots.length) return;
 
     function debounce(fn, ms) {
-      let t;
-      return function () {
-        clearTimeout(t);
-        t = setTimeout(fn, ms);
-      };
+      var t;
+      return function () { clearTimeout(t); t = setTimeout(fn, ms); };
     }
 
-    /** 각 슬라이드 실제 높이를 재서 최댓값만큼만 min-height 부여(불필요하게 큰 고정 높이 방지) */
-    function syncProjectCarouselMinHeight() {
-      const inner = root.querySelector('.carousel-inner');
-      const items = Array.from(root.querySelectorAll('.carousel-item'));
-      if (!inner || !items.length) return;
+    function isSliding(root) {
+      return !!root.querySelector('.carousel-item-next, .carousel-item-prev');
+    }
 
-      const prevActive = root.querySelector('.carousel-item.active');
-      let maxH = 0;
+    function cardsOf(root) {
+      return Array.prototype.slice.call(root.querySelectorAll('.carousel-inner .summary-card'));
+    }
 
-      items.forEach((item) => {
-        items.forEach((el) => el.classList.remove('active'));
+    function perPageOf(root) {
+      var v = parseInt(getComputedStyle(root).getPropertyValue('--per-page'), 10);
+      return v > 0 ? v : 1;
+    }
+
+    function regroup(root) {
+      var per = perPageOf(root);
+      var current = parseInt(root.getAttribute('data-per-page'), 10) || 1;
+      if (per === current) return;
+
+      var inner = root.querySelector('.carousel-inner');
+      var indicators = root.querySelector('.carousel-indicators');
+      var cards = cardsOf(root);
+      var active = inner.querySelector('.carousel-item.active .summary-card');
+      var activePage = Math.floor(Math.max(cards.indexOf(active), 0) / per);
+      var label = root.getAttribute('data-item-label') || '';
+      var id = '#' + root.id;
+
+      inner.textContent = '';
+      indicators.textContent = '';
+      for (var p = 0; p * per < cards.length; p++) {
+        var item = document.createElement('div');
+        item.className = 'carousel-item' + (p === activePage ? ' active' : '');
+        var page = document.createElement('div');
+        page.className = 'carousel-page';
+        cards.slice(p * per, p * per + per).forEach(function (card) { page.appendChild(card); });
+        item.appendChild(page);
+        inner.appendChild(item);
+
+        var from = p * per + 1;
+        var to = Math.min(p * per + per, cards.length);
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.setAttribute('data-bs-target', id);
+        btn.setAttribute('data-bs-slide-to', String(p));
+        btn.setAttribute('aria-label', label + ' ' + (per === 1 ? from : from + '–' + to));
+        if (p === activePage) { btn.className = 'active'; btn.setAttribute('aria-current', 'true'); }
+        indicators.appendChild(btn);
+      }
+      root.setAttribute('data-per-page', String(per));
+    }
+
+    function syncHeights(root) {
+      var items = Array.prototype.slice.call(root.querySelectorAll('.carousel-item'));
+      var cards = cardsOf(root);
+      if (!items.length) return;
+
+      var prevActive = root.querySelector('.carousel-item.active');
+      var maxH = 0;
+      cards.forEach(function (card) { card.style.minHeight = ''; });
+      items.forEach(function (item) {
+        items.forEach(function (el) { el.classList.remove('active'); });
         item.classList.add('active');
-        void item.offsetHeight;
-        maxH = Math.max(maxH, item.scrollHeight);
+        item.querySelectorAll('.summary-card').forEach(function (card) {
+          maxH = Math.max(maxH, card.offsetHeight);
+        });
       });
-
-      items.forEach((el) => el.classList.remove('active'));
+      items.forEach(function (el) { el.classList.remove('active'); });
       if (prevActive) prevActive.classList.add('active');
 
-      const px = Math.ceil(maxH + 2);
-      inner.style.minHeight = px + 'px';
-      items.forEach((item) => {
-        item.style.minHeight = px + 'px';
+      cards.forEach(function (card) { card.style.minHeight = Math.ceil(maxH) + 'px'; });
+    }
+
+    function update() {
+      roots.forEach(function (root) {
+        // 슬라이드 전환 중에는 건드리지 않음 (active 토글이 Bootstrap 애니메이션과 충돌)
+        if (isSliding(root)) { setTimeout(update, 700); return; }
+        regroup(root);
+        syncHeights(root);
       });
     }
 
-    function runSync() {
-      requestAnimationFrame(syncProjectCarouselMinHeight);
-    }
+    // 자동 넘김이 없는 캐러셀도 처음부터 스와이프·키보드가 되도록 인스턴스를 미리 만든다
+    document.addEventListener('DOMContentLoaded', function () {
+      if (!window.bootstrap || !window.bootstrap.Carousel) return;
+      roots.forEach(function (root) {
+        if (!root.hasAttribute('data-bs-ride') && !window.bootstrap.Carousel.getInstance(root)) {
+          new window.bootstrap.Carousel(root, { interval: false, wrap: true, touch: true });
+        }
+      });
+    });
 
-    window.addEventListener('load', runSync);
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(runSync);
-    }
-    window.addEventListener('resize', debounce(syncProjectCarouselMinHeight, 200));
+    var run = function () { requestAnimationFrame(update); };
+    // 첫 화면부터 현재 폭에 맞게 묶음 (모바일에서 2×2 가 잠깐 보이는 것 방지)
+    roots.forEach(regroup);
+    window.addEventListener('load', run);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(run);
+
+    var lastWidth = window.innerWidth;
+    window.addEventListener('resize', debounce(function () {
+      if (window.innerWidth === lastWidth) return;
+      lastWidth = window.innerWidth;
+      update();
+    }, 200));
   })();
 </script>

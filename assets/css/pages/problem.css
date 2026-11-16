@@ -55,8 +55,8 @@
 }
 
 .nav-tier {
-  background: rgba(0,123,255,.12);
-  color: #007bff;
+  background: var(--c-sand);
+  color: var(--c-accent-strong);
 }
 
 .problem-nav a:hover {
@@ -139,7 +139,7 @@
 }
 
 .problem-body a {
-  color: #2563eb;
+  color: var(--c-accent);
   text-decoration: none;
 }
 
@@ -164,6 +164,8 @@
   margin-bottom: 8px;
 }
 
+/* 의도적 예외(max-width): 문제 README 의 인라인 style="float" 은 CSS 로 '되살릴' 수 없어서
+   좁은 화면에서만 끄는 방식으로 둔다. 그 외 규칙은 모두 min-width 기반. */
 @media (max-width: 640px) {
   .problem-body img[style*="float"],
   .problem-content img[style*="float"] {

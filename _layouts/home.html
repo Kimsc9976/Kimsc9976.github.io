@@ -1,166 +1,153 @@
 ---
 layout: default
 ---
+{%- comment -%}
+  Home — About / Log 와 같은 디자인 문법
+  - 섹션 머리: .section-head (번호 + 제목 + 더보기), components.css
+  - 타임라인: About Career 와 같은 .career-list (_data/timeline.yml 의 경력 섹션)
+  - 최근 글 목록: Log 와 같은 .post-list
+  - 오른쪽 aside: 프로필 카드 + 방문자 그래프 (넓을 때 오른쪽 열, 좁을 때 본문 아래)
+  - 열 배치는 container query (pages/home.css)
+{%- endcomment -%}
+<div class="home-page">
+  <section class="home-hero">
+    <h1 class="hero-title">Automating Quality. Improving Reliability.</h1>
+    <p class="home-sub">QA 엔지니어의 시선으로 자동화와 알고리즘을 구조화합니다</p>
+  </section>
 
-<section class="home-hero">
-  <h1 class="hero-title">
-    Automating Quality. Improving Reliability.
-  </h1>
-  <p class="home-sub">
-    QA 엔지니어의 시선으로 자동화와 알고리즘을 구조화합니다
-  </p>
-</section>
-
-<section class="home-main">
+  <div class="home-main">
 
     <div class="home-left">
-      <section class="home-middle">
 
-        <!-- LEFT : Timeline (clickable) -->
-        <a href="./about" class="timeline-card">
+      <section class="home-section" aria-labelledby="home-timeline-title">
+        <div class="section-head">
+          <span class="section-head__no">01</span>
+          <h2 id="home-timeline-title">Engineering Timeline</h2>
+          <a class="section-head__more" href="/about/">About {% include pictogram.html name="arrow-right" %}</a>
+        </div>
 
-          <h2>🧭 Engineering Timeline</h2>
-
-          <!-- 경력: About과 같은 _data/timeline.yml (layout: list) 사용 -->
-          {% assign experience = site.data.timeline.sections | where: "layout", "list" | first %}
-          <div class="timeline-block">
-            <h3>{{ experience.title }}</h3>
-
-            {% for item in experience.items %}
-            <div class="timeline-item">
-              <span class="year">
-                {{ item.year }}
-                {% if item.note %}
-                <span class="year-note{% if item.current %} is-current{% endif %}">{{ item.note }}</span>
-                {% endif %}
-              </span>
-
-              <div class="timeline-content">
-                <strong class="company">{{ item.title }}</strong>
-                {% for desc in item.descriptions %}
-                <p class="desc">{{ desc }}</p>
-                {% endfor %}
-              </div>
-            </div>
-            {% endfor %}
+        <div class="home-timeline">
+          {%- assign experience = site.data.timeline.sections | where: "layout", "list" | first %}
+          <div class="career-col career-col--list">
+            <h3 class="career-col__title">{% include pictogram.html name=experience.pictogram %}{{ experience.label | default: experience.title }}</h3>
+            <ol class="career-list">
+              {%- for item in experience.items %}
+              <li class="career-item">
+                <span class="career-item__meta">
+                  <span class="career-item__year">{{ item.year }}</span>
+                  {%- if item.note %}<span class="career-item__note{% if item.current %} is-current{% endif %}">{{ item.note | remove_first: '· ' }}</span>{% endif -%}
+                </span>
+                <strong class="career-item__title">{{ item.title }}</strong>
+                {%- for desc in item.descriptions %}
+                <p class="career-item__desc">{{ desc }}</p>
+                {%- endfor %}
+              </li>
+              {%- endfor %}
+            </ol>
           </div>
 
-          <div class="timeline-block">
-            <h3>🚀 Side Projects</h3>
-
-            <div class="timeline-item">
-              <span class="year">2025</span>
-
-              <div class="timeline-content">
-                <strong class="company">자동화</strong>
-                <p class="desc">백준Hub - GitHub.io 연동</p>
-              </div>
-            </div>
-
-            <div class="timeline-item">
-              <span class="year">2023</span>
-
-              <div class="timeline-content">
-                <strong class="company">블로그 개설</strong>
-                <p class="desc">GitHub.io 개시</p>
-              </div>
-            </div>
-          </div>
-
-          <span class="timeline-cta">Explore more →</span>
-        </a>
-
-        <!-- RIGHT : GitHub Graph -->
-         <div class="github-graph graph-link">
-            <a href="https://github.com/{{ page.user }}" class="timeline-card">
-              <img
-                src="https://github-act-graph.rodriaum.com/graph?username={{ page.user }}&theme=github-compact&hide_border=true"
-                alt="GitHub activity graph" 
-              />
-            </a>
-          </div>
-
-      </section>
-
-      <!-- SNAPSHOT (혼자 한 줄 먹음) -->
-      <div class="home-card home-highlight">
-
-        <h2 class="card-title">⚙️ Automation Snapshot</h2>
-      
-        <div class="stats-grid">
-          <div class="stat-box">
-            <span class="stat-number">{{ site.algorithm | size }}</span>
-            <span class="stat-label">Problems Solved</span>
-          </div>
-      
-          <div class="stat-box">
-            {% assign _log_posts = site.posts | size %}
-            {% assign _sideproject_docs = site.pages | where: "layout", "sideproject" | size %}
-            <span class="stat-number">{{ _log_posts | plus: _sideproject_docs }}</span>
-            <span class="stat-label">Blog Posts</span>
-          </div>
-      
-          <div class="stat-box">
-            <span class="stat-number">Auto</span>
-            <span class="stat-label">System Updated</span>
+          <div class="career-col career-col--grid">
+            <h3 class="career-col__title">{% include pictogram.html name="code" %}Side Projects</h3>
+            <ol class="career-list">
+              <li class="career-item">
+                <span class="career-item__meta"><span class="career-item__year">2025</span></span>
+                <strong class="career-item__title">자동화</strong>
+                <p class="career-item__desc">백준Hub - GitHub.io 연동</p>
+              </li>
+              <li class="career-item">
+                <span class="career-item__meta"><span class="career-item__year">2023</span></span>
+                <strong class="career-item__title">블로그 개설</strong>
+                <p class="career-item__desc">GitHub.io 개시</p>
+              </li>
+            </ol>
           </div>
         </div>
-      
-        <p class="snapshot-desc">
-          알고리즘 풀이 · 자동화 파이프라인 · 테스트 품질을  
-          지속적으로 개선하고 있습니다.
-        </p>
-      
-    </div>
-  
-      <!-- 아래 2열 카드 -->
-      <div class="home-grid">
-  
-        <!-- Algorithms -->
-        <div class="home-card">
-            <h2 class="card-title">📚 Recent Algorithms</h2>
-        
-            {% assign problems = site.algorithm | where:"layout","problem" | sort:"date" | reverse %}
-            <div class="preview-grid">
-              {% for post in problems limit:3 %}
-              <a href="{{ post.url }}" class="preview-card algo-card">
-                <h4>{{ post.title | strip_html | truncate: 40 }}</h4>
-                <p>{{ post.platform }} · {{ post.tier }}</p>
+
+        {%- comment -%} 활동 그래프 색은 base.css 팔레트 (surface / ink / umber / stone) {%- endcomment %}
+        <a href="https://github.com/{{ page.user }}" class="github-graph" aria-label="GitHub 활동 그래프 ({{ page.user }})">
+          <img
+            src="https://github-act-graph.rodriaum.com/graph?username={{ page.user }}&bg_color=FBF9F6&color=776B5D&title_color=2B2620&line=776B5D&point=2B2620&area=true&area_color=B0A695&hide_border=true"
+            alt="GitHub contribution activity graph"
+            loading="lazy"
+          />
+        </a>
+      </section>
+
+      <section class="home-section" aria-labelledby="home-snapshot-title">
+        <div class="section-head">
+          <span class="section-head__no">02</span>
+          <h2 id="home-snapshot-title">Automation Snapshot</h2>
+        </div>
+
+        {%- assign _log_posts = site.posts | size %}
+        {%- assign _sideproject_docs = site.pages | where: "layout", "sideproject" | size %}
+        <dl class="home-stats">
+          <div class="home-stat">
+            <dt>Problems Solved</dt>
+            <dd>{{ site.algorithm | size }}</dd>
+          </div>
+          <div class="home-stat">
+            <dt>Blog Posts</dt>
+            <dd>{{ _log_posts | plus: _sideproject_docs }}</dd>
+          </div>
+          <div class="home-stat">
+            <dt>System Updated</dt>
+            <dd>Auto</dd>
+          </div>
+        </dl>
+
+        <p class="home-snapshot-desc">알고리즘 풀이 · 자동화 파이프라인 · 테스트 품질을 지속적으로 개선하고 있습니다.</p>
+      </section>
+
+      <div class="home-recent">
+        <section class="home-section" aria-labelledby="home-algo-title">
+          <div class="section-head">
+            <span class="section-head__no">03</span>
+            <h2 id="home-algo-title">Recent Algorithms</h2>
+            <a class="section-head__more" href="/algorithm/">View all {% include pictogram.html name="arrow-right" %}</a>
+          </div>
+
+          {%- assign problems = site.algorithm | where: "layout", "problem" | sort: "date" | reverse %}
+          <ul class="post-list">
+            {%- for post in problems limit: 3 %}
+            <li class="post-item">
+              <a href="{{ post.url }}">
+                <span class="post-title">{{ post.title | strip_html | truncate: 40 }}</span>
+                <span class="post-date">{{ post.platform }} · {{ post.tier }}</span>
+              </a>
+            </li>
+            {%- endfor %}
+          </ul>
+        </section>
+
+        <section class="home-section" aria-labelledby="home-log-title">
+          <div class="section-head">
+            <span class="section-head__no">04</span>
+            <h2 id="home-log-title">Latest Log Posts</h2>
+            <a class="section-head__more" href="/log/">Read more {% include pictogram.html name="arrow-right" %}</a>
+          </div>
+
+          <ul class="post-list">
+            {%- for post in site.posts limit: 3 %}
+            <li class="post-item">
+              <a href="{{ post.url }}">
+                <span class="post-title">{{ post.title }}</span>
                 <span class="post-date">{{ post.date | date: "%Y.%m.%d" }}</span>
               </a>
-              {% endfor %}
-            </div>
-        
-            <a class="more-link" href="/algorithm/">View all →</a>
-          </div>
-        
-          <!-- Blog -->
-          <div class="home-card">
-            <h2 class="card-title">📝 Latest Log Posts</h2>
-        
-            <div class="preview-grid">
-              {% for post in site.posts limit:3 %}
-              <a href="{{ post.url }}" class="preview-card blog-card">
-                <h4>{{ post.title }}</h4>
-                <p>{{ post.excerpt | strip_html | truncate: 80 }}</p>
-                <span class="post-date">{{ post.date | date: "%Y.%m.%d" }}</span>
-              </a>
-              {% endfor %}
-            </div>
-        
-            <a class="more-link" href="/log/">Read more →</a>
-          </div>
-  
+            </li>
+            {%- endfor %}
+          </ul>
+        </section>
       </div>
-  
+
     </div>
-  
-    <aside class="home-profile">
+
+    <aside class="home-profile" aria-label="프로필">
       <div class="sckim-profile">
-        <img src="./assets/images/profile1.jpg" alt="김수찬 프로필" class="profile-image"/>
-        <h3 class="profile-name">김수찬</h3>
+        <img src="./assets/images/profile1.jpg" alt="김수찬 프로필" class="profile-image" width="240" height="240"/>
+        <h2 class="profile-name">김수찬</h2>
         <p class="role">QA Engineer <br> Automation Developer</p>
-        
+
         <p class="intro">
           사용자를 위한<br>
           테스트를 설계하고<br>
@@ -168,12 +155,12 @@ layout: default
           시스템을 제작하여<br>
           제품의 품질을 높인다
         </p>
-        
-        <a href="/about/" class="profile-btn">About Me →</a>
+
+        <a href="/about/" class="profile-btn">About Me {% include pictogram.html name="arrow-right" %}</a>
       </div>
 
       {% include visitor-charts.html %}
-
     </aside>
-  
-  </section>
+
+  </div>
+</div>

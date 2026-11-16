@@ -1,8 +1,12 @@
-# About 페이지 Career 영역 — 섹션별 타임라인
-# layout: list (경력) | grid (자격증·학력 등 카드형)
+# About Career 영역 + Home 타임라인(경력 섹션만) — About 에서는 3열: 경력 | 자격증 | 대회
+# title: 섹션 제목 (이모지 없이)
+# label: About 의 짧은 열 제목 / pictogram: _includes/pictogram.html 의 이름
+# layout: list (경력) | grid (자격증·해커톤 등 단건 항목)
 # note: 연도 하단 기간. current: true 이면 재직중 강조. expired: true 이면 만료 표시.
 sections:
-  - title: "💼 QA Engineering Experience"
+  - title: "QA Engineering Experience"
+    label: Experience
+    pictogram: experience
     layout: list
     items:
       - year: 2025
@@ -27,7 +31,9 @@ sections:
           - 유저 시나리오 기반 테스트 전략 도입
           - 로봇 배달 PoC·운행안전인증 대응
 
-  - title: "🏆 Certificate"
+  - title: "Certificate"
+    label: Certificate
+    pictogram: certificate
     layout: grid
     items:
       - year: 2026
@@ -52,8 +58,23 @@ sections:
         descriptions:
           - English Speaking Test – IH
 
+  # 대회 참가 이력 (해커톤 등). 자격증과 성격이 달라 별도 열로 분리
+  # TODO: 연도(year)·결과/역할(descriptions) 채우기 — 비어 있으면 해당 줄은 표시되지 않음
+  - title: "Competition"
+    label: Competition
+    pictogram: trophy
+    layout: grid
+    items:
+      - title: Meta 해커톤
+        descriptions: []
+
+      - title: SK hynix 해커톤
+        descriptions: []
+
   # Education 추가 시 아래 섹션 주석 해제
-  # - title: "🎓 Education"
+  # - title: "Education"
+  #   label: Education
+  #   pictogram: certificate
   #   layout: grid
   #   items:
   #     - year: 2020

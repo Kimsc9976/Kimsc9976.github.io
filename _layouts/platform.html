@@ -13,9 +13,10 @@ layout: default
 <div class="tier-dashboard">
 
   {% assign all_problems = site.algorithm | where:"layout","problem" | where:"platform", page.platform %}
-  {% assign tiers = all_problems | map:"tier" | uniq %}
+  {% assign raw_tiers = all_problems | map:"tier" | uniq %}
+  {% include sort-tiers.html tiers=raw_tiers %}
 
-  {% for tier in tiers %}
+  {% for tier in sorted_tiers %}
 
   <div class="tier-column">
 

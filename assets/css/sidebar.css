@@ -1,125 +1,165 @@
-/* 너비/여백은 layout.css 반응형에서 통합 제어 */
+/* ==========================================================================
+   SIDEBAR — 모양만 (위치·너비·드로어 동작은 layout.css)
+   Mobile First: 기본 = 드로어 안의 모습, 1024px 이상 = 본문 옆 sticky
+   ========================================================================== */
+
+.site-sidebar {
+  background: var(--c-surface);
+  border-right: 1px solid var(--c-line);
+}
+
+.nav-open .site-sidebar {
+  box-shadow: 0 0 32px rgba(43, 38, 32, 0.14);
+}
+
 .sidebar {
-  padding: 15px;
-  background: #f4f4f4;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
-  position: sticky;
-  top: 20px;
-  height: fit-content;
+  padding: 16px 20px 28px;
+  font-size: 0.92rem;
+  color: var(--c-ink);
 }
 
-.sidebar-title {
-  font-size: 1.6rem;
-  margin-bottom: 12px;
-  margin-top: 10px;
-  font-weight: 700;
-  color: #222;
-}
-
-.sidebar h3 {
-  margin: 0 0 8px;
-  font-size: 1rem;
-}
-
-.sidebar-section-title {
-  display: inline-block;
-  color: #222;
-  text-decoration: none;
-  font-weight: 600;
-  border-radius: 6px;
-  padding: 2px 4px;
-  transition: all .15s ease;
-}
-
-.sidebar-section-title:hover {
-  color: #2563eb;
-  background: rgba(37, 99, 235, 0.08);
-  text-decoration: none;
-}
-
-.sidebar-section-title.active {
-  color: #1d4ed8;
-  background: rgba(37, 99, 235, 0.12);
-}
-
-/* 버튼형 네비 */
-.main-links {
+/* 머리: "INDEX" 라벨 + (드로어) 닫기 버튼 */
+.sidebar__head {
   display: flex;
-  flex-direction: row;
-  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
 }
 
-.nav-item {
-  padding: 6px 10px;           /* 줄 높이 줄임 */
-  border-radius: 6px;
-  background: #fff;
-  font-size: 0.95rem;         /* 살짝 축소 */
-  font-weight: 500;
-  color: #333;
+.sidebar__title {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-muted);
+}
+
+.sidebar__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin: 0 -8px 0 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--c-ink-soft);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.sidebar__close:hover {
+  background: var(--c-sand);
+  color: var(--c-ink);
+}
+
+/* Home · About · Log */
+.sidebar-tabs {
+  display: flex;
+  gap: 18px;
+  margin: 0 0 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--c-line);
+}
+
+.sidebar-tab {
+  padding: 2px 0;
+  border-bottom: 1px solid transparent;
+  color: var(--c-ink-soft);
+  font-size: 0.95rem;
   text-decoration: none;
-  white-space: nowrap;       /* ✅ 줄바꿈 방지 */
-  overflow: hidden;
-  text-overflow: ellipsis;   /* 너무 길면 ... 처리 */
-  box-shadow: 0 1px 2px rgba(0,0,0,.06);
-  transition: all .15s ease;
+  white-space: nowrap;
 }
 
-/* Hover UX */
-.nav-item:hover {
-  background: #eef2ff;
-  transform: translateX(4px);
-}
-
-/* 클릭 느낌 */
-.nav-item:active {
-  transform: translateX(2px) scale(.98);
-}
-
-.nav-item.active::after {
-  content: '';
-  display: block;
-  width: 100%;
-  height: 2px;
-  margin-top: 4px;
-  background: #444;
-  color: #e3edff;
-}
-
-/* 구분선 */
-.sidebar-divider {
-  margin: 16px 0;
-  border: none;
-  height: 1px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    rgba(0,0,0,.2),
-    transparent
-  );
-}
-
-.sidebar-group {
-  margin-bottom: 8px;
-}
-
-.sidebar-link {
+.sidebar-tab:hover {
+  color: var(--c-ink);
   text-decoration: none;
-  color: inherit;
 }
 
-.toggle-text:hover {
-    text-decoration: underline;
-    /* 밑줄 추가 */
-    font-size: 1.1em;
-    /* 텍스트 크기 약간 증가 */
-    text-shadow: 2px 2px 4px #aaa;
-    /* 텍스트 그림자 효과 */
-    background: rgba(0,0,0,.05);
+.sidebar-tab.is-active {
+  color: var(--c-ink);
+  font-weight: 600;
+  border-bottom-color: var(--c-ink);
 }
 
+/* 섹션: Engineering / Algorithm / Side Projects */
+.sidebar-section {
+  margin-bottom: 20px;
+}
+
+.sidebar-section__title {
+  display: inline-block;
+  margin-bottom: 6px;
+  color: var(--c-ink);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.sidebar-section__title:hover,
+.sidebar-section__title.is-active {
+  color: var(--c-accent);
+  text-decoration: none;
+}
+
+.sidebar-section__title.is-active::after {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-left: 6px;
+  vertical-align: middle;
+  border-radius: 50%;
+  background: var(--c-accent);
+}
+
+/* 항목 리스트: 왼쪽 얇은 세로선 + 활성 항목은 진한 선 */
+.sidebar-list,
+.sidebar-group ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sidebar-list {
+  border-left: 1px solid var(--c-line);
+}
+
+.sidebar-list a,
 .sidebar-group summary {
+  display: block;
+  margin-left: -1px;
+  padding: 5px 0 5px 12px;
+  border-left: 1px solid transparent;
+  color: var(--c-ink-soft);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  text-decoration: none;
+}
+
+.sidebar-list a:hover,
+.sidebar-group summary:hover {
+  color: var(--c-ink);
+  text-decoration: none;
+}
+
+.sidebar-list a.is-active {
+  color: var(--c-ink);
+  font-weight: 600;
+  border-left-color: var(--c-ink);
+}
+
+/* 알고리즘 플랫폼 (접이식) */
+.sidebar-group summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   list-style: none;
   cursor: pointer;
 }
@@ -128,43 +168,72 @@
   display: none;
 }
 
-/* 티어 리스트 */
+.sidebar-group summary::after {
+  content: "";
+  width: 5px;
+  height: 5px;
+  margin-right: 4px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 0.15s ease;
+}
+
+.sidebar-group[open] > summary::after {
+  transform: rotate(45deg);
+}
+
+.sidebar-group[open] > summary {
+  color: var(--c-ink);
+}
+
 .sidebar-group ul {
-  list-style: none;
-  padding: 4px 0 4px 12px;
-  margin: 4px 0;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  padding: 0 0 6px 12px;
 }
 
-/* 링크 */
-.sidebar-group a {
-  display: block;
-  padding: 4px 8px;
-  font-size: 0.9rem;
-  color: #333;
-  text-decoration: none;
-  border-radius: 6px;
-  white-space: nowrap;
-  transition: all .15s ease;
+.sidebar-group ul a {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  font-size: 0.85rem;
 }
 
-.sidebar-group a:hover {
-  background: rgba(0,0,0,.06);
-  transform: translateX(3px);
+.sidebar-note {
+  margin: 24px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--c-line);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-muted);
 }
 
-/* 반응형 너비/여백은 layout.css에서 통합 관리 (Mobile / Tablet / Desktop) */
+@media (min-width: 1024px) {
+  /* 데스크톱: 카드 없이 페이지 바탕 위에 텍스트만 */
+  .site-sidebar {
+    background: transparent;
+    border-right: 0;
+  }
+
+  .sidebar {
+    padding: 4px 8px 20px 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--c-line-strong) transparent;
+  }
+
+  .sidebar__close {
+    display: none;
+  }
+}
 
 /* 포스트 목차: .toc-accordion 래퍼가 sticky·스타일 담당 (toc-accordion.css) */
 #markdown-toc:not(.toc-accordion #markdown-toc) {
     position: sticky;
     top: 20px;
-    background-color: #ffffff !important;
-    border: 10px solid #ffffff;
+    background-color: var(--c-surface) !important;
+    border: 10px solid var(--c-surface);
     list-style: none;
     margin: 0;
     padding: 20px;
-    box-shadow: 0 0 20px 20px #ffffff;
+    box-shadow: 0 0 20px 20px var(--c-surface);
 }

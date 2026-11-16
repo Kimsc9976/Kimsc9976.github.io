@@ -3,22 +3,25 @@ layout: default
 ---
 
 <section class="blog-category">
-  <header class="category-header">
+  <header class="page-intro">
+    <p class="page-intro__eyebrow">Log / {{ page.category | upcase }}</p>
     <h1>{{ page.title }}</h1>
     {% if page.description %}
-      <p class="category-desc">{{ page.description }}</p>
+      <p>{{ page.description }}</p>
     {% endif %}
   </header>
 
+  {% assign posts = site.posts | where: "category", page.category %}
+  {% if posts.size > 0 %}
   <ul class="post-list">
-    {% assign posts = site.posts | where: "category", page.category %}
     {% for post in posts %}
       <li class="post-item">
         <a href="{{ post.url }}">{{ post.title }}</a>
-        <span class="post-date">
-          {{ post.date | date: "%Y.%m.%d" }}
-        </span>
+        <span class="post-date">{{ post.date | date: "%Y.%m.%d" }}</span>
       </li>
     {% endfor %}
   </ul>
+  {% else %}
+  <p class="empty-note">아직 작성된 글이 없습니다.</p>
+  {% endif %}
 </section>

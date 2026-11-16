@@ -1,24 +1,23 @@
 /* ==========================================================================
    LAYOUT — 반응형 구조 통합
-   - Mobile First: 기본 스타일 = 모바일, min-width로 단계 확장
-   - Breakpoints: 1024px (Tablet), 1024px (Desktop)
-   - Sidebar: 모바일 100% 세로 스택 → 태블릿 30% → 데스크탑 260px 고정
-   - 그리드/카드: 한 곳에서만 제어해 우선순위 꼬임 방지
+   - Mobile First: 기본 스타일 = 모바일, min-width 로만 단계 확장
+   - Breakpoints: 768px (Tablet), 1024px (Desktop)
+   - Sidebar: 모바일·태블릿 = 오프캔버스 드로어 → 데스크톱 = 260px sticky
+   - 모양(색·글자)은 header.css / sidebar.css / pages/*.css 에서 담당
    ========================================================================== */
 
 :root {
-  --bp-tablet: 1024px;
-  --bp-desktop: 1024px;
   --sidebar-width-desktop: 260px;
-  --sidebar-ratio-tablet: 30%;
   --content-gap: 20px;
 }
 
 /* --------------------------------------------------------------------------
-   HEADER / FOOTER
+   LEGACY HEADER — Practice 헤더 보존용
+   예전 전역 `header {}` 규칙(어두운 바)을 전제로 디자인된 영역이라
+   사이트 헤더를 .site-header 로 분리한 뒤에도 같은 값을 유지한다.
    -------------------------------------------------------------------------- */
 
-header {
+.practice-detail header {
   background-color: #444;
   color: white;
   padding: 10px 0;
@@ -26,114 +25,134 @@ header {
   position: relative;
 }
 
-.header-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
-.home-button {
-  position: static;
-  margin-top: 10px;
-  background-color: #444;
-  color: white;
-  padding: 8px 16px;
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 0.9em;
-  transition: background-color 0.3s ease;
-}
-
-@media (min-width: 1024px) {
-  .home-button {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    margin-top: 0;
-  }
-}
-
-.home-button:hover {
-  background-color: #0c2541;
-}
-
-footer {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 0.8em;
-  padding: 10px 0;
-}
-
 /* --------------------------------------------------------------------------
-   MAIN LAYOUT: Container + Sidebar + Content
-   Mobile: 세로 스택 (sidebar 위, content 아래)
-   Tablet: sidebar 30% / content 70%
-   Desktop: sidebar 고정 260px / content 유동
+   FRAME — header / container / footer 의 폭 정렬
    -------------------------------------------------------------------------- */
 
-/* Bootstrap을 쓰는 페이지(about)에서도 동일 클래스명 .container가 메인 래퍼 역할만 하도록 */
+.site-header__inner,
+.site-footer__inner {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--frame-max);
+  margin: 0 auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+/* Bootstrap을 쓰는 페이지(about)에서도 .container가 메인 래퍼 역할만 하도록
+   (bootstrap의 max-width / padding 을 모두 덮어씀) */
 .container {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  margin: 20px;
   gap: var(--content-gap);
-  max-width: none;
   width: auto;
-  padding-left: 0;
-  padding-right: 0;
+  max-width: var(--frame-max);
+  margin: 0 auto;
+  padding: 0;
 }
 
 .content {
   flex: 1;
   min-width: 0;
-  padding: 20px;
-  background: white;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  padding: 20px var(--gutter) 28px;
 }
 
-@media (max-width: 480px) {
+@media (min-width: 768px) {
+  .site-header__inner,
+  .site-footer__inner {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
   .container {
-    margin: 12px;
+    padding: 0 20px;
+    margin-top: 20px;
   }
 
   .content {
-    padding: 14px 12px;
+    padding: 20px;
   }
-}
-
-/* Sidebar: 레이아웃만 제어 (시각 스타일은 sidebar.css) */
-.sidebar {
-  width: 100%;
-  margin-right: 0;
-  margin-bottom: 0;
-  order: -1; /* 모바일에서 위에 오도록 */
 }
 
 @media (min-width: 1024px) {
   .container {
     flex-direction: row;
-    gap: 0;
-  }
-
-  .sidebar {
-    width: var(--sidebar-ratio-tablet);
-    flex-shrink: 0;
-    margin-right: var(--content-gap);
-    margin-bottom: 0;
-    order: 0;
-  }
-
-  .content {
-    flex: 1;
+    gap: var(--content-gap);
   }
 }
 
+/* --------------------------------------------------------------------------
+   SIDEBAR — 위치/너비만 (모양은 sidebar.css)
+   Mobile·Tablet: 왼쪽에서 밀려 나오는 드로어 (html.nav-open 일 때 표시)
+   Desktop: 본문 왼쪽 고정 폭 + 내부 .sidebar 가 sticky
+   -------------------------------------------------------------------------- */
+
+.site-sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  box-sizing: border-box;
+  width: min(86vw, 320px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  transform: translateX(-100%);
+  visibility: hidden;
+  transition: transform 0.25s ease, visibility 0s linear 0.25s;
+}
+
+.nav-open .site-sidebar {
+  transform: none;
+  visibility: visible;
+  transition: transform 0.25s ease;
+}
+
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: var(--c-overlay);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0s linear 0.25s;
+}
+
+.nav-open .sidebar-backdrop {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.25s ease;
+}
+
+/* 드로어가 열린 동안 뒤 페이지 스크롤 잠금 (데스크톱 전환 시 JS가 클래스 제거) */
+html.nav-open,
+html.nav-open body {
+  overflow: hidden;
+}
+
 @media (min-width: 1024px) {
-  .sidebar {
+  .site-sidebar {
+    position: static;
+    z-index: auto;
+    flex-shrink: 0;
     width: var(--sidebar-width-desktop);
+    overflow: visible;
+    transform: none;
+    visibility: visible;
+    transition: none;
+  }
+
+  .sidebar {
     position: sticky;
+    top: 20px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+  }
+
+  .sidebar-backdrop {
+    display: none;
   }
 }
 
@@ -174,136 +193,8 @@ footer {
 }
 
 /* --------------------------------------------------------------------------
-   HOME — home-main, home-grid, home-card, preview-grid, preview-card
+   HOME — 구조·모양 모두 pages/home.css 에서 관리 (container query 사용)
    -------------------------------------------------------------------------- */
-
-.home-main {
-  display: grid;
-  gap: 32px;
-  grid-template-columns: 1fr;
-  align-items: start;
-}
-
-.home-left {
-  display: grid;
-  grid-template-rows: auto auto;
-  gap: 24px;
-}
-
-.home-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
-}
-
-.home-card {
-  background: #fff;
-  border-radius: 14px;
-  padding: 22px 24px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
-}
-
-.preview-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 14px;
-  margin-top: 10px;
-}
-
-.preview-card.algo-card,
-.preview-card.blog-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  background-color: #fff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  text-decoration: none;
-  color: inherit;
-  transition: transform 0.2s ease;
-}
-
-.preview-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-}
-
-.right-aside {
-  width: 100%;
-  position: sticky;
-  top: auto;
-}
-
-/* .home-middle {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-  align-items: stretch;
-  height: min-content;
-} */
-
-@media (min-width: 1024px) {
-  .home-main {
-    grid-template-columns: 1fr 280px;
-  }
-
-  .home-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .preview-grid {
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(3, 1fr);
-  }
-
-  .home-profile {
-    width: 90%;
-    position: sticky;
-    top: 90px;
-  }
-
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .home-profile {
-    width: 90%;
-  }
-
-  .stats-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .home-middle {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-/* --------------------------------------------------------------------------
-   BLOG — blog-categories, blog-card
-   -------------------------------------------------------------------------- */
-
-.blog-categories {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 18px;
-  margin-bottom: 40px;
-}
-
-@media (min-width: 1024px) {
-  .blog-categories {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .blog-categories {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
 
 /* --------------------------------------------------------------------------
    TIER / PLATFORM — tier-dashboard, problem-grid
@@ -402,104 +293,5 @@ footer {
 }
 
 /* --------------------------------------------------------------------------
-   ABOUT — about-layout, about-grid
+   ABOUT — 구조·모양 모두 pages/about.css 에서 관리 (container query 사용)
    -------------------------------------------------------------------------- */
-
-.about-layout {
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  box-sizing: border-box;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  column-gap: 64px;
-  align-items: start;
-}
-
-.about-main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 64px;
-  border-left: none;
-  border-top: 2px solid rgba(0, 0, 0, 0.08);
-  padding-top: 24px;
-}
-
-.about-sidebar {
-  position: static;
-  top: auto;
-}
-
-.about-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 0;
-  justify-items: center;
-}
-
-.skill-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 24px;
-}
-
-.card-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 20px;
-  max-height: none;
-  overflow-y: visible;
-  padding-right: 0;
-}
-
-.about-timeline-section {
-  flex-direction: column;
-  gap: 24px;
-}
-
-@media (min-width: 768px) {
-  .about-layout {
-    grid-template-columns: 180px 1fr;
-  }
-
-  .about-main {
-    border-left: 2px solid rgba(0, 0, 0, 0.08);
-    border-top: none;
-    padding-top: 0;
-    align-items: stretch;
-  }
-
-  .about-sidebar {
-    position: sticky;
-    top: 100px;
-  }
-
-  .about-grid {
-    grid-template-columns: 400px minmax(0, 1fr);
-  }
-
-  .skill-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .card-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    max-height: calc(2 * 220px + 20px);
-    overflow-y: auto;
-    padding-right: 6px;
-  }
-
-  .about-timeline-section {
-    flex-direction: row;
-    gap: 48px;
-  }
-}
-
-@media (min-width: 1024px) {
-  /* 데스크톱도 2열 고정: 카드가 늘어나면 행이 자동으로 추가됨 (N행 2열) */
-  .skill-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 32px;
-  }
-}

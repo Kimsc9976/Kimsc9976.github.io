@@ -6,31 +6,36 @@ permalink: /log/
 
 <div class="log-hub">
 
-<section class="blog-hero">
+<header class="page-intro">
+  <p class="page-intro__eyebrow">Log</p>
   <h1>My Life's Log</h1>
   <p>QA · 개발 · 일하면서 남겨두는 엔지니어링 기록</p>
-</section>
+</header>
 
-<section class="blog-categories">
-  <a class="blog-card qa" href="/log/qa/">
-    <h3>🧪 For QA</h3>
-    <p>테스트 전략, 자동화, 품질을 엔지니어링으로 다룬 기록</p>
-  </a>
+<ul class="log-cards">
+  <li>
+    <a class="log-card" href="/log/qa/">
+      <span class="log-card__title">For QA</span>
+      <span class="log-card__desc">테스트 전략, 자동화, 품질을 엔지니어링으로 다룬 기록</span>
+    </a>
+  </li>
+  <li>
+    <a class="log-card" href="/log/dev/">
+      <span class="log-card__title">For Dev</span>
+      <span class="log-card__desc">개발 이슈, 구조 설계, 코드 관련 메모</span>
+    </a>
+  </li>
+  <li>
+    <a class="log-card" href="/log/note/">
+      <span class="log-card__title">Note</span>
+      <span class="log-card__desc">짧은 생각, 정리되지 않은 기록들</span>
+    </a>
+  </li>
+</ul>
 
-  <a class="blog-card dev" href="/log/dev/">
-    <h3>💻 For Dev</h3>
-    <p>개발 이슈, 구조 설계, 코드 관련 메모</p>
-  </a>
-
-  <a class="blog-card note" href="/log/note/">
-    <h3>📝 Note</h3>
-    <p>짧은 생각, 정리되지 않은 기록들</p>
-  </a>
-</section>
-
-<section class="blog-recent">
-  <h2 class="blog-recent__title">🕒 Recent Posts</h2>
-  <ul class="post-list blog-recent-list">
+<section class="log-recent">
+  <h2 class="section-label">Recent Posts</h2>
+  <ul class="post-list">
     {% for post in site.posts limit:5 %}
     <li class="post-item">
       <a href="{{ post.url }}">{{ post.title }}</a>

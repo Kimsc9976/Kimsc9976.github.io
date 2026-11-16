@@ -24,8 +24,9 @@ layout: default
       <h2>{{ site_name }}</h2>
 
       <div class="tier-grid">
-        {% assign tiers = site.algorithm | where:"platform", site_name | where_exp:"item", "item.tier and item.tier != ''" | map:"tier" | uniq %}
-        {% for tier_name in tiers %}
+        {% assign raw_tiers = site.algorithm | where:"platform", site_name | where_exp:"item", "item.tier and item.tier != ''" | map:"tier" | uniq %}
+        {% include sort-tiers.html tiers=raw_tiers %}
+        {% for tier_name in sorted_tiers %}
           {% assign tier_class = "" %}
           {% if tier_name == "Bronze" or tier_name == 1 or tier_name == "lv1" %}
             {% assign tier_class = "tier-bronze" %}

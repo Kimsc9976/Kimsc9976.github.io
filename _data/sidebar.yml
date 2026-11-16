@@ -8,13 +8,13 @@ main:
   url: "/log/"
 sections:
   engineering:
-    title: "\U0001F4D4 Engineering"
+    title: Engineering
     url: "/log/"
   algorithm:
-    title: "\U0001F469\U0001F3FB‍\U0001F4BB Algorithm List"
+    title: Algorithm
     url: "/algorithm/"
   sideprojects:
-    title: "\U0001F5C2️ Side Projects"
+    title: Side Projects
     url: "/sideproject/"
 blog:
 - title: For QA
@@ -26,10 +26,10 @@ blog:
 algorithm:
   백준:
   - bronze
-  - diamond
+  - silver
   - gold
   - platinum
-  - silver
+  - diamond
   프로그래머스:
   - '1'
   - '2'

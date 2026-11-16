@@ -39,9 +39,16 @@
 
 .problem-search {
   position: relative;
-  flex: 1 1 240px;
-  max-width: 360px;
+  flex: 1 1 100%;
+  max-width: none;
   margin-bottom: 0;
+}
+
+@media (min-width: 641px) {
+  .problem-search {
+    flex-basis: 240px;
+    max-width: 360px;
+  }
 }
 
 .problem-search-label {
@@ -74,8 +81,8 @@
 
 .problem-search-input:focus {
   outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  border-color: var(--c-umber);
+  box-shadow: 0 0 0 3px rgba(119, 107, 93, 0.18);
 }
 
 .problem-search-results {
@@ -112,7 +119,7 @@
 
 .problem-search-item:hover,
 .problem-search-item.is-active {
-  background: #eef2ff;
+  background: var(--c-sand);
 }
 
 .problem-search-badge {
@@ -136,9 +143,4 @@
   text-align: center;
 }
 
-@media (max-width: 640px) {
-  .problem-search {
-    max-width: none;
-    flex-basis: 100%;
-  }
-}
+
