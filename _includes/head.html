@@ -26,6 +26,11 @@
       }
     </style>
   </noscript>
+  {%- comment -%} Auto-generated reports and copied problem statements are available to readers,
+    but should not be indexed until meaningful original analysis is added. {%- endcomment -%}
+  {% if page.auto_generated == true or page.layout == 'problem' %}
+  <meta name="robots" content="noindex, follow">
+  {% endif %}
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
   <link rel="alternate" type="application/rss+xml" title="{{ site.title | xml_escape }}" href="{{ '/feed.xml' | absolute_url }}">
   <link rel="sitemap" type="application/xml" title="Sitemap" href="{{ '/sitemap.xml' | absolute_url }}">
