@@ -14,8 +14,6 @@ home = site / "index.html"
 about = site / "about" / "index.html"
 practice = sorted((site / "practice").rglob("index.html"))
 posts = sorted((site / "log").rglob("index.html"))
-algorithm = sorted((site / "algorithm").rglob("index.html"))
-trade = sorted((site / "sideproject" / "trade").rglob("index.html"))
 
 assert home.is_file(), "Home page missing"
 assert about.is_file(), "About page missing"
@@ -49,7 +47,7 @@ class AdScripts(HTMLParser):
             self.in_head = False
 
 included = [home, *posts]
-excluded = [about, *practice, *algorithm, *trade]
+excluded = [about, *practice]
 
 configured = re.findall(r'^  client: "([^"]*)"$', read(Path("_config.yml")), re.M)
 assert len(configured) == 1, "Expected one configured publisher ID"
