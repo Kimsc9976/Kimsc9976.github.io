@@ -4,12 +4,7 @@
 {%- endcomment -%}
 {%- assign ads_client = site.adsense.client | default: '' | strip -%}
 {%- assign ads_blocked = false -%}
-{%- if page.ads == false or page.auto_generated == true or page.layout == 'problem' -%}
-  {%- assign ads_blocked = true -%}
-{%- endif -%}
-{%- assign algorithm_prefix = page.url | slice: 0, 11 -%}
-{%- assign trade_prefix = page.url | slice: 0, 19 -%}
-{%- if algorithm_prefix == '/algorithm/' or trade_prefix == '/sideproject/trade/' -%}
+{%- if page.ads == false -%}
   {%- assign ads_blocked = true -%}
 {%- endif -%}
 {%- assign room_path_prefix = page.url | slice: 0, 6 -%}
