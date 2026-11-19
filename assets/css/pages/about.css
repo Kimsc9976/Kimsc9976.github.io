@@ -503,6 +503,25 @@
   color: var(--c-ink);
 }
 
+/* 프로젝트 성과 한 줄 (projects.yml result) */
+.about-page .summary-card .result {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  padding-left: 10px;
+  border-left: 2px solid var(--c-umber);
+  font-size: 0.88em;
+  line-height: 1.6;
+  color: var(--c-ink);
+}
+
+.about-page .summary-card .result__label {
+  flex: none;
+  font-size: 0.85em;
+  font-weight: 700;
+  color: var(--c-umber);
+}
+
 .about-page .points,
 .about-page .skill-points {
   display: flex;

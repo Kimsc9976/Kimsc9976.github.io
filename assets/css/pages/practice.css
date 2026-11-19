@@ -439,23 +439,18 @@
 }
 
 /* ---------- 관련 자료 / 노트 ---------- */
-.practice-resources {
-  margin-top: 35px;
-  padding-top: 25px;
-  border-top: 1px solid var(--pd-line);
+/* 관련 프로젝트 표의 성과 한 줄 (projects.yml result) */
+.practice-prose td .practice-result {
+  margin: 8px 0 0;
+  padding-left: 10px;
+  border-left: 2px solid var(--pd-accent);
+  line-height: 1.7;
 }
 
-.practice-resources h2 {
-  margin: 0 0 10px;
-  font-size: 24px;
-  color: var(--pd-navy);
-}
-
-.practice-resources a {
-  display: block;
-  padding: 10px 0;
-  color: var(--pd-accent) !important;
-  text-decoration: underline !important;
+.practice-prose td .practice-result strong {
+  margin-right: 6px;
+  font-size: 13px;
+  color: var(--pd-accent);
 }
 
 .practice-note {

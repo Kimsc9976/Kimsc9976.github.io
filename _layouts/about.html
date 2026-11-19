@@ -139,6 +139,9 @@ layout: default
                   <span class="period">{{ project.period }}</span>
                 </div>
                 <p class="summary">{{ project.summary }}</p>
+                {%- if project.result %}
+                <p class="result"><span class="result__label">성과</span>{{ project.result }}</p>
+                {%- endif %}
                 <ul class="points">
                   {%- for point in project.points %}
                   <li>{{ point }}</li>

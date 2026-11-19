@@ -4,10 +4,12 @@ layout: default
 {% comment %}
   QA Engineering Practice 상세 페이지 (구조 참고: twa04047.github.io/ko/projects/*)
   - 카드 정보(title/period/summary/points)는 _data/practices.yml 의 detail_url 로 매칭
-  - 관련 Projects 는 _data/projects.yml 에서 detail_url 이 같은 항목을 자동 수집
+    points 는 본문 맨 위 "성과" 섹션으로 쓰인다
+  - 관련 Projects 는 _data/projects.yml 에서 detail_url 이 같은 항목을 자동 수집 (result = 프로젝트 성과)
   - 본문(content)의 ## 제목이 좌측 목차(#section-N)로 자동 생성됨
   - 선택 front matter: eyebrow, headline, disclosure{title,text}, role, tech[],
-    cover{src,alt,caption}, highlights[{value,label}], resources[{title,url}], note
+    cover{src,alt,caption}, highlights[{value,label}], note
+  - Practice 는 외부 공유용이라 블로그 글(log) 등 다른 페이지로 나가는 링크를 두지 않는다
   - default 레이아웃에서 이 레이아웃은 사이드바(Index)를 숨김
 {% endcomment %}
 {% assign practice = site.data.practices | where: "detail_url", page.url | first %}
@@ -78,7 +80,7 @@ layout: default
     <div class="practice-body">
       <article class="practice-prose">
         {% if practice.points %}
-        <h2>핵심 요약</h2>
+        <h2>성과</h2>
         <ul>
           {% for point in practice.points %}
           <li>{{ point }}</li>
@@ -106,6 +108,7 @@ layout: default
               </td>
               <td>
                 {{ project.summary }}
+                {% if project.result %}<p class="practice-result"><strong>성과</strong> {{ project.result }}</p>{% endif %}
                 <ul>
                   {% for point in project.points %}
                   <li>{{ point }}</li>
@@ -118,15 +121,6 @@ layout: default
         </table>
         {% endif %}
       </article>
-
-      {% if page.resources %}
-      <section class="practice-resources">
-        <h2>관련 자료</h2>
-        {% for r in page.resources %}
-        <a href="{{ r.url | relative_url }}">{{ r.title }} ↗</a>
-        {% endfor %}
-      </section>
-      {% endif %}
 
       {% if page.note %}
       <p class="practice-note">{{ page.note }}</p>
