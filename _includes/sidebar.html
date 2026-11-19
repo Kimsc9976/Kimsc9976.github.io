@@ -62,6 +62,7 @@
       <a href="{{ sp.url }}" class="sidebar-section__title{% if page.url == sp.url or page.url contains '/sideproject/' %} is-active{% endif %}">{{ sp.title }}</a>
       <ul class="sidebar-list">
         {%- for item in site.data.sidebar.sideprojects %}
+        {%- if item.hidden %}{% continue %}{% endif %}
         <li><a href="{{ item.url }}"{% if page.url contains item.url %} class="is-active" aria-current="page"{% endif %}>{{ item.title }}</a></li>
         {%- endfor %}
       </ul>

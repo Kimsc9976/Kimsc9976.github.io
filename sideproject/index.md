@@ -14,6 +14,7 @@ permalink: /sideproject/
 
 <ul class="log-cards">
   {% for item in site.data.sidebar.sideprojects %}
+  {% if item.hidden %}{% continue %}{% endif %}
   <li>
     <a class="log-card" href="{{ item.url }}">
       <span class="log-card__title">{{ item.title }}</span>
