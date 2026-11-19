@@ -61,6 +61,11 @@ exclude:
   - requirements.txt
   - "*.bat"
   - .github/
+  # 사이트에서만 숨김 — 파일은 레포·로컬에 그대로 보관 (trade 동기화 워크플로도 계속 쌓음)
+  # 다시 공개하려면: 아래 줄 삭제 + _data/sidebar.yml 의 hidden: true 삭제
+  - sideproject/trade/
+  - sideproject/anyo/
+  - assets/images/trade/
 
 # AdSense 사이트 연결 및 자동 광고용 공개 게시자 ID입니다.
 # 사이트 검토는 배포 후 AdSense 콘솔에서 별도로 요청합니다.
