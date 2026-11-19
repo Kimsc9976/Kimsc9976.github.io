@@ -1,64 +1,109 @@
-- title: "뉴빌리티 - SS 검증 도구"
-  period: 2026.06 ~ 2026.09
-  summary: "자율주행 로봇의 Semantic Segmentation·Object Detection 인지 결과 검증 도구 개발"
+# Projects — About 카드 + Practice 상세 "관련 프로젝트" 표
+# - detail_url: 연결할 Practice 상세 페이지. 모든 프로젝트는 반드시 하나에 연결한다
+# - result: 프로젝트 성과 한 줄 (카드·표에 "성과"로 표시)
+# - 외부 공유용: 제품 성능 수치(성공률·결함 수·장비 사양 등)는 범위·하한으로만 쓴다
+# - 순서: 종료 시점이 최근인 순
+
+- title: "뉴빌리티 - MVSim 도심 시뮬레이터"
+  period: 2026.03 ~ 2026.11
+  summary: "실제 도심을 재현한 가상 환경에 실제 로봇 컴퓨터를 연결해 자율주행을 반복 시험하는 사내 시뮬레이터"
+  result: "도심 시험 환경 구축 완료, 자율주행 검증에 실사용 중 (건널목 시험에서 결함 검출)"
   points:
-    - 녹화 데이터 재생·실시간 스트리밍 기반 카메라·인지 결과·3D 맵 동기화 뷰어 구현
-    - ROI 내 클래스 점유율, 3D 맵 비교, 정답(GT) 데이터 대비 픽셀 일치율로 정량 검증
-    - 2D 검출 박스와 3D 객체 컨투어를 같은 색상 체계로 표시해 교차 확인
-    - Regression 자동화 — 버전 간 비교 검증을 데이터 준비부터 리포트 생성까지 한 번에 실행
+    - 후보 시뮬레이터를 반복 실행 비용과 스택 연결 비용으로 비교해 mvsim 채택
+    - 지도 데이터로 도심 월드를 만드는 맵 빌더, 스택 코드 수정 없이 붙이는 브릿지 개발
+    - 보행자·차량·시설물·GPS 음영을 실행 중에 배치하는 관리자 페이지 구축
+    - 기존 검증도구를 연동해 건널목 시험을 실행부터 판정까지 자동화
+  detail_url: /practice/simulator-verification/
+
+- title: "뉴빌리티 - SS 검증 도구"
+  period: 2026.06 ~ 2026.10
+  summary: "자율주행 로봇의 Semantic Segmentation·Object Detection 결과를 정량 검증하는 웹 도구"
+  result: "인지 모듈 버전 비교를 수작업 확인에서 자동 Regression 리포트로 전환"
+  points:
+    - 카메라·인지 결과·3D 맵을 타임라인과 함께 동기화해 보는 뷰어
+    - ROI 클래스 점유율, 3D 맵 비교, GT 대비 픽셀 일치율로 정량 검증
+    - 2D 검출 박스와 3D 객체 윤곽을 같은 색 체계로 표시해 교차 확인
+    - 결과를 만든 버전의 클래스 정의로 자동 판독해 버전 간 오판 제거
   detail_url: /practice/qa-visualization-tools/
 
-- title: "뉴빌리티 - 시뮬레이터 검증 환경 셋업"
-  period: 2026.03 ~
-  summary: "실기체 투입 전 주행 시나리오를 반복 검증하기 위한 Micromobility 시뮬레이터 환경 구축"
+- title: "뉴빌리티 - HILS 반복 검증·강건성 테스트"
+  period: 2025.06 ~ 2026.02
+  summary: "실제 로봇 컴퓨터를 붙인 HILS와 플랫폼 API로 자율주행 SW를 무인 반복 검증"
+  result: "반복 검증 인력 투입 약 80% 절감 · 연결 끊김·재부팅 결함 배포 전 검출"
   points:
-    - SimWorld(Unreal Engine + UnrealCV) 기반 로봇 센서·카메라 구성 및 환경 셋업
-    - 다중 카메라 FPS 급락 등 구조적 한계를 분석해 도입 판단 근거로 정리
-    - URBAN-SIM(Isaac Sim) 비교 평가 — 재현성·디버깅 난이도 등 QA 관점 적합성 검토
-    - 시뮬레이션 연동 자동 검증으로 주행 시나리오 커버리지 확장 기반 마련
-  detail_url: /practice/simulator-verification/
+    - 기능별 Test Set을 100회 이상 무인 반복, 자율주행률·CPU 리포트 자동 생성
+    - 실패를 제품 결함과 시험 환경 문제로 나눠 집계해 판정 신뢰도 확보
+    - 부팅→배차→취소→재부팅 사이클을 버전마다 수백~천 회 반복하는 강건성 테스트
+    - 운행안전인증 기능 검증 모듈 추가, 테스트 모듈 작성 가이드 문서화
+  detail_url: /practice/qa-automation-infrastructure/
 
 - title: "미리디 - 비즈하우스"
   period: 2025.04 ~ 2025.06
-  summary: "실제 사용자 경험을 기반으로 UI/UX A/B 테스트 및 Usability Test 수행"
+  summary: "인쇄 커머스 플랫폼의 핵심 사용자 흐름 자동화와 UI/UX 검증"
+  result: "핵심 유저 시나리오 릴리즈별 자동 회귀 + 배포 후 운영 환경 상시 감시 체계 마련"
   points:
-    - UI/UX 개선안에 대한 A/B 테스트 설계 및 검증 수행
-    - 사용자 행동 데이터를 기반으로 기능/흐름 검증 및 리스크 판단
-    - 제품군 단위 유저 시나리오를 바탕으로 Automation Test 수행
+    - UI/UX 개선안에 대한 A/B 테스트 설계 및 결과 검증
+    - 사용자 행동 데이터를 기반으로 기능·흐름 검증 및 리스크 판단
+    - 제품군 단위 유저 시나리오 Playwright 자동화, Checkly 운영 모니터링
   detail_url: /practice/web-scenario-automation/
-
-- title: 요기요
-  period: 2024.09
-  summary: 로봇 배달 서비스 PoC 및 현장 테스트 수행
-  points:
-    - 현장 PoC 셋업 및 검증 대응
-    - 주요 기술/운영 이슈를 분석하고 관련 부서와 공유
-    - 주행 경로 및 로봇 운행 특이사항 정리, 리스크 최소화
-  detail_url: /practice/robot-poc-qa/
-
-- title: 신세계 레저산업
-  period: 2024.04
-  summary: 자유CC 식음료 배달 PoC 및 현장 QA 수행
-  points:
-    - PoC 셋업 완료를 위한 현장 대응 및 검증 진행
-    - 현장 테스트 중 발생한 주요 운영/시스템 이슈 분석 및 보고
-    - 서비스 안정성을 위한 개선 포인트 도출
-  detail_url: /practice/robot-poc-qa/
-
-- title: 롯데이노베이트
-  period: 2024.11
-  summary: 안전 로봇 품질 검증 및 자율주행 안정성 평가
-  points:
-    - Third Party 통합 후 자율주행 시스템 안정성 테스트
-    - 보도/횡단보도 주행 관련 운행안전인증 심사 대응
-  detail_url: /practice/robot-poc-qa/
 
 - title: "뉴빌리티 - 로깅 시각화 도구 (NTT)"
   period: 2024.12
-  summary: 로봇 ROS2 토픽·상태 코드를 실시간으로 해석해 보여주는 로깅 시각화 도구 개발
+  summary: "로봇 ROS 2 토픽·상태 코드를 실시간으로 해석해 보여주는 디버깅 도구"
+  result: "개발·QA·운영 3개 부서의 표준 디버깅 도구로 채택"
   points:
-    - ROS2 토픽 구독 기반 시스템 모니터 (원격 관제 상태 등 운영 핵심 정보 표시)
-    - 경로 계획 실패 사유·횡단보도 시나리오 단계를 코드가 아닌 설명으로 표시
-    - 원격 접속 기반 기체 설정 확인·파라미터 변경으로 현장 테스트 준비 시간 단축
+    - ROS 2 토픽 구독 기반 시스템 모니터 (원격 관제 상태 등 운영 핵심 정보)
+    - 경로 계획 실패 사유·횡단보도 주행 단계를 코드 대신 설명으로 표시
+    - 원격 접속으로 기체 설정 확인·파라미터 변경, 현장 시험 준비 시간 단축
     - 로봇 SW 업데이트에 따른 메시지 구조 변경에 지속 대응
   detail_url: /practice/qa-visualization-tools/
+
+- title: 롯데이노베이트
+  period: 2024.11
+  summary: Third Party 통합 기체의 자율주행 안정성 검증과 운행안전인증 대응
+  result: "통합 기체 안정성 시험 결과를 보도·횡단보도 주행 심사 대응에 반영"
+  points:
+    - Third Party 통합 후 자율주행 시스템 안정성 테스트
+    - 보도·횡단보도 주행 관련 운행안전인증 심사 대응
+  detail_url: /practice/safety-certification-qa/
+
+- title: "뉴빌리티 - 배달 서비스 Sanity Test 재구성"
+  period: 2024.04 ~ 2024.10
+  summary: "기능 체크리스트였던 Sanity Test를 사용자 이용 흐름 기준으로 재구성"
+  result: "릴리즈 후 CS 이슈 발생률 15% 이상 감소"
+  points:
+    - 로봇–웹 연동 구간을 시나리오에 포함해 연동 결함을 릴리즈 전에 발견
+    - CS 이슈와 QA 발견 이슈를 대조해 놓친 흐름을 시나리오에 추가
+    - 운영 사이트에서 잦던 네트워크 불안정 상황을 별도 TC로 추가
+    - 기능 명세 리뷰에 QA 참여, TC–명세 정합성 확보
+  detail_url: /practice/user-scenario-testing/
+
+- title: 요기요
+  period: 2024.09
+  summary: 로봇 배달 서비스 PoC 현장 셋업 및 검증
+  result: "PoC 현장 셋업·검증 완료, 주행 경로·운행 리스크 정리본을 유관부서에 공유"
+  points:
+    - 현장 PoC 셋업 및 전 구간 자율주행 검증
+    - 주요 기술·운영 이슈를 분석해 관련 부서와 공유
+    - 주행 경로와 로봇 운행 특이사항을 정리해 운영 리스크 사전 공유
+  detail_url: /practice/robot-poc-qa/
+
+- title: "뉴빌리티 - 시뮬레이터 검증도구 (Verificator)"
+  period: 2024.01 ~ 2024.05
+  summary: "시뮬레이터에서 시나리오를 정해진 횟수만큼 자동 반복하고 판정하는 ROS 2 RQT 기반 검증도구"
+  result: "이후 HILS 반복 검증과 MVSim 시험 자동화의 공통 실행·판정 엔진으로 재사용"
+  points:
+    - Test Set → 큐 → 반복(시나리오 로드·시작 신호·제한 시간 주행·결과 수집·판정) 구조 설계·구현
+    - 판정 결과 검토 화면과 rosbag 리뷰 화면 구현
+    - 모듈 구조와 세팅·실행 가이드 문서화
+  detail_url: /practice/qa-automation-infrastructure/
+
+- title: 신세계 레저산업
+  period: 2024.04
+  summary: 자유CC 식음료 배달 PoC 및 현장 QA
+  result: "PoC 셋업 완료, 현장 운영·시스템 이슈와 개선 포인트 보고"
+  points:
+    - PoC 셋업을 위한 현장 대응 및 검증
+    - 현장 테스트 중 발생한 주요 운영·시스템 이슈 분석 및 보고
+    - 서비스 안정성을 위한 개선 포인트 도출
+  detail_url: /practice/robot-poc-qa/
